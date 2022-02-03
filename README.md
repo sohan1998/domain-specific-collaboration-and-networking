@@ -1,1 +1,2 @@
-# domain-specific-collaboration-and-networking
+# Domain-specific Collaboration and Networking
+
