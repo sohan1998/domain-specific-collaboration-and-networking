@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Sohan Shirodkar, Tejas Mahajan, Dhruvin Shah",
+  "author": "Sohan Shirodkar, Tejas Mahajan, Dhruvin Shah, Tanay Ganeriwal",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1118.0",
