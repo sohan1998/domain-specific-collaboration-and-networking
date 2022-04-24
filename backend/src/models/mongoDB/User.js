@@ -20,17 +20,17 @@ const userSchema = new Schema({
         required: true,
     },
     education: {
-        schoolName: {type: String, required: true},
-        degree: {type: String, required: true},
-        major: {type: String, required: true},
-        startDate: {type: Date, required: true},
-        endDate: {type: Date, required: true},
+        schoolName: { type: String, required: true },
+        degree: { type: String, required: true },
+        major: { type: String, required: true },
+        startDate: { type: Date, required: true },
+        endDate: { type: Date, required: true },
     },
     professionalExperience: {
-        employerName: {type: String},
-        position: {type: String, required: true},
-        startDate: {type: Date, required: true},
-        endDate: {type: Date, required: true},
+        employerName: { type: String },
+        position: { type: String, required: true },
+        startDate: { type: Date, required: true },
+        endDate: { type: Date, required: true },
     },
     interests: {
         type: Array,
@@ -39,7 +39,7 @@ const userSchema = new Schema({
     status: {
         type: Boolean,
         default: true,
-    }
+    },
 });
 
 const User = mongoose.model('user', userSchema);

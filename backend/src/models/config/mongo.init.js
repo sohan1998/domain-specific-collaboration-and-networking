@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const app = require('../../../app.js');
-const {mongoUri} = require('./mongo.config.js');
+const { mongoUri } = require('./mongo.config.js');
 
 const mongoInit = () => {
     try {
-        mongoose.connect(mongoUri,{
+        mongoose.connect(mongoUri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             maxPoolSize: 500,
@@ -13,8 +13,8 @@ const mongoInit = () => {
         app.listen(3001, () => {
             console.log('Server listening on port 3001');
         });
-    } catch(err) {
-        console.error('Could not connect Mongoose => ', err)
+    } catch (err) {
+        console.error('Could not connect Mongoose => ', err);
     }
 };
 
