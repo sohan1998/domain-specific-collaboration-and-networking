@@ -1,0 +1,11 @@
+.custom-btn {
+    /* background-color: blueviolet !important; */
+    background-color: #7bfb9f !important;
+    color: black !important;
+    position: absolute;
+    width: 413px !important;
+    height: 53px !important;
+    /* left: 883px;
+    top: 508px; */
+    border-radius: 30px !important;
+}
