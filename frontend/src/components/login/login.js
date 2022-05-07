@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Container } from 'react-bootstrap';
+import './../common/button.css';
 
 export default class Login extends Component {
     render() {
@@ -18,7 +19,7 @@ export default class Login extends Component {
                         {/* <Form.Group className='mb-3' controlId='formCheckbox'>
                             <Form.Check type='checkbox' label='Check me out' />
                         </Form.Group> */}
-                        <Button variant='success' type='submit'>
+                        <Button type='submit' className='custom-btn'>
                             Login
                         </Button>
                     </Form>

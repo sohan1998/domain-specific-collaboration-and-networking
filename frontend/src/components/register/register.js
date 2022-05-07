@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { Button, Form, Container } from 'react-bootstrap';
-import './../button.css';
+import './../common/button.css';
 
 export default class Register extends Component {
     render() {
         return (
             <div>
+                {/* {location.pathname !== '/login' &&
+                    location.pathname !== '/signIn/email' &&
+                    location.pathname !== '/signIn/returningUser' &&
+                    location.pathname !== '/signIn/newUser' &&
+                    location.pathname !== '/signUp' && <Navbar />} */}
+
                 <Container className='mt-3'>
                     <Form>
                         <Form.Group className='mb-3' controlId='formFirstName'>
