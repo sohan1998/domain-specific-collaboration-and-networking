@@ -1,6 +1,6 @@
-const app = require('./app.js');
-const mongoInit = require('./src/models/config/mongo.init.js');
-const userRouter = require('./src/modules/user/router/users.js');
+import app from './app.js';
+import mongoInit from './src/models/config/mongo.init.js';
+import userRouter from './src/modules/user/router/users.js';
 
 mongoInit();
 

@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { userSchema } from './../../../models/mongoDB/User';
+import userSchema from './../../../models/mongoDB/User.js';
 
 export class UserController {
     login = async (req, res) => {
@@ -35,19 +35,8 @@ export class UserController {
                     lastName: req.body.lastName,
                     email: req.body.email,
                     password: req.body.password,
-                    education: {
-                        schoolName: req.body.schoolName,
-                        degree: req.body.degree,
-                        major: req.body.major,
-                        startDate: req.body.startDate,
-                        endDate: req.body.endDate,
-                    },
-                    professionalExperience: {
-                        employerName: req.body.employerName,
-                        position: req.body.position,
-                        startDate: req.body.startDate,
-                        endDate: req.body.endDate,
-                    },
+                    education: req.body.education,
+                    professionalExperience: req.body.professionalExperience,
                     interests: req.body.interests,
                     status: req.body.status,
                 });
@@ -65,3 +54,4 @@ export class UserController {
         });
     };
 }
+export default UserController;

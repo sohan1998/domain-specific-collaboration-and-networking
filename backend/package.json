@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Master Project - Domain Specific Collaboration and Networking",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "npx nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,6 +13,7 @@
   "dependencies": {
     "aws-sdk": "^2.1118.0",
     "axios": "^0.26.1",
+    "bcrypt": "^5.0.1",
     "chai": "^4.3.6",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

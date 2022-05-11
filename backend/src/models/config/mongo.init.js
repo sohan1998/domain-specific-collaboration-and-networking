@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const app = require('../../../app.js');
-const { mongoUri } = require('./mongo.config.js');
+import mongoose from 'mongoose';
+import app from '../../../app.js';
+import mongoUri from './mongo.config.js';
 
 const mongoInit = () => {
     try {
@@ -18,4 +18,4 @@ const mongoInit = () => {
     }
 };
 
-module.exports = mongoInit;
+export default mongoInit;
