@@ -1,9 +1,10 @@
-let express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const { frontendIP, frontendPort, sessionSecretKey } = require('./config/serverConfig');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import { frontendIP, frontendPort, sessionSecretKey } from './config/serverConfig.js';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+
 const app = express();
 
 app.use(cors({ origin: 'http://${frontendIP}:${frontendPort}', credentials: true }));
@@ -28,4 +29,4 @@ app.use(
     })
 );
 
-module.exports = app;
+export default app;
