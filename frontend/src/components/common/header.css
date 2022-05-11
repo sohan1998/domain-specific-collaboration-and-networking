@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Potta+One');
+
+.title {
+    /* position: relative; */
+    /* width: 215px;
+    height: 57px;
+    left: 50px;
+    top: 20px; */
+
+    font-family: 'Potta One';
+    font-style: normal;
+    font-weight: 400 !important;
+    font-size: 50px;
+    line-height: 72px;
+
+    color: #000000 !important;
+}
