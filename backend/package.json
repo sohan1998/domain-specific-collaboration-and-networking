@@ -4,6 +4,7 @@
   "description": "Master Project - Domain Specific Collaboration and Networking",
   "main": "index.js",
   "scripts": {
+    "start": "npx nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Sohan Shirodkar, Tejas Mahajan, Dhruvin Shah, Tanay Ganeriwal",
