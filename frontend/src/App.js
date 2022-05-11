@@ -1,25 +1,24 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/login/login';
-import Signup from './components/signup/signup';
+import Register from './components/register/register';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NavbarComponent from './components/common/navbar';
+// import { Navbar } from 'react-bootstrap';
 
 function App() {
     return (
-        <Router>
-            <div className='app'>
+        <div className='app'>
+            {<NavbarComponent />}
+
+            <Router>
                 <Routes>
-                    {/* <Route path="/login">
-						<Login />
-					</Route> */}
                     <Route path='/login' element={<Login />} />
-                    <Route path='/signup' element={<Signup />} />
-                    {/* <Signup /> */}
-                    {/* </Route> */}
+                    <Route path='/register' element={<Register />} />
                 </Routes>
-            </div>
-        </Router>
+            </Router>
+        </div>
     );
 }
 
