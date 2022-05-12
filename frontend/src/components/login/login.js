@@ -19,7 +19,7 @@ export default class Login extends Component {
                         {/* <Form.Group className='mb-3' controlId='formCheckbox'>
                             <Form.Check type='checkbox' label='Check me out' />
                         </Form.Group> */}
-                        <Button type='submit' className='custom-btn'>
+                        <Button type='submit' className='green-primary-btn'>
                             Login
                         </Button>
                     </Form>
