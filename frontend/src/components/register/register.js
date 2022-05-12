@@ -35,7 +35,7 @@ export default class Register extends Component {
                         {/* <Form.Group className='mb-3' controlId='formBasicCheckbox'>
                             <Form.Check type='checkbox' label='Check me out' />
                         </Form.Group> */}
-                        <Button variant='success' type='submit' className='custom-btn'>
+                        <Button variant='success' type='submit' className='green-primary-btn'>
                             Sign Up
                         </Button>
                     </Form>
