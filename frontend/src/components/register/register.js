@@ -6,12 +6,6 @@ export default class Register extends Component {
     render() {
         return (
             <div>
-                {/* {location.pathname !== '/login' &&
-                    location.pathname !== '/signIn/email' &&
-                    location.pathname !== '/signIn/returningUser' &&
-                    location.pathname !== '/signIn/newUser' &&
-                    location.pathname !== '/signUp' && <Navbar />} */}
-
                 <Container className='mt-3'>
                     <Form>
                         <Form.Group className='mb-3' controlId='formFirstName'>
@@ -35,7 +29,7 @@ export default class Register extends Component {
                         {/* <Form.Group className='mb-3' controlId='formBasicCheckbox'>
                             <Form.Check type='checkbox' label='Check me out' />
                         </Form.Group> */}
-                        <Button variant='success' type='submit' className='custom-btn'>
+                        <Button variant='success' type='submit' className='green-primary-btn'>
                             Sign Up
                         </Button>
                     </Form>

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
@@ -20,17 +20,17 @@ const userSchema = new Schema({
         required: true,
     },
     education: {
-        schoolName: { type: String, required: true },
-        degree: { type: String, required: true },
-        major: { type: String, required: true },
-        startDate: { type: Date, required: true },
-        endDate: { type: Date, required: true },
+        schoolName: { type: String },
+        degree: { type: String },
+        major: { type: String },
+        startDate: { type: Date },
+        endDate: { type: Date },
     },
     professionalExperience: {
         employerName: { type: String },
-        position: { type: String, required: true },
-        startDate: { type: Date, required: true },
-        endDate: { type: Date, required: true },
+        position: { type: String },
+        startDate: { type: Date },
+        endDate: { type: Date },
     },
     interests: {
         type: Array,
