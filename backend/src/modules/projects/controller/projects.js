@@ -1,10 +1,11 @@
-import { projectSchema } from '../../../models/mongoDB/Projects';
+import mongoose from 'mongoose';
+import projectSchema from '../../../models/mongoDB/Projects.js';
 
 export class ProjectsController {
     createProject = async (req, res) => {
         try {
             const newProject = new projectSchema({
-                onwerId: req.body.userId,
+                ownerId: req.body.ownerId,
                 title: req.body.title,
                 description: req.body.description,
                 status: req.body.status,
@@ -18,8 +19,9 @@ export class ProjectsController {
 
     viewAllProjects = async (req, res) => {
         try {
-            const allProjects = projectSchema.find();
-            res.status(200).send(allProjects);
+            projectSchema.find({}, function (err, projects) {
+                return res.json(projects);
+            });
         } catch (err) {
             console.error(err);
         }
@@ -27,10 +29,19 @@ export class ProjectsController {
 
     viewParticularProject = async (req, res) => {
         try {
-            const response = projectSchema.findOne({
-                _id: req.query._id,
-            });
-            res.status(200).send(response);
+            let projectId = req.query._id;
+            projectSchema.findOne(
+                {
+                    _id: projectId,
+                },
+                function (err, targetProject) {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        return res.json(targetProject);
+                    }
+                }
+            );
         } catch (err) {
             console.error(err);
         }
