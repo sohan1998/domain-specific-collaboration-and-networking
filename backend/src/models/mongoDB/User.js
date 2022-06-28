@@ -33,12 +33,24 @@ const userSchema = new Schema({
         endDate: { type: Date },
     },
     interests: {
-        type: Array,
-        default: [],
+        type: Map,
+        of: String,
     },
     status: {
         type: Boolean,
         default: true,
+    },
+    connections: {
+        type: Array,
+        default: [],
+    },
+    timeStamp: {
+        type: Date,
+        default: Date.now,
+    },
+    ratings: {
+        type: Number,
+        default: 5,
     },
 });
 
