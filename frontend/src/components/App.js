@@ -5,8 +5,7 @@ import Login from './components/login/login';
 import Register from './components/register/register';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavbarComponent from './components/common/navbar';
-import AllProjects from './components/projects/projects';
-import Roles from './components/roles/roles';
+import AllProjects from './components/projects/project';
 // import { Navbar } from 'react-bootstrap';
 
 function App() {
@@ -20,8 +19,7 @@ function App() {
                 <Routes>
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Register />} />
-                    <Route path='/projects/' element={<AllProjects />} />
-                    <Route path='/roles' element={<Roles />} />
+                    <Route path='/projects' element={<AllProjects />} />
                 </Routes>
             </Router>
         </div>
