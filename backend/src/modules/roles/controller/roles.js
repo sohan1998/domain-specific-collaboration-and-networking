@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-// import projectSchema from '../../../models/mongoDB/Projects.js';
 import jobSchema from '../../../models/mongoDB/Jobs.js';
 import applicationSchema from '../../../models/mongoDB/Applications.js';
 
@@ -68,6 +67,15 @@ export class RolesController {
                     return res.json(appliedjobs);
                 }
             );
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    viewAllJobs = async (req, res) => {
+        try {
+            jobSchema.find({}, function (err, jobs) {
+                return res.json(jobs);
+            });
         } catch (err) {
             console.error(err);
         }

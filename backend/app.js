@@ -7,7 +7,7 @@ import session from 'express-session';
 
 const app = express();
 
-app.use(cors({ origin: 'http://${frontendIP}:${frontendPort}', credentials: true }));
+app.use(cors({ 'Access-Control-Allow-Origin': 'http://${frontendIP}:${frontendPort}', credentials: true }));
 
 app.use(cookieParser());
 
