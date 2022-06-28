@@ -1,0 +1,40 @@
+.roles-main-wrapper {
+    width: 100%;
+}
+
+.roles-wrapper {
+    display: flex;
+}
+
+.roles-subheader-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.left {
+    display: flex;
+    padding: 10px;
+    width: 50%;
+}
+
+.left * {
+    padding: 10px;
+}
+
+.right {
+    /* background-color: brown; */
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.right * {
+    padding: 10px;
+}
+
+.rolecard-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
