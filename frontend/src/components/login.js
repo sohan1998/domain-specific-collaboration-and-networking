@@ -14,7 +14,7 @@ export default class Login extends Component {
                             Your <span className='change-to-purple'> Circle </span> is
                         </div>
                         <div> waiting for</div>
-                        <div> you! </div>
+                        <div> you!</div>
                     </h1>
                 </div>
                 <div className='login-wrapper-item'>

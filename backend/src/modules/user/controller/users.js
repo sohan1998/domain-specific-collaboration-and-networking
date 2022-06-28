@@ -39,6 +39,10 @@ export class UserController {
                     professionalExperience: req.body.professionalExperience,
                     interests: req.body.interests,
                     status: req.body.status,
+                    connections: req.body.connections,
+                    interests: req.body.interests,
+                    timeStamp: req.body.timeStamp,
+                    ratings: req.body.ratings,
                 });
                 bcrypt.genSalt(15, (err, salt) => {
                     bcrypt.hash(newUser.password, salt, (err, hash) => {
