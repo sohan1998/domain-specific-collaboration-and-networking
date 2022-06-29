@@ -1,19 +1,59 @@
 import React, { Component } from 'react';
 import Sidebar from '../common/sidebar';
-import Rolecard from './rolecard';
+import RolesList from './rolecard';
 import './roles.css';
+import { Button, Card, Col, Container } from 'react-bootstrap';
 import axios from 'axios';
 export default class Roles extends Component {
     state = { rolesData: [] };
 
-    fetchAllJobs = async () => {
+    fetchAllJobs = () => {
         try {
-            const response = await axios.get('http://localhost:3001/projects/viewAllProjects');
-
-            console.log(response);
+            const allJobsArray = [
+                {
+                    title: 'Circles',
+                    description:
+                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+                },
+                {
+                    title: 'Google',
+                    description:
+                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+                },
+                {
+                    title: 'Salesforce',
+                    description:
+                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+                },
+                {
+                    title: 'Circles',
+                    description:
+                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+                },
+                {
+                    title: 'Google',
+                    description:
+                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+                },
+                {
+                    title: 'Salesforce',
+                    description:
+                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+                },
+            ];
+            this.setState({ rolesData: allJobsArray });
+            console.log(this.state.rolesData);
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
+
+        // try {
+        //     const response = await axios.get('http://localhost:3001/projects/viewAllProjects');
+
+        //     console.log(response);
+        // } catch (err) {
+        //     console.log(err);
+        // }
     };
 
     componentDidMount() {
@@ -22,7 +62,7 @@ export default class Roles extends Component {
 
     render() {
         return (
-            <div class='roles-wrapper'>
+            <div className='roles-wrapper'>
                 <Sidebar />
                 <div className='roles-main-wrapper'>
                     <div className='roles-subheader-wrapper'>
@@ -34,9 +74,10 @@ export default class Roles extends Component {
                             <div>Filters</div>
                         </div>
                     </div>
-
                     <div>
-                        <Rolecard projectName='project' roleName='dev' />
+                        <Container>
+                            <RolesList allRoles={this.state.rolesData} />
+                        </Container>
                     </div>
                 </div>
             </div>
