@@ -53,8 +53,8 @@ export default function ConnectCard() {
             {/* <CardMedia component='img' height='194' image='/static/images/cards/paella.jpg' alt='Paella dish' /> */}
             <CardContent>
                 <Typography variant='body2' color='text.secondary'>
-                    This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along
-                    with the mussels, if you like.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </Typography>
             </CardContent>
             {/* <CardActions disableSpacing>
