@@ -82,8 +82,9 @@ export const RegisterUserInterests = () => {
 
     return (
         <div className='container'>
+            <br></br>
             <div>
-                <h1>
+                <h1 style={{ fontSize: '50px' }}>
                     What are your <span className='change-to-purple'> Interests </span> ?
                 </h1>
             </div>
