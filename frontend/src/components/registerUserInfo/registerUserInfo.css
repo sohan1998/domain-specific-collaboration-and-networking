@@ -1,0 +1,15 @@
+.slider-wrapper {
+    width: 50%;
+    /* background-color: beige; */
+}
+
+.interest-wrapper {
+    display: flex;
+    /* background-color: aquamarine; */
+    justify-content: space-between;
+}
+
+.interest-wrapper div {
+    /* background-color: lavender; */
+    padding: 20px 100px;
+}
