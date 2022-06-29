@@ -1,11 +1,11 @@
 import React from 'react';
 import Slider, { SliderThumb } from '@mui/material/Slider';
 import { styled } from '@mui/material/styles';
-import './userInfo.css';
+import './registerUserInfo.css';
 import './../common/button.css';
 import './../common/font.css';
 
-export const UserInterests = () => {
+export const RegisterUserInterests = () => {
     const IOSSlider = styled(Slider)(({ theme }) => ({
         color: theme.palette.mode === 'dark' ? '#3880ff' : '#3880ff',
         height: 2,
