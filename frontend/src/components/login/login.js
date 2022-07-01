@@ -10,9 +10,9 @@ export default class Login extends Component {
     state = { email: null, password: null };
 
     constructor(props) {
-        //Call the constructor of Super class i.e The Component
+        // Call the constructor of Super class i.e. the Component
         super(props);
-        //maintain the state required for this component
+        // Maintain the state required for this component
         this.state = {
             email: '',
             password: '',
@@ -20,7 +20,7 @@ export default class Login extends Component {
             // loginStatus: ""
             redirect: '',
         };
-        // //Bind the handlers to this class
+        // Bind the handlers to this class
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.login = this.login.bind(this);
@@ -56,7 +56,7 @@ export default class Login extends Component {
     render() {
         return (
             <div className='login-wrapper'>
-                {this.state.redirect};
+                {this.state.redirect}
                 <div className='login-wrapper-item '>
                     <h1 style={{ fontSize: '50px' }}>
                         <div>

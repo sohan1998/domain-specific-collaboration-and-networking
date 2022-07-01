@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Form, Container } from 'react-bootstrap';
 import Slider, { SliderThumb } from '@mui/material/Slider';
 import { styled } from '@mui/material/styles';
 import './registerUserInfo.css';
@@ -82,8 +83,9 @@ export const RegisterUserInterests = () => {
 
     return (
         <div className='container'>
+            <br></br>
             <div>
-                <h1>
+                <h1 style={{ fontSize: '50px' }}>
                     What are your <span className='change-to-purple'> Interests </span> ?
                 </h1>
             </div>
