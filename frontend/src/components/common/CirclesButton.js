@@ -13,3 +13,5 @@ const CirclesButton = ({ text, onClick, style, type }) => {
 };
 
 export default CirclesButton;
+
+// const function ({}) => { return () }
