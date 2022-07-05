@@ -9,9 +9,12 @@
 }
 
 .registerUserInfo-wrapper-item {
-    width: 100%;
+    width: 50%;
     /* background-color: lightgray; */
     padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
     /* padding-top: 10%; */
 }
 

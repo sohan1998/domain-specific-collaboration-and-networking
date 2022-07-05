@@ -3,6 +3,7 @@ import { Button, Form, Container } from 'react-bootstrap';
 import '../common/CirclesButton';
 import { Navigate } from 'react-router-dom';
 import './registerUserInfo.css';
+import { Autocomplete, TextField } from '@mui/material';
 // import SelectSearch from 'react-select-search';
 
 export class RegisterUserInfo extends Component {
@@ -106,6 +107,8 @@ export class RegisterUserInfo extends Component {
     render() {
         console.log('RENDERING');
 
+        const searchInterests = [{ label: 'Machine Learning' }, { label: 'Full Stack Development' }];
+
         return (
             <div className='container registerUserInfo-wrapper'>
                 {this.state.redirect}
@@ -201,6 +204,13 @@ export class RegisterUserInfo extends Component {
                         {/* <Form.Group className='mb-3' controlId='formBasicCheckbox'>
                             <Form.Check type='checkbox' label='Check me out' />
                         </Form.Group> */}
+                        <Autocomplete
+                            disablePortal
+                            id='combo-box-demo'
+                            options={searchInterests}
+                            sx={{ width: '100%' }}
+                            renderInput={(params) => <TextField {...params} label='Search Interests' />}
+                        />
                         <Button variant='success' type='submit' className='green-primary-btn' onClick={this.submit}>
                             Next
                         </Button>
