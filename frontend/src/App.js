@@ -8,6 +8,7 @@ import NavbarComponent from './components/common/navbar';
 import AllProjects from './components/projects/projects';
 import Roles from './components/roles/roles';
 import { RegisterUserInterests } from './components/registerUserInfo/RegisterUserInterests';
+import { RegisterUserInfo } from './components/registerUserInfo/RegisterUserInfo';
 import { Connections } from './components/common/Connections';
 // import { Navbar } from 'react-bootstrap';
 
@@ -24,7 +25,8 @@ function App() {
                     <Route path='/register' element={<Register />} />
                     <Route path='/projects' element={<AllProjects />} />
                     <Route path='/roles' element={<Roles />} />
-                    <Route path='/userInterests' element={<RegisterUserInterests />} />
+                    <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
+                    <Route path='/registerUserInfo' element={<RegisterUserInfo />} />
                     <Route path='/connections' element={<Connections />} />
                 </Routes>
             </Router>
