@@ -107,7 +107,7 @@ export class RegisterUserInfo extends Component {
     render() {
         console.log('RENDERING');
 
-        const searchInterests = [{ label: 'Machine Learning' }, { label: 'Full Stack Development' }];
+        const searchSkills = [{ label: 'Machine Learning' }, { label: 'Full Stack Development' }];
 
         return (
             <div className='container registerUserInfo-wrapper'>
@@ -207,9 +207,9 @@ export class RegisterUserInfo extends Component {
                         <Autocomplete
                             disablePortal
                             id='combo-box-demo'
-                            options={searchInterests}
+                            options={searchSkills}
                             sx={{ width: '100%' }}
-                            renderInput={(params) => <TextField {...params} label='Search Interests' />}
+                            renderInput={(params) => <TextField {...params} label='Search Skills' />}
                         />
                         <Button variant='success' type='submit' className='green-primary-btn' onClick={this.submit}>
                             Next
