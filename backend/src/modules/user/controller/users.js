@@ -38,9 +38,9 @@ export class UserController {
                     education: req.body.education,
                     professionalExperience: req.body.professionalExperience,
                     interests: req.body.interests,
+                    skills: req.body.skills,
                     status: req.body.status,
                     connections: req.body.connections,
-                    interests: req.body.interests,
                     timeStamp: req.body.timeStamp,
                     ratings: req.body.ratings,
                 });
@@ -56,6 +56,22 @@ export class UserController {
                 });
             }
         });
+    };
+    userConnections = async (req, res) => {
+        try {
+            let userId1 = req.query._id;
+            const userId2 = req.body.userId2;
+
+            const connectionExists = await userSchema.findOne({ connections: userId2 });
+            if (connectionExists) return res.status(401).json({ message: 'Connection already exists!' });
+
+            await userSchema.updateOne({ _id: userId1 }, { $push: { connections: userId2 } });
+            await userSchema.updateOne({ _id: userId2 }, { $push: { connections: userId1 } });
+            return res.status(200).json({ message: 'Connected Successfully!' });
+        } catch (err) {
+            console.error(err);
+            return res.status(404).json({ message: 'Error Connecting' });
+        }
     };
 }
 export default UserController;

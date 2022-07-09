@@ -9,5 +9,6 @@ roleRouter.get('/roles/viewParticularJob', roleController.viewParticularJob);
 roleRouter.post('/roles/applyParticularJob', roleController.applyParticularJob);
 roleRouter.get('/roles/appliedJob', roleController.appliedJob);
 roleRouter.get('/roles/viewAllJobs', roleController.viewAllJobs);
+roleRouter.delete('/roles/deleteJob', roleController.deleteJob);
 
 export default roleRouter;
