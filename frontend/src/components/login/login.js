@@ -5,6 +5,7 @@ import './../common/button.css';
 import './../common/font.css';
 import './login.css';
 import { Navigate } from 'react-router-dom';
+import './../../../../backend/config/serverConfig';
 
 export default class Login extends Component {
     state = { email: null, password: null };
@@ -31,7 +32,7 @@ export default class Login extends Component {
 
         const payload = { email: this.state.email, password: this.state.password };
         try {
-            const res = await axios.post(`http://localhost:3001/user/loginUser`, payload);
+            const res = await axios.post(`http://${backendIP}:${backendPort}/user/loginUser`, payload);
             console.log(res.data);
             // localStorage.setItem("user_id", res.data._id)
             // localStorage.setItem("user_email", res.data.email)
