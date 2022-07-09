@@ -71,11 +71,48 @@ export class RolesController {
             console.error(err);
         }
     };
+
     viewAllJobs = async (req, res) => {
         try {
             jobSchema.find({}, function (err, jobs) {
                 return res.json(jobs);
             });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    deleteJob = async (req, res) => {
+        try {
+            let jobId = req.query._id;
+            const jobtodelete = await jobSchema.findOne({ _id: jobId });
+            if (jobtodelete) {
+                const applications = await applicationSchema.find({ jobId: jobId });
+                try {
+                    if (applications.length > 0) {
+                        await applicationSchema.updateMany(
+                            { jobId: jobId },
+                            {
+                                $set: { applicationStatus: 'No Longer Under Consideration' },
+                            }
+                        );
+                    }
+                } catch (err) {
+                    console.error('Unable to update applications');
+                    return;
+                }
+                try {
+                    await jobSchema.remove({
+                        _id: jobId,
+                    });
+                } catch (err) {
+                    console.error('Unable to delete');
+                    return;
+                }
+                return res.json({ message: 'Deleted Successfully!' });
+            } else {
+                return res.json({ message: 'Job does not exist' });
+            }
         } catch (err) {
             console.error(err);
         }
