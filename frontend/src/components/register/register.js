@@ -3,6 +3,7 @@ import { Button, Form, Container } from 'react-bootstrap';
 import '../common/CirclesButton';
 import { Navigate } from 'react-router-dom';
 import './register.css';
+import { backendIP, backendPort } from './../common/constants';
 
 export default class Register extends Component {
     constructor(props) {
@@ -22,6 +23,38 @@ export default class Register extends Component {
         this.emailChangeHandler = this.emailChangeHandler.bind(this);
         this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
     }
+
+    // API call for the final registration page
+    // register = async (e) => {
+    //     e.preventDefault();
+
+    //     const payload = {
+    //         first_name: this.state.first_name,
+    //         last_name: this.state.last_name,
+    //         email: this.state.email,
+    //         password: this.state.password,
+    //     };
+    //     try {
+    //         // const res = await axios.post(`http://${backendIP}:${backendPort}/user/registerUser`, payload);
+    //         // console.log(res.data);
+    //         // localStorage.setItem("user_id", res.data._id)
+    //         // localStorage.setItem("user_email", res.data.email)
+
+    //         console.log('SUBMITTING');
+    //         // store state variables in local storage
+    //         localStorage.setItem('firstName', this.state.first_name);
+    //         localStorage.setItem('lastName', this.state.last_name);
+    //         localStorage.setItem('email', this.state.email);
+    //         localStorage.setItem('password', this.state.password);
+
+    //         this.setState({
+    //             redirect: <Navigate to='/registerUserInfo' replace={true} />,
+    //         });
+    //     } catch (error) {
+    //         console.log('error occured');
+    //     }
+    // };
+
     componentDidMount() {
         const { history } = this.props;
     }
@@ -57,6 +90,7 @@ export default class Register extends Component {
             redirect: <Navigate to='/registerUserInfo' replace={true} />,
         });
     };
+
     // 3rd page:
     // submit = async (e) => {
     //     // create payload dictionary
@@ -64,6 +98,7 @@ export default class Register extends Component {
     //     // send to backend: const response = await axios.post("URL", payload)
     //     // take further action: redirect to next page
     // }
+
     render() {
         console.log('RENDERING');
         return (

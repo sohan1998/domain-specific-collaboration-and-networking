@@ -5,7 +5,7 @@ import './../common/button.css';
 import './../common/font.css';
 import './login.css';
 import { Navigate } from 'react-router-dom';
-import './../../../../backend/config/serverConfig';
+import { backendIP, backendPort } from './../common/constants';
 
 export default class Login extends Component {
     state = { email: null, password: null };

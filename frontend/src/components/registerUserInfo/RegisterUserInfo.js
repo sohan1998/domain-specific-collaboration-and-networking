@@ -25,6 +25,7 @@ export class RegisterUserInfo extends Component {
 
             redirect: '',
         };
+
         // Bind the handlers to this class
         this.schoolNameChangeHandler = this.schoolNameChangeHandler.bind(this);
         this.degreeChangeHandler = this.degreeChangeHandler.bind(this);
