@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Form, Container } from 'react-bootstrap';
 import Slider, { SliderThumb } from '@mui/material/Slider';
 import { styled } from '@mui/material/styles';
+import axios from 'axios';
 import './registerUserInfo.css';
 import './../common/button.css';
 import './../common/font.css';

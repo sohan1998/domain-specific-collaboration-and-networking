@@ -46,9 +46,10 @@ export default function ConnectCard() {
                 //         <MoreVertIcon />
                 //     </IconButton>
                 // }
+
                 titleTypographyProps={{ variant: 'h5' }}
-                title='Michael Thompson'
-                subheader='Product Manager at Microsoft'
+                title='Michael Thompson' // '{firstName} {lastName}'
+                subheader='Product Manager at Microsoft' // '{position} at {employerName}'
             />
             {/* <CardMedia component='img' height='194' image='/static/images/cards/paella.jpg' alt='Paella dish' /> */}
             <CardContent>
