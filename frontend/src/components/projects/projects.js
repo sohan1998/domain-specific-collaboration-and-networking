@@ -28,7 +28,7 @@ export default class AllProjects extends Component {
                 },
             ];
             this.setState({ projects: allProjectsArray });
-            console.log(this.projects);
+            console.log(this.state.projects);
         } catch (err) {
             console.error(err);
         }

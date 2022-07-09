@@ -1,0 +1,35 @@
+.registerUserInfo-wrapper {
+    /* display: flex; */
+    /* justify-content: space-around; */
+    min-height: 100vh;
+    padding: 100px;
+    /* width: 100%; */
+    /* background-color: lightblue; */
+    /* padding-top: 5px; */
+}
+
+.registerUserInfo-wrapper-item {
+    width: 50%;
+    /* background-color: lightgray; */
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    /* padding-top: 10%; */
+}
+
+.slider-wrapper {
+    width: 50%;
+    /* background-color: beige; */
+}
+
+.interest-wrapper {
+    display: flex;
+    /* background-color: aquamarine; */
+    justify-content: space-between;
+}
+
+.interest-wrapper div {
+    /* background-color: lavender; */
+    padding: 20px 100px;
+}
