@@ -40,6 +40,7 @@ export class UserController {
                     interests: req.body.interests,
                     skills: req.body.skills,
                     status: req.body.status,
+                    about_me: req.body.about_me,
                     connections: req.body.connections,
                     timeStamp: req.body.timeStamp,
                     ratings: req.body.ratings,
