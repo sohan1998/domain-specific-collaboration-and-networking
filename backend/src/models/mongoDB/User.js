@@ -46,7 +46,9 @@ const userSchema = new Schema({
             'Cloud Computing': '0',
             'Backend Developement': '0',
             'UIUX Design': '0',
+            'DevOps Domain': '0',
         },
+        required: true,
     },
     skills: {
         type: Array,
@@ -353,6 +355,10 @@ const userSchema = new Schema({
     status: {
         type: Boolean,
         default: true,
+    },
+    about_me: {
+        type: String,
+        default: '',
     },
     connections: {
         type: Array,
