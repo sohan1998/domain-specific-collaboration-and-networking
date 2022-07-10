@@ -24,7 +24,7 @@ const projectSchema = new Schema({
         required: true,
     },
     status: {
-        type: Boolean,
+        type: String,
         default: true,
     },
 });
