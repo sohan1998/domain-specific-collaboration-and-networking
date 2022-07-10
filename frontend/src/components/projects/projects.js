@@ -2,46 +2,49 @@ import React, { Component } from 'react';
 // import { Container } from 'react-bootstrap';
 // import { Card } from 'react-bootstrap';
 import { Row, Col, Card, Container, Button, Modal, Form } from 'react-bootstrap';
+import axios from 'axios';
 import './../common/header.css';
 import './../common/button.css';
+import { backendIP, backendPort } from './../common/constants';
 
 export default class AllProjects extends Component {
-    state = { projects: [], showw: false };
+    state = { projects: [], showw: false, newProject: { status: 'Active' } };
 
-    fetchAllProjects = () => {
-        try {
-            const allProjectsArray = [
-                {
-                    title: 'Circles',
-                    description:
-                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
-                },
-                {
-                    title: 'Google',
-                    description:
-                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
-                },
-                {
-                    title: 'Salesforce',
-                    description:
-                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
-                },
-            ];
-            this.setState({ projects: allProjectsArray });
-            console.log(this.state.projects);
-        } catch (err) {
-            console.error(err);
-        }
-
+    fetchAllProjects = async () => {
         // try {
-        //         const res = axios.get("url");
-        //         console.log(JSON.stringify(res.data))
-        //         this.setState({
-        //             projects: res.data
-        //         })
-        //     } catch {
-        //         console.error("Some issue in fetching all projects")
-        //     }
+        //     const allProjectsArray = [
+        //         {
+        //             title: 'Circles',
+        //             description:
+        //                 'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+        //         },
+        //         {
+        //             title: 'Google',
+        //             description:
+        //                 'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+        //         },
+        //         {
+        //             title: 'Salesforce',
+        //             description:
+        //                 'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+        //         },
+        //     ];
+        //     this.setState({ projects: allProjectsArray });
+        //     console.log(this.state.projects);
+        //     console.log(this.state.newProject);
+        // } catch (err) {
+        //     console.error(err);
+        // }
+
+        try {
+            const response = await axios.get(`http://localhost:3001/projects/viewAllProjects`);
+            // console.log(JSON.stringify(res.data))
+            this.setState({
+                projects: response.data,
+            });
+        } catch {
+            console.error('Some issue in fetching all projects');
+        }
     };
 
     componentDidMount() {
@@ -67,6 +70,17 @@ export default class AllProjects extends Component {
 
     handleOnShow = () => this.setState({ showw: true });
 
+    createProject = async () => {
+        const payload = { ...this.state.newProject, ownerId: '627a3162fbc0fd1fe102c8a8' };
+        try {
+            const response = await axios.post(`http://${backendIP}:${backendPort}/projects/createProject`, payload);
+            this.setState({ showw: false });
+            this.fetchAllProjects();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     render() {
         return (
             <div>
@@ -87,15 +101,48 @@ export default class AllProjects extends Component {
                             <Form>
                                 <Form.Group className='mb-3' controlId='exampleForm.ControlInput1'>
                                     <Form.Label>Project Title</Form.Label>
-                                    <Form.Control type='text' placeholder='Title' autoFocus />
+                                    <Form.Control
+                                        type='text'
+                                        placeholder='Title'
+                                        autoFocus
+                                        onChange={(e) => {
+                                            this.setState({ newProject: { ...this.state.newProject, title: e.target.value } });
+                                        }}
+                                    />
                                 </Form.Group>
                                 <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
                                     <Form.Label>Project Description</Form.Label>
-                                    <Form.Control as='textarea' rows={3} />
+                                    <Form.Control
+                                        as='textarea'
+                                        rows={3}
+                                        onChange={(e) => {
+                                            this.setState({ newProject: { ...this.state.newProject, description: e.target.value } });
+                                        }}
+                                    />
                                 </Form.Group>
                                 <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
-                                    <Form.Check inline name='group1' type='radio' id='default-radio' label='Active' defaultChecked />
-                                    <Form.Check inline name='group1' type='radio' id='default-radio' label='Inactive' />
+                                    <Form.Check
+                                        inline
+                                        name='group1'
+                                        type='radio'
+                                        id='default-radio'
+                                        label='Active'
+                                        defaultChecked
+                                        onChange={(e) => {
+                                            this.setState({ newProject: { ...this.state.newProject, status: 'Active' } });
+                                        }}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        name='group1'
+                                        type='radio'
+                                        id='default-radio'
+                                        label='Inactive'
+                                        onChange={(e) => {
+                                            this.setState({ newProject: { ...this.state.newProject, status: 'Inactive' } });
+                                        }}
+                                    />
+                                    {console.log(this.state.newProject.status)}
                                 </Form.Group>
                             </Form>
                         </Modal.Body>
@@ -103,7 +150,7 @@ export default class AllProjects extends Component {
                             <Button variant='secondary' onClick={this.handleOnHide}>
                                 Close
                             </Button>
-                            <Button variant='primary' onClick={this.handleOnHide}>
+                            <Button variant='primary' onClick={this.createProject}>
                                 Create
                             </Button>
                         </Modal.Footer>
