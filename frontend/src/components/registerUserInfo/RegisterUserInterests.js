@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Container } from 'react-bootstrap';
 import Slider, { SliderThumb } from '@mui/material/Slider';
 import { styled } from '@mui/material/styles';
@@ -6,56 +6,66 @@ import axios from 'axios';
 import './registerUserInfo.css';
 import './../common/button.css';
 import './../common/font.css';
+import { NavLink } from 'react-router-dom';
 
 export const RegisterUserInterests = () => {
-    const IOSSlider = styled(Slider)(({ theme }) => ({
-        color: theme.palette.mode === 'dark' ? '#3880ff' : '#3880ff',
-        height: 2,
-        padding: '15px 0',
-        '& .MuiSlider-thumb': {
-            height: 28,
-            width: 28,
-            backgroundColor: '#fff',
-            boxShadow: iOSBoxShadow,
-            '&:focus, &:hover, &.Mui-active': {
-                boxShadow: '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
-                // Reset on touch devices, it doesn't add specificity
-                '@media (hover: none)': {
-                    boxShadow: iOSBoxShadow,
-                },
-            },
-        },
-        '& .MuiSlider-valueLabel': {
-            fontSize: 12,
-            fontWeight: 'normal',
-            top: -6,
-            backgroundColor: 'unset',
-            color: theme.palette.text.primary,
-            '&:before': {
-                display: 'none',
-            },
-            '& *': {
-                background: 'transparent',
-                color: theme.palette.mode === 'dark' ? '#fff' : '#000',
-            },
-        },
-        '& .MuiSlider-track': {
-            border: 'none',
-        },
-        '& .MuiSlider-rail': {
-            opacity: 0.5,
-            backgroundColor: '#bfbfbf',
-        },
-        '& .MuiSlider-mark': {
-            backgroundColor: '#bfbfbf',
-            height: 8,
-            width: 1,
-            '&.MuiSlider-markActive': {
-                opacity: 1,
-                backgroundColor: 'currentColor',
-            },
-        },
-    }));
+    const [interests, setInterests] = useState({});
+    // const [interest1, setInterest1] = useState();
+
+    const handleSliderValueChange = (interest, value) => {
+        let newInterest = { ...interests, [interest]: value };
+        setInterests(newInterest);
+        console.log(interests);
+    };
+
+    // const IOSSlider = styled(Slider)(({ theme }) => ({
+    //     color: theme.palette.mode === 'dark' ? '#3880ff' : '#3880ff',
+    //     height: 2,
+    //     padding: '15px 0',
+    //     '& .MuiSlider-thumb': {
+    //         height: 28,
+    //         width: 28,
+    //         backgroundColor: '#fff',
+    //         boxShadow: iOSBoxShadow,
+    //         '&:focus, &:hover, &.Mui-active': {
+    //             boxShadow: '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
+    //             // Reset on touch devices, it doesn't add specificity
+    //             '@media (hover: none)': {
+    //                 boxShadow: iOSBoxShadow,
+    //             },
+    //         },
+    //     },
+    //     '& .MuiSlider-valueLabel': {
+    //         fontSize: 12,
+    //         fontWeight: 'normal',
+    //         top: -6,
+    //         backgroundColor: 'unset',
+    //         color: theme.palette.text.primary,
+    //         '&:before': {
+    //             display: 'none',
+    //         },
+    //         '& *': {
+    //             background: 'transparent',
+    //             color: theme.palette.mode === 'dark' ? '#fff' : '#000',
+    //         },
+    //     },
+    //     '& .MuiSlider-track': {
+    //         border: 'none',
+    //     },
+    //     '& .MuiSlider-rail': {
+    //         opacity: 0.5,
+    //         backgroundColor: '#bfbfbf',
+    //     },
+    //     '& .MuiSlider-mark': {
+    //         backgroundColor: '#bfbfbf',
+    //         height: 8,
+    //         width: 1,
+    //         '&.MuiSlider-markActive': {
+    //             opacity: 1,
+    //             backgroundColor: 'currentColor',
+    //         },
+    //     },
+    // }));
 
     const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
 
@@ -80,7 +90,34 @@ export const RegisterUserInterests = () => {
         },
     ];
 
-    const interests = ['Machine Learning', 'Full Stack Development', 'Cloud Computing', 'Product Management', 'Software Testing'];
+    const interestCategories = [
+        'Full-Stack Development',
+        'Machine Learning',
+        'Deep Learning',
+        'Data Science',
+        'Software Testing',
+        'Product Management',
+        'Project Management',
+        'Cloud Computing',
+        'Backend Development',
+        'UIUX Design',
+        'DevOps Domain',
+    ];
+
+    const submit = (e) => {
+        console.log('SUBMITTING');
+        // store state variables in local storage
+        // localStorage.setItem('schoolName', this.state.school_name);
+        // localStorage.setItem('degree', this.state.degree_name);
+        // localStorage.setItem('major', this.state.major_name);
+        // localStorage.setItem('employerName', this.state.employer_name);
+        // localStorage.setItem('position', this.state.position_name);
+        // localStorage.setItem('aboutMe', this.state.about_me);
+        // localStorage.setItem('position', this.state.position_name);
+        // logic to go to next page
+
+        <NavLink to='/connections' />;
+    };
 
     return (
         <div className='container'>
@@ -95,21 +132,70 @@ export const RegisterUserInterests = () => {
             </div>
             <br></br>
             <br></br>
-
-            {interests.map((interest) => {
-                return (
-                    <div className='interest-wrapper'>
-                        <div>
-                            <h5>{interest}</h5>
+            <div>
+                {interestCategories.map((interest) => {
+                    return (
+                        <div key={interest} className='interest-wrapper'>
+                            <div>
+                                <h5>{interest}</h5>
+                            </div>
+                            <div className='slider-wrapper'>
+                                <Slider
+                                    aria-label='Always visible'
+                                    min={0}
+                                    max={5}
+                                    step={1}
+                                    defaultValue={0}
+                                    marks={marks}
+                                    valueLabelDisplay='on'
+                                    key={interest}
+                                    onChange={
+                                        (e) => handleSliderValueChange(interest, e.target.value)
+                                        // setInterests({ ...interests, [interest]: e.target.value });
+                                        // console.log({ ...interests }, interest, e.target.value);
+                                    }
+                                />
+                            </div>
                         </div>
-                        <div className='slider-wrapper'>
-                            <IOSSlider aria-label='ios slider' min={0} max={5} step={1} defaultValue={0} marks={marks} valueLabelDisplay='on' />
-                        </div>
-                    </div>
-                );
-            })}
-
-            <div></div>
+                    );
+                })}
+            </div>
+            {/* {console.log(interests)} */}
+            <div>
+                {/* <div> */}
+                {/* <Container className='mt-3'> */}
+                <Form>
+                    {/* <Form.Group className='mb-3' controlId='formAboutMe'> */}
+                    {/* <Form.Label>First Name</Form.Label> */}
+                    {/* <Form.Control as='textarea' placeholder='About Me' rows={5} onChange={this.aboutMeChangeHandler} /> */}
+                    {/* <Form.Text className='text-muted'>We'll never share your major with anyone else.</Form.Text> */}
+                    {/* </Form.Group> */}
+                    {/* <Form.Group className='mb-3' controlId='formSearch'> */}
+                    {/* <Form.Label>major address</Form.Label> */}
+                    {/* <Form.Control type='string' placeholder='Search Interests' onChange={this.onChangeSearchHandler} /> */}
+                    {/* <Form.Text className='text-muted'>We'll never share your major with anyone else.</Form.Text> */}
+                    {/* </Form.Group> */}
+                    {/* <Form.Group className='mb-3' controlId='formPassword'> */}
+                    {/* <Form.Label>Password</Form.Label> */}
+                    {/* <Form.Control type='password' placeholder='Enter Password' onChange={this.passwordChangeHandler} /> */}
+                    {/* </Form.Group> */}
+                    {/* <Form.Group className='mb-3' controlId='formBasicCheckbox'>
+                            <Form.Check type='checkbox' label='Check me out' />
+                        </Form.Group> */}
+                    {/* <Autocomplete
+                            disablePortal
+                            id='combo-box-demo'
+                            options={searchSkills}
+                            sx={{ width: '100%' }}
+                            renderInput={(params) => <TextField {...params} label='Search Skills' />}
+                        /> */}
+                    <Button variant='success' type='submit' className='green-primary-btn'>
+                        Next
+                    </Button>
+                </Form>
+                {/* </Container> */}
+                {/* </div> */}
+            </div>
         </div>
     );
 };
