@@ -33,7 +33,7 @@ export class ProjectsController {
 
     viewParticularProject = async (req, res) => {
         try {
-            let projectId = req.query._id;
+            const projectId = req.query._id;
             projectSchema.findOne(
                 {
                     _id: projectId,
@@ -52,10 +52,10 @@ export class ProjectsController {
     };
     viewRolesOfParticularProject = async (req, res) => {
         try {
-            let projectId = req.query.projectId;
+            const projectId = req.query.projectId;
             jobSchema.findOne(
                 {
-                    projectId: projectId,
+                    _id: projectId,
                 },
                 function (err, allRoles) {
                     if (err) {
@@ -72,16 +72,65 @@ export class ProjectsController {
 
     viewAllApplicationsForParticularProject = async (req, res) => {
         try {
-            let projectId = req.query._id;
+            const projectId = req.query._id;
             const allSubmissions = await applicationSchema
                 .find({
-                    projectId: projectId,
+                    _id: projectId,
                 })
                 .populate('userId')
                 .lean();
             return res.status(200).send(allSubmissions);
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    editProjectDetails = async (req, res) => {
+        try {
+            const { projectId, title, description, status } = req.body;
+            const update = {
+                title,
+                description,
+                status,
+            };
+            const response = await projectSchema.findOneAndUpdate(
+                {
+                    _id: projectId,
+                },
+                update
+            );
+            res.status(200).send({ message: 'Project Details Updated' });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    removeMemberFromProject = async (req, res) => {
+        try {
+            const { projectId, userId } = req.body;
+            await projectSchema.findOneAndUpdate(
+                {
+                    _id: projectId,
+                },
+                {
+                    $pull: {
+                        members: userId,
+                    },
+                },
+                {
+                    safe: true,
+                    new: true,
+                },
+                (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        return res.status(200).send({ message: 'Removed Successfully!', result });
+                    }
+                }
+            );
+        } catch (err) {
+            console.log(err);
         }
     };
 }

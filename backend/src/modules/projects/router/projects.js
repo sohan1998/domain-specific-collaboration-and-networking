@@ -9,4 +9,6 @@ projectRouter.get('/projects/viewAllProjects', projectController.viewAllProjects
 projectRouter.get('/projects/viewParticularProject', projectController.viewParticularProject);
 projectRouter.get('/projects/viewAllApplicationsForParticularProject', projectController.viewAllApplicationsForParticularProject);
 projectRouter.get('/projects/viewRolesOfParticularProject', projectController.viewRolesOfParticularProject);
+projectRouter.put('/projects/editProjectDetails', projectController.editProjectDetails);
+projectRouter.put('/projects/removeMemberFromProject', projectController.removeMemberFromProject);
 export default projectRouter;
