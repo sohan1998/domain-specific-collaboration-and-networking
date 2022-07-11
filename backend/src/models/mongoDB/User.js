@@ -36,7 +36,7 @@ const userSchema = new Schema({
         type: Map,
         of: String,
         default: {
-            'Full-Stack Developement': '0',
+            'Full-Stack Development': '0',
             'Machine Learning': '0',
             'Deep Learning': '0',
             'Data Science': '0',
