@@ -6,10 +6,12 @@ import axios from 'axios';
 import './registerUserInfo.css';
 import './../common/button.css';
 import './../common/font.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { backendIP, backendPort } from './../common/constants';
 
 export const RegisterUserInterests = () => {
     const [interests, setInterests] = useState({});
+    const navigate = useNavigate();
     // const [interest1, setInterest1] = useState();
 
     const handleSliderValueChange = (interest, value) => {
@@ -72,21 +74,27 @@ export const RegisterUserInterests = () => {
     const marks = [
         {
             value: 0,
+            label: 0,
         },
         {
             value: 1,
+            label: 1,
         },
         {
             value: 2,
+            label: 2,
         },
         {
             value: 3,
+            label: 3,
         },
         {
             value: 4,
+            label: 4,
         },
         {
             value: 5,
+            label: 5,
         },
     ];
 
@@ -104,19 +112,69 @@ export const RegisterUserInterests = () => {
         'DevOps Domain',
     ];
 
-    const submit = (e) => {
-        console.log('SUBMITTING');
-        // store state variables in local storage
-        // localStorage.setItem('schoolName', this.state.school_name);
-        // localStorage.setItem('degree', this.state.degree_name);
-        // localStorage.setItem('major', this.state.major_name);
-        // localStorage.setItem('employerName', this.state.employer_name);
-        // localStorage.setItem('position', this.state.position_name);
-        // localStorage.setItem('aboutMe', this.state.about_me);
-        // localStorage.setItem('position', this.state.position_name);
-        // logic to go to next page
+    const registerAPI = async (e, payload) => {
+        try {
+            let response;
+            response = await axios.post(`http://${backendIP}:${backendPort}/user/registerUser`, payload);
+            console.log('API call successful');
+            // console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-        <NavLink to='/connections' />;
+    const createAccountHandler = (e) => {
+        console.log('SUBMITTING');
+
+        // get state variables from local storage
+        const payload = {};
+        const education = {};
+        const professionalExperience = {};
+
+        try {
+            console.log('ENTERING');
+            payload['firstName'] = localStorage.getItem('firstName');
+            payload['lastName'] = localStorage.getItem('lastName');
+            payload['email'] = localStorage.getItem('email');
+            payload['password'] = localStorage.getItem('password');
+            education['schoolName'] = localStorage.getItem('schoolName');
+            education['degree'] = localStorage.getItem('degree');
+            education['major'] = localStorage.getItem('major');
+            education['startDate'] = '01/27/2021';
+            education['endDate'] = '01/27/2022';
+            payload['education'] = education;
+            professionalExperience['employerName'] = localStorage.getItem('employerName');
+            professionalExperience['position'] = localStorage.getItem('position');
+            professionalExperience['startDate'] = '05/15/2021';
+            professionalExperience['endDate'] = '07/10/2022';
+            payload['professionalExperience'] = professionalExperience;
+            payload['about_me'] = localStorage.getItem('aboutMe');
+            payload['skills'] = JSON.parse(localStorage.getItem('searchSkills'));
+            payload['interests'] = interests;
+            console.log('Calling API');
+            registerAPI(payload);
+            console.log('SUCCESS');
+            navigate('/connections');
+        } catch (error) {
+            console.log(error);
+        }
+
+        // try {
+        //     response = await axios.get(`http://${backendIP}:${backendPort}/user/registerUser`);
+        //     console.log(response.data);
+        // } catch (error) {
+        //     console.log(error);
+        // }
+
+        // if (response.data.message !== 'User Already Exists!') {
+
+        // logic to go to next page
+        // navigate('/connections');
+        // } else {
+        //     alert('Email ID already exists');
+        //     return;
+        // }
+        // <Link to='/connections' />;
     };
 
     return (
@@ -138,6 +196,8 @@ export const RegisterUserInterests = () => {
                         <div key={interest} className='interest-wrapper'>
                             <div>
                                 <h5>{interest}</h5>
+                                <br />
+                                <br />
                             </div>
                             <div className='slider-wrapper'>
                                 <Slider
@@ -147,7 +207,7 @@ export const RegisterUserInterests = () => {
                                     step={1}
                                     defaultValue={0}
                                     marks={marks}
-                                    valueLabelDisplay='on'
+                                    valueLabelDisplay='auto'
                                     key={interest}
                                     onChange={
                                         (e) => handleSliderValueChange(interest, e.target.value)
@@ -189,8 +249,8 @@ export const RegisterUserInterests = () => {
                             sx={{ width: '100%' }}
                             renderInput={(params) => <TextField {...params} label='Search Skills' />}
                         /> */}
-                    <Button variant='success' type='submit' className='green-primary-btn'>
-                        Next
+                    <Button variant='success' type='submit' className='green-primary-btn' onClick={createAccountHandler}>
+                        Register
                     </Button>
                 </Form>
                 {/* </Container> */}
