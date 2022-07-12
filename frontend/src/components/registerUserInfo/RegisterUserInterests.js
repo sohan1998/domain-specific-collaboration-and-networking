@@ -112,24 +112,28 @@ export const RegisterUserInterests = () => {
         'DevOps Domain',
     ];
 
-    const registerAPI = async (e, payload) => {
+    const registerAPI = async (payload) => {
+        // console.log(JSON.stringify(payload));
         try {
-            let response;
-            response = await axios.post(`http://${backendIP}:${backendPort}/user/registerUser`, payload);
-            console.log('API call successful');
+            // console.log(JSON.stringify(payload));
+            const response = await axios.post(`http://${backendIP}:${backendPort}/user/registerUser`, payload);
+            // console.log('API call successful');
             // console.log(response);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
 
     const createAccountHandler = (e) => {
         console.log('SUBMITTING');
-
+        // const db = {
+        //     "name": "Slowhan"
+        // }
+        //
         // get state variables from local storage
-        const payload = {};
-        const education = {};
-        const professionalExperience = {};
+        let payload = {};
+        let education = {};
+        let professionalExperience = {};
 
         try {
             console.log('ENTERING');
@@ -151,9 +155,10 @@ export const RegisterUserInterests = () => {
             payload['about_me'] = localStorage.getItem('aboutMe');
             payload['skills'] = JSON.parse(localStorage.getItem('searchSkills'));
             payload['interests'] = interests;
-            console.log('Calling API');
+            // console.log('Calling API');
             registerAPI(payload);
-            console.log('SUCCESS');
+            // console.log('SUCCESS');
+            console.log(payload);
             navigate('/connections');
         } catch (error) {
             console.log(error);
