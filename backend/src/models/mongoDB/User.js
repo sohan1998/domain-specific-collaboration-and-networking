@@ -36,17 +36,19 @@ const userSchema = new Schema({
         type: Map,
         of: String,
         default: {
-            'Full-Stack Developement': '0',
+            'Full-Stack Development': '0',
             'Machine Learning': '0',
             'Deep Learning': '0',
             'Data Science': '0',
             'Software Testing': '0',
             'Product Management': '0',
-            'Project Managaement': '0',
+            'Project Management': '0',
             'Cloud Computing': '0',
-            'Backend Developement': '0',
+            'Backend Development': '0',
             'UIUX Design': '0',
+            'DevOps Domain': '0',
         },
+        required: true,
     },
     skills: {
         type: Array,
@@ -353,6 +355,10 @@ const userSchema = new Schema({
     status: {
         type: Boolean,
         default: true,
+    },
+    about_me: {
+        type: String,
+        default: '',
     },
     connections: {
         type: Array,

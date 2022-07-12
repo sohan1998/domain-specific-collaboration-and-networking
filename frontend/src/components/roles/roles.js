@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from '../common/sidebar';
-import RolesList from './rolecard';
+import RolesList from './RoleCard';
 import './roles.css';
 import { Button, Card, Col, Container } from 'react-bootstrap';
 import axios from 'axios';

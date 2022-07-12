@@ -24,7 +24,22 @@ export class UserController {
             console.error(err);
         }
     };
-
+    validateRegisteredUser = async (req, res) => {
+        try {
+            const email = req.query.email;
+            console.log(email);
+            userSchema.findOne({ email }).then((user) => {
+                console.log(user);
+                if (!user) {
+                    return res.status(200).json({ message: 'Success, No user found' });
+                } else {
+                    return res.send({ message: 'User Already Exist' });
+                }
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    };
     register = async (req, res) => {
         userSchema.findOne({ email: req.body.email }).then((user) => {
             if (user) {
@@ -40,19 +55,22 @@ export class UserController {
                     interests: req.body.interests,
                     skills: req.body.skills,
                     status: req.body.status,
+                    about_me: req.body.about_me,
                     connections: req.body.connections,
                     timeStamp: req.body.timeStamp,
                     ratings: req.body.ratings,
                 });
                 bcrypt.genSalt(15, (err, salt) => {
-                    bcrypt.hash(newUser.password, salt, (err, hash) => {
-                        if (err) throw err;
-                        newUser.password = hash;
-                        newUser
-                            .save()
-                            .then((user) => res.json(user))
-                            .catch((err) => console.log(err));
-                    });
+                    if (newUser.password !== undefined) {
+                        bcrypt.hash(newUser.password, salt, (err, hash) => {
+                            if (err) throw err;
+                            newUser.password = hash;
+                            newUser
+                                .save()
+                                .then((user) => res.json(user))
+                                .catch((err) => console.log(err));
+                        });
+                    }
                 });
             }
         });
