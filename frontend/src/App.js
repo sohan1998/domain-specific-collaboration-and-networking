@@ -21,13 +21,13 @@ function App() {
 
             <Router>
                 <Routes>
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/register' element={<Register />} />
-                    <Route path='/projects' element={<AllProjects />} />
-                    <Route path='/roles' element={<Roles />} />
-                    <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
-                    <Route path='/registerUserInfo' element={<RegisterUserInfo />} />
-                    <Route path='/connections' element={<Connections />} />
+                    <Route path='/login' exact element={<Login />} />
+                    <Route path='/register' exact element={<Register />} />
+                    <Route path='/projects' exact element={<AllProjects />} />
+                    <Route path='/roles' exact element={<Roles />} />
+                    <Route path='/registerUserInterests' exact element={<RegisterUserInterests />} />
+                    <Route path='/registerUserInfo' exact element={<RegisterUserInfo />} />
+                    <Route path='/connections' exact element={<Connections />} />
                 </Routes>
             </Router>
         </div>
