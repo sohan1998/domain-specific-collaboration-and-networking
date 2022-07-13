@@ -6,7 +6,7 @@ import Register from './components/register/register';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavbarComponent from './components/common/navbar';
 import AllProjects from './components/projects/projects';
-import Roles from './components/roles/roles';
+import Roles from './components/roles/Roles';
 import { RegisterUserInterests } from './components/registerUserInfo/RegisterUserInterests';
 import { RegisterUserInfo } from './components/registerUserInfo/RegisterUserInfo';
 import { Connections } from './components/common/Connections';
