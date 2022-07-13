@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from '../common/sidebar';
-import RolesList from './RoleCard';
+import RoleCard from './RoleCard';
 import './roles.css';
 import { Button, Card, Col, Container } from 'react-bootstrap';
 import axios from 'axios';
@@ -64,6 +64,7 @@ export default class Roles extends Component {
         return (
             <div className='roles-wrapper'>
                 <Sidebar />
+                <br />
                 <div className='roles-main-wrapper'>
                     <div className='roles-subheader-wrapper'>
                         <div className='left'>
@@ -76,7 +77,7 @@ export default class Roles extends Component {
                     </div>
                     <div>
                         <Container>
-                            <RolesList allRoles={this.state.rolesData} />
+                            <RoleCard allRoles={this.state.rolesData} />
                         </Container>
                     </div>
                 </div>
