@@ -53,11 +53,13 @@ export class ProjectsController {
     viewRolesOfParticularProject = async (req, res) => {
         try {
             const projectId = req.query.projectId;
+            console.log(projectId);
             jobSchema.findOne(
                 {
-                    _id: projectId,
+                    projectId: projectId,
                 },
                 function (err, allRoles) {
+                    console.log(allRoles);
                     if (err) {
                         console.error(err);
                     } else {
@@ -75,7 +77,7 @@ export class ProjectsController {
             const projectId = req.query._id;
             const allSubmissions = await applicationSchema
                 .find({
-                    _id: projectId,
+                    projectId: projectId,
                 })
                 .populate('userId')
                 .lean();
