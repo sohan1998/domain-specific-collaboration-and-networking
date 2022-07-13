@@ -6,17 +6,19 @@ export const RoleCard = (props) => {
     console.log(props);
     const roles = props.allRoles.map((role) => {
         return (
-            <Card className='mb-3'>
-                <Card.Header>{role.title}</Card.Header>
-                <Card.Body>
-                    <div className='rolecard-content-wrapper'>
-                        <div>{role.description}</div>
-                        <div>
-                            <Button className='primary'> Apply </Button>
+            <div>
+                <Card className='mb-3'>
+                    <Card.Header>{role.title}</Card.Header>
+                    <Card.Body>
+                        <div className='rolecard-content-wrapper'>
+                            <div>{role.description}</div>
+                            <div>
+                                <Button className='primary'> Apply </Button>
+                            </div>
                         </div>
-                    </div>
-                </Card.Body>
-            </Card>
+                    </Card.Body>
+                </Card>
+            </div>
         );
     });
 
