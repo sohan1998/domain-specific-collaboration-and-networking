@@ -3,7 +3,12 @@ import { Button, Card, Col } from 'react-bootstrap';
 import './roles.css';
 
 const RolesList = (props) => {
-    console.log(props);
+    console.log(props.onShow);
+    const clickApply = (title, description, e) => {
+        e.preventDefault();
+        props.onShow(title, description);
+    };
+
     const roles = props.allRoles.map((role) => {
         return (
             <Card className='mb-3'>
@@ -12,7 +17,10 @@ const RolesList = (props) => {
                     <div className='rolecard-content-wrapper'>
                         <div>{role.description}</div>
                         <div>
-                            <Button className='primary'> Apply </Button>
+                            <Button className='primary' onClick={(e) => clickApply(role.title, role.description, e)}>
+                                {' '}
+                                Apply{' '}
+                            </Button>
                         </div>
                     </div>
                 </Card.Body>

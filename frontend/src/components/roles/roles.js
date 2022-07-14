@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import Sidebar from '../common/sidebar';
 import RolesList from './rolecard';
 import './roles.css';
-import { Button, Card, Col, Container } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
-export default class Roles extends Component {
-    state = { rolesData: [] };
 
-    fetchAllJobs = () => {
+export default class Roles extends Component {
+    state = { rolesData: [], showw: false, title: '', description: '' };
+
+    fetchAllJobs = async () => {
         try {
             const allJobsArray = [
                 {
-                    title: 'Circles',
+                    title: 'Machine Learning Engineer',
                     description:
                         'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
                 },
@@ -48,9 +49,10 @@ export default class Roles extends Component {
         }
 
         // try {
-        //     const response = await axios.get('http://localhost:3001/projects/viewAllProjects');
+        //     const response = await axios.get(`http://${backendIP}:${backendPort}/projects/viewAllJobs`);
+        //     this.setState = {rolesData: response.data}
 
-        //     console.log(response);
+        //     // console.log(response);
         // } catch (err) {
         //     console.log(err);
         // }
@@ -59,6 +61,12 @@ export default class Roles extends Component {
     componentDidMount() {
         this.fetchAllJobs();
     }
+
+    handleOnHide = () => this.setState({ showw: false });
+
+    handleOnShow = (title, description) => {
+        this.setState({ showw: true, title: title, description: description });
+    };
 
     render() {
         return (
@@ -76,7 +84,41 @@ export default class Roles extends Component {
                     </div>
                     <div>
                         <Container>
-                            <RolesList allRoles={this.state.rolesData} />
+                            <RolesList allRoles={this.state.rolesData} onShow={this.handleOnShow} />
+                            <Modal show={this.state.showw} onHide={this.handleOnHide}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>{this.state.title}</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <h5>Job Description:</h5>
+                                    <p>{this.state.description}</p>
+                                    <Form>
+                                        <Form.Group className='mb-3' controlId='exampleForm.ControlInput1'>
+                                            <Form.Label>
+                                                <h5>Message for Project Owner:</h5>
+                                            </Form.Label>
+                                            <Form.Control
+                                                as='textarea'
+                                                rows={3}
+                                                placeholder='Message'
+                                                autoFocus
+
+                                                // onChange={(e) => {
+                                                //     this.setState({ newProject: { ...this.state.newProject, title: e.target.value } });
+                                                // }}
+                                            />
+                                        </Form.Group>
+                                    </Form>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant='secondary' onClick={this.handleOnHide}>
+                                        Close
+                                    </Button>
+                                    <Button variant='primary' onClick={this.handleOnHide}>
+                                        Create
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
                         </Container>
                     </div>
                 </div>
