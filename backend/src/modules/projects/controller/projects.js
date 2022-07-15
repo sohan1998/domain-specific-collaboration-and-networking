@@ -135,6 +135,56 @@ export class ProjectsController {
             console.log(err);
         }
     };
+    // acceptMemberForProject = async (req, res) => {
+    //     try {
+    //         let projectId = req.query._id;
+    //         const userId = req.body.userId;
+
+    //         await projectSchema.updateOne({ _id: projectId }, { $push: { members: userId } });
+    //         return res.status(200).json({ message: 'Accepted Successfully!' });
+    //     } catch (err) {
+    //         console.error(err);
+    //         return res.status(404).json({ message: 'Error Accepting' });
+    //     }
+    // };
+
+    acceptMemberForProject = async (req, res) => {
+        try {
+            let projectId = req.query._id;
+            const userId = req.body.userId;
+
+            const membertoaccept = await projectSchema.findOne({ _id: projectId });
+            if (membertoaccept) {
+                const memberExists = await projectSchema.findOne({ members: userId });
+                if (memberExists) return res.status(401).json({ message: 'Member already exists!' });
+                const applications = await applicationSchema.find({ userId: userId });
+                try {
+                    if (applications.length > 0) {
+                        await applicationSchema.updateOne(
+                            { userId: userId },
+                            {
+                                $set: { applicationStatus: 'Accepted' },
+                            }
+                        );
+                    }
+                } catch (err) {
+                    console.error('Unable to Accept Application');
+                    return;
+                }
+                try {
+                    await projectSchema.updateOne({ _id: projectId }, { $push: { members: userId } });
+                } catch (err) {
+                    console.error('Unable to Accept');
+                    return;
+                }
+                return res.json({ message: 'Accepted Successfully!' });
+            } else {
+                return res.json({ message: 'Not able to Accept' });
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
 }
 
 export default ProjectsController;
