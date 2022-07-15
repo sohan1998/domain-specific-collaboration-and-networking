@@ -1,77 +1,97 @@
 import React, { Component } from 'react';
 import Sidebar from '../common/sidebar';
-import RolesList from './rolecard';
+import RolesList from './RoleCard';
 import './roles.css';
 import { Button, Card, Col, Container, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
+import { backendIP, backendPort } from './../common/constants';
 
 export default class Roles extends Component {
-    state = { rolesData: [], showw: false, title: '', description: '' };
+    state = { rolesData: [], showw: false, title: '', description: '', jobId: '', projectId: '', messageApplication: '' };
 
     fetchAllJobs = async () => {
-        try {
-            const allJobsArray = [
-                {
-                    title: 'Machine Learning Engineer',
-                    description:
-                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
-                },
-                {
-                    title: 'Google',
-                    description:
-                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
-                },
-                {
-                    title: 'Salesforce',
-                    description:
-                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
-                },
-                {
-                    title: 'Circles',
-                    description:
-                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
-                },
-                {
-                    title: 'Google',
-                    description:
-                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
-                },
-                {
-                    title: 'Salesforce',
-                    description:
-                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
-                },
-            ];
-            this.setState({ rolesData: allJobsArray });
-            console.log(this.state.rolesData);
-        } catch (err) {
-            console.error(err);
-        }
-
         // try {
-        //     const response = await axios.get(`http://${backendIP}:${backendPort}/projects/viewAllJobs`);
-        //     this.setState = {rolesData: response.data}
-
-        //     // console.log(response);
+        //     const allJobsArray = [
+        //         {
+        //             title: 'Machine Learning Engineer',
+        //             description:
+        //                 'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+        //         },
+        //         {
+        //             title: 'Google',
+        //             description:
+        //                 'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+        //         },
+        //         {
+        //             title: 'Salesforce',
+        //             description:
+        //                 'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+        //         },
+        //         {
+        //             title: 'Circles',
+        //             description:
+        //                 'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+        //         },
+        //         {
+        //             title: 'Google',
+        //             description:
+        //                 'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+        //         },
+        //         {
+        //             title: 'Salesforce',
+        //             description:
+        //                 'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+        //         },
+        //     ];
+        //     this.setState({ rolesData: allJobsArray });
+        //     console.log(this.state.rolesData);
         // } catch (err) {
-        //     console.log(err);
+        //     console.error(err);
         // }
+
+        try {
+            const response = await axios.get(`http://${backendIP}:${backendPort}/roles/viewAllJobs`);
+            this.setState({ rolesData: response.data });
+
+            // console.log('res', response);
+        } catch (err) {
+            console.log(err);
+        }
+        // console.log(this.state);
     };
 
     componentDidMount() {
         this.fetchAllJobs();
     }
 
+    applyJob = async () => {
+        const payload = {
+            projectId: this.state.projectId,
+            userId: '62bbaa969f3d5875ca3468e3',
+            jobId: this.state.jobId,
+            messageApplication: this.state.messageApplication,
+        };
+        try {
+            const response = await axios.post(`http://${backendIP}:${backendPort}/roles/applyParticularJob`, payload);
+            this.setState({ showw: false });
+            this.fetchAllJobs();
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     handleOnHide = () => this.setState({ showw: false });
 
-    handleOnShow = (title, description) => {
-        this.setState({ showw: true, title: title, description: description });
+    handleOnShow = (title, description, jobId, projectId) => {
+        this.setState({ showw: true, title: title, description: description, jobId: jobId, projectId: projectId });
     };
 
     render() {
         return (
             <div className='roles-wrapper'>
                 <Sidebar />
+                <br />
                 <div className='roles-main-wrapper'>
                     <div className='roles-subheader-wrapper'>
                         <div className='left'>
@@ -102,10 +122,9 @@ export default class Roles extends Component {
                                                 rows={3}
                                                 placeholder='Message'
                                                 autoFocus
-
-                                                // onChange={(e) => {
-                                                //     this.setState({ newProject: { ...this.state.newProject, title: e.target.value } });
-                                                // }}
+                                                onChange={(e) => {
+                                                    this.setState({ messageApplication: e.target.value });
+                                                }}
                                             />
                                         </Form.Group>
                                     </Form>
@@ -114,8 +133,8 @@ export default class Roles extends Component {
                                     <Button variant='secondary' onClick={this.handleOnHide}>
                                         Close
                                     </Button>
-                                    <Button variant='primary' onClick={this.handleOnHide}>
-                                        Create
+                                    <Button variant='primary' onClick={this.applyJob}>
+                                        Apply
                                     </Button>
                                 </Modal.Footer>
                             </Modal>

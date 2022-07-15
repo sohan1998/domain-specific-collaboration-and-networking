@@ -12,6 +12,7 @@ export const Connections = () => {
                         You may want to <span className='change-to-purple'> connect </span> with them
                     </div>
                 </h1>
+                <br />
                 <div className='container' style={{ marginLeft: 'auto', marginRight: 'auto' }}>
                     <ConnectCard />
                 </div>

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Form, Container } from 'react-bootstrap';
 import '../common/CirclesButton';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import './register.css';
 import { backendIP, backendPort } from './../common/constants';
+import axios from 'axios';
 
 export default class Register extends Component {
     constructor(props) {
@@ -78,13 +79,30 @@ export default class Register extends Component {
             password: e.target.value,
         });
     };
-    submit = (e) => {
+    submit = async (e) => {
         console.log('SUBMITTING');
-        // store state variables in local storage
-        localStorage.setItem('firstName', this.state.first_name);
-        localStorage.setItem('lastName', this.state.last_name);
-        localStorage.setItem('email', this.state.email);
-        localStorage.setItem('password', this.state.password);
+
+        // if API -- success
+        // then store in localStorage
+        // else alert "Email already exists"
+        let response;
+        try {
+            response = await axios.get(`http://${backendIP}:${backendPort}/user/validateRegisteredUser?email=${this.state.email}`);
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+
+        if (response.data.message !== 'User Already Exist') {
+            // store state variables in local storage
+            localStorage.setItem('firstName', this.state.first_name);
+            localStorage.setItem('lastName', this.state.last_name);
+            localStorage.setItem('email', this.state.email);
+            localStorage.setItem('password', this.state.password);
+        } else {
+            alert('Email ID already exists');
+            return;
+        }
         // logic to go to next page
         this.setState({
             redirect: <Navigate to='/registerUserInfo' replace={true} />,
