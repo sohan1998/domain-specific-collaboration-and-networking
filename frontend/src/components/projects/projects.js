@@ -58,7 +58,7 @@ export default class AllProjects extends Component {
                 <Card style={{ width: '18rem', height: '18rem' }} className='mb-2'>
                     <Card.Body>
                         <Card.Title> {row.title} </Card.Title>
-                        <Card.Text>{row.description}</Card.Text>
+                        <Card.Text>{row.description.substring(0, 280) + ' ...'}</Card.Text>
                     </Card.Body>
                 </Card>
             </Col>
@@ -142,7 +142,6 @@ export default class AllProjects extends Component {
                                             this.setState({ newProject: { ...this.state.newProject, status: 'Inactive' } });
                                         }}
                                     />
-                                    {console.log(this.state.newProject.status)}
                                 </Form.Group>
                             </Form>
                         </Modal.Body>
