@@ -17,8 +17,8 @@ export default class NavbarComponent extends Component {
                             <Nav className='me-auto'></Nav>
                             <Nav>
                                 {/* <Nav.Link href=''>Home</Nav.Link> */}
-                                <Nav.Link href=''>Projects</Nav.Link>
-                                <Nav.Link href=''>Roles</Nav.Link>
+                                <Nav.Link href='/projects'>Projects</Nav.Link>
+                                <Nav.Link href='/roles'>Roles</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                     </Container>

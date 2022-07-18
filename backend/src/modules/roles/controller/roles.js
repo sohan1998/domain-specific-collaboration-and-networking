@@ -42,15 +42,21 @@ export class RolesController {
 
     applyParticularJob = async (req, res) => {
         try {
-            const applyJob = new applicationSchema({
-                projectId: req.body.projectId,
-                userId: req.body.userId,
-                jobId: req.body.jobId,
-                messageApplication: req.body.messageApplication,
-                applicationStatus: req.body.applicationStatus,
-            });
-            const response = await applyJob.save();
-            res.status(200).send(response);
+            const { projectId, userId, jobId, messageApplication, applicationStatus } = req.body;
+            const applicationExists = await applicationSchema.findOne({ projectId, userId, jobId });
+            if (applicationExists) {
+                return res.status(401).json({ message: 'Member already exists!' });
+            } else {
+                const applyJob = new applicationSchema({
+                    projectId,
+                    userId,
+                    jobId,
+                    messageApplication,
+                    applicationStatus,
+                });
+                const response = await applyJob.save();
+                return res.status(200).send(response);
+            }
         } catch (err) {
             console.error(err);
         }

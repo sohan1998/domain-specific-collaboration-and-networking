@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Button, Form, Container } from 'react-bootstrap';
 import '../common/CirclesButton';
-import { Navigate, NavLink } from 'react-router-dom';
+import { Link, Navigate, NavLink } from 'react-router-dom';
 import './register.css';
 import { backendIP, backendPort } from './../common/constants';
 import axios from 'axios';
+import { CircularBackdrop } from './../common/CircularBackdrop';
+import { Backdrop } from '@mui/material';
 
 export default class Register extends Component {
     constructor(props) {
@@ -81,6 +83,7 @@ export default class Register extends Component {
     };
     submit = async (e) => {
         console.log('SUBMITTING');
+        <CircularBackdrop />;
 
         // if API -- success
         // then store in localStorage
@@ -154,6 +157,10 @@ export default class Register extends Component {
                         {/* <Form.Group className='mb-3' controlId='formBasicCheckbox'>
                             <Form.Check type='checkbox' label='Check me out' />
                         </Form.Group> */}
+                        {/* <span>
+                            Already have an account?
+                            <Link>Click here</Link>
+                        </span> */}
                         <Button variant='success' type='submit' className='green-primary-btn' onClick={this.submit}>
                             Next
                         </Button>
