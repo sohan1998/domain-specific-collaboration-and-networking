@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import './sidebar.css';
+import { Container } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Col, Row } from 'react-bootstrap';
+import './../common/header.css';
+
 export default class Sidebar extends Component {
     render() {
         return (

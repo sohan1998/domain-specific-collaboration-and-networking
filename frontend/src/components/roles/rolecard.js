@@ -3,7 +3,7 @@ import { Button, Card, Col } from 'react-bootstrap';
 import './roles.css';
 
 const RolesList = (props) => {
-    // console.log(props.onShow);
+    // console.log(props.allRoles);
     const clickApply = (title, description, jobId, projectId, e) => {
         e.preventDefault();
         props.onShow(title, description, jobId, projectId);
