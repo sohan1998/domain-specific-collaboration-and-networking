@@ -8,6 +8,7 @@ import './../common/button.css';
 import './../common/font.css';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { backendIP, backendPort } from './../common/constants';
+import { CircularBackdrop } from '../common/CircularBackdrop';
 
 export const RegisterUserInterests = () => {
     const [interests, setInterests] = useState({});
@@ -136,7 +137,8 @@ export const RegisterUserInterests = () => {
         let professionalExperience = {};
 
         try {
-            console.log('ENTERING');
+            console.log('ENTERING BACKDROP');
+            <CircularBackdrop transitionDuration={5000} />;
             payload['firstName'] = localStorage.getItem('firstName');
             payload['lastName'] = localStorage.getItem('lastName');
             payload['email'] = localStorage.getItem('email');

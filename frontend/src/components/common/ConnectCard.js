@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -14,6 +14,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Button } from 'react-bootstrap';
+import '../common/button.css';
 
 // const ExpandMore = styled((props) => {
 //     const { expand, ...other } = props;
@@ -26,8 +28,17 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 //     }),
 // }));
 
-export default function ConnectCard() {
+const ConnectCard = () => {
     // const [expanded, setExpanded] = React.useState(false);
+    const [first, setFirst] = useState();
+
+    useEffect(() => {
+        console.log('Rendering');
+
+        return () => {
+            // clean up previously assigned
+        };
+    }, []);
 
     // const handleExpandClick = () => {
     //     setExpanded(!expanded);
@@ -88,6 +99,13 @@ export default function ConnectCard() {
                     <Typography>Set aside off of the heat to let rest for 10 minutes, and then serve.</Typography>
                 </CardContent>
             </Collapse> */}
+            <CardContent align='right'>
+                <Button className='purple-primary-btn' size='md'>
+                    Connect
+                </Button>
+            </CardContent>
         </Card>
     );
-}
+};
+
+export default ConnectCard;
