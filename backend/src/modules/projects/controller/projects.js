@@ -135,18 +135,6 @@ export class ProjectsController {
             console.log(err);
         }
     };
-    // acceptMemberForProject = async (req, res) => {
-    //     try {
-    //         let projectId = req.query._id;
-    //         const userId = req.body.userId;
-
-    //         await projectSchema.updateOne({ _id: projectId }, { $push: { members: userId } });
-    //         return res.status(200).json({ message: 'Accepted Successfully!' });
-    //     } catch (err) {
-    //         console.error(err);
-    //         return res.status(404).json({ message: 'Error Accepting' });
-    //     }
-    // };
 
     acceptOrRejectMemberForProject = async (req, res) => {
         try {
