@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Button } from 'react-bootstrap';
 import '../common/button.css';
+import axios from 'axios';
 
 // const ExpandMore = styled((props) => {
 //     const { expand, ...other } = props;
@@ -30,10 +31,31 @@ import '../common/button.css';
 
 const ConnectCard = () => {
     // const [expanded, setExpanded] = React.useState(false);
-    const [first, setFirst] = useState();
+    const [cardData, setCardData] = useState({});
+
+    const GetRecommendations = async () => {
+        try {
+            const userID = localStorage.getItem('userID');
+            const response = await axios.get(`http://127.0.0.1:5000/recommend/?_id=${userID}`);
+            // console.log(response);
+            // console.log('-------------');
+            // console.log(response.data);
+            setCardData(response.data);
+            // console.log(cardData);
+        } catch (error) {
+            console.error(error);
+        }
+        return (
+            <div>
+                <div></div>
+            </div>
+        );
+    };
+    console.log(cardData);
 
     useEffect(() => {
         console.log('Rendering');
+        GetRecommendations();
 
         return () => {
             // clean up previously assigned
@@ -44,32 +66,35 @@ const ConnectCard = () => {
     //     setExpanded(!expanded);
     // };
 
-    return (
-        <Card sx={{ maxWidth: 345, borderRadius: '20px' }}>
-            <CardHeader
-                avatar={
-                    <Avatar src='https://pbs.twimg.com/profile_images/638771889339404289/h64dZ4wh_400x400.png' sx={{ bgcolor: red[500] }}>
-                        S
-                    </Avatar>
-                }
-                // action={
-                //     <IconButton aria-label='settings'>
-                //         <MoreVertIcon />
-                //     </IconButton>
-                // }
+    // const
 
-                titleTypographyProps={{ variant: 'h5' }}
-                title='Michael Thompson' // '{firstName} {lastName}'
-                subheader='Product Manager at Microsoft' // '{position} at {employerName}'
-            />
-            {/* <CardMedia component='img' height='194' image='/static/images/cards/paella.jpg' alt='Paella dish' /> */}
-            <CardContent>
-                <Typography variant='body2' color='text.secondary'>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </Typography>
-            </CardContent>
-            {/* <CardActions disableSpacing>
+    return (
+        <div>
+            <Card sx={{ maxWidth: 500, borderRadius: '20px', boxShadow: '1px 2px 9px' }}>
+                <CardHeader
+                    avatar={
+                        <Avatar src='https://pbs.twimg.com/profile_images/638771889339404289/h64dZ4wh_400x400.png' sx={{ bgcolor: red[500] }}>
+                            S
+                        </Avatar>
+                    }
+                    // action={
+                    //     <IconButton aria-label='settings'>
+                    //         <MoreVertIcon />
+                    //     </IconButton>
+                    // }
+
+                    titleTypographyProps={{ variant: 'h5' }}
+                    title='Michael Thompson' // '{firstName} {lastName}'
+                    subheader='Product Manager at Microsoft' // '{position} at {employerName}'
+                />
+                {/* <CardMedia component='img' height='194' image='/static/images/cards/paella.jpg' alt='Paella dish' /> */}
+                <CardContent>
+                    <Typography variant='body2' color='text.secondary'>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                        enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </Typography>
+                </CardContent>
+                {/* <CardActions disableSpacing>
                 <IconButton aria-label='add to favorites'>
                     <FavoriteIcon />
                 </IconButton>
@@ -99,12 +124,13 @@ const ConnectCard = () => {
                     <Typography>Set aside off of the heat to let rest for 10 minutes, and then serve.</Typography>
                 </CardContent>
             </Collapse> */}
-            <CardContent align='right'>
-                <Button className='purple-primary-btn' size='md'>
-                    Connect
-                </Button>
-            </CardContent>
-        </Card>
+                <CardContent align='right'>
+                    <Button className='purple-primary-btn' size='md'>
+                        Connect
+                    </Button>
+                </CardContent>
+            </Card>
+        </div>
     );
 };
 

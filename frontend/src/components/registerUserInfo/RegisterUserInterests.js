@@ -119,7 +119,9 @@ export const RegisterUserInterests = () => {
             // console.log(JSON.stringify(payload));
             const response = await axios.post(`http://${backendIP}:${backendPort}/user/registerUser`, payload);
             // console.log('API call successful');
-            // console.log(response);
+            console.log(response);
+            console.log(response.data._id);
+            localStorage.setItem('userID', response.data._id);
         } catch (error) {
             console.error(error);
         }
@@ -138,7 +140,7 @@ export const RegisterUserInterests = () => {
 
         try {
             console.log('ENTERING BACKDROP');
-            <CircularBackdrop transitionDuration={5000} />;
+            // <CircularBackdrop transitionDuration={5000} />;
             payload['firstName'] = localStorage.getItem('firstName');
             payload['lastName'] = localStorage.getItem('lastName');
             payload['email'] = localStorage.getItem('email');
