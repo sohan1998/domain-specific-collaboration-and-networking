@@ -4,7 +4,7 @@ import RolesList from './RoleCard';
 import './roles.css';
 import { Button, Card, Col, Container, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import { backendIP, backendPort } from './../common/constants';
+import { backendIP, backendPort } from '../common/constants';
 
 export default class Roles extends Component {
     state = { rolesData: [], showw: false, title: '', description: '', jobId: '', projectId: '', messageApplication: '' };
