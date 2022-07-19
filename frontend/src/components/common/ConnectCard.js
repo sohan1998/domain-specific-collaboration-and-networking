@@ -61,7 +61,7 @@ const ConnectCard = () => {
         );
     };
 
-    console.log(JSON.parse(cardData));
+    // console.log(cardData);
 
     // const handleExpandClick = () => {
     //     setExpanded(!expanded);
