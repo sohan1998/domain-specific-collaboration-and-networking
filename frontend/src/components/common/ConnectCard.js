@@ -33,6 +33,15 @@ const ConnectCard = () => {
     // const [expanded, setExpanded] = React.useState(false);
     const [cardData, setCardData] = useState({});
 
+    useEffect(() => {
+        console.log('Rendering');
+        GetRecommendations();
+
+        return () => {
+            // clean up previously assigned
+        };
+    }, []);
+
     const GetRecommendations = async () => {
         try {
             const userID = localStorage.getItem('userID');
@@ -51,25 +60,21 @@ const ConnectCard = () => {
             </div>
         );
     };
-    console.log(cardData);
 
-    useEffect(() => {
-        console.log('Rendering');
-        GetRecommendations();
-
-        return () => {
-            // clean up previously assigned
-        };
-    }, []);
+    console.log(JSON.parse(cardData));
 
     // const handleExpandClick = () => {
     //     setExpanded(!expanded);
     // };
 
-    // const
+    // const temp = cardData.map((cardDataVar) => {
+    //     console.log(cardDataVar);
+    //     return <div>{cardDataVar.firstName}</div>;
+    // });
 
     return (
         <div>
+            {/* {temp} */}
             <Card sx={{ maxWidth: 500, borderRadius: '20px', boxShadow: '1px 2px 9px' }}>
                 <CardHeader
                     avatar={
