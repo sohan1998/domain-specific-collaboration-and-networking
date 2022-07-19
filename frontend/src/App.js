@@ -10,6 +10,7 @@ import Roles from './components/roles/Roles';
 import { RegisterUserInterests } from './components/registerUserInfo/RegisterUserInterests';
 import { RegisterUserInfo } from './components/registerUserInfo/RegisterUserInfo';
 import { Connections } from './components/common/Connections';
+import ProjectDashboard from './components/projectDashboardView/dashboard';
 // import { Navbar } from 'react-bootstrap';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                     <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
                     <Route path='/registerUserInfo' element={<RegisterUserInfo />} />
                     <Route path='/connections' element={<Connections />} />
+                    <Route path='/projectDashboardView' element={<ProjectDashboard />} />
                 </Routes>
             </Router>
         </div>

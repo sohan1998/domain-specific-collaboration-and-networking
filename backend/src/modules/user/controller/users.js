@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import userSchema from './../../../models/mongoDB/User.js';
+import projectSchema from '../../../models/mongoDB/Projects.js';
 
 export class UserController {
     login = async (req, res) => {
@@ -89,6 +90,36 @@ export class UserController {
         } catch (err) {
             console.error(err);
             return res.status(404).json({ message: 'Error Connecting' });
+        }
+    };
+    existingProjectsOfUser = async (req, res) => {
+        try {
+            let userId = req.query._id;
+            let projectIdArrayMember = new Array();
+            const memberOfProject = await projectSchema.find({
+                $or: [
+                    {
+                        members: {
+                            $in: userId,
+                        },
+                    },
+                    {
+                        ownerId: userId,
+                    },
+                ],
+            });
+            if (memberOfProject.length > 0) {
+                memberOfProject.forEach((element) => {
+                    // console.log(element._id);
+                    projectIdArrayMember.push(element._id);
+                });
+                return res.status(200).json({ projectIdArrayMember });
+            } else {
+                return res.status(404).json({ message: 'Neither a member nor an owner of a project' });
+            }
+            // console.log(memberOfProject);
+        } catch (err) {
+            console.error(err);
         }
     };
 }

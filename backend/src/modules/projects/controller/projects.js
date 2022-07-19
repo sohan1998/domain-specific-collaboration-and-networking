@@ -53,11 +53,13 @@ export class ProjectsController {
     viewRolesOfParticularProject = async (req, res) => {
         try {
             const projectId = req.query.projectId;
+            console.log(projectId);
             jobSchema.findOne(
                 {
-                    _id: projectId,
+                    projectId: projectId,
                 },
                 function (err, allRoles) {
+                    console.log(allRoles);
                     if (err) {
                         console.error(err);
                     } else {
@@ -75,7 +77,7 @@ export class ProjectsController {
             const projectId = req.query._id;
             const allSubmissions = await applicationSchema
                 .find({
-                    _id: projectId,
+                    projectId: projectId,
                 })
                 .populate('userId')
                 .lean();
@@ -131,6 +133,68 @@ export class ProjectsController {
             );
         } catch (err) {
             console.log(err);
+        }
+    };
+
+    acceptOrRejectMemberForProject = async (req, res) => {
+        try {
+            let projectId = req.query._id;
+            let jobId = req.query.jobId;
+            const userId = req.body.userId;
+            const result = req.body.message;
+
+            if (result === 'Accept') {
+                const membertoaccept = await projectSchema.findOne({ _id: projectId });
+                if (membertoaccept) {
+                    const memberExists = await projectSchema.findOne({ members: userId });
+                    if (memberExists) return res.status(401).json({ message: 'Member already exists!' });
+                    const applications = await applicationSchema.find({ userId: userId });
+                    try {
+                        if (applications.length > 0) {
+                            await applicationSchema.updateOne(
+                                { userId: userId },
+                                {
+                                    $set: { applicationStatus: 'Accepted' },
+                                }
+                            );
+                        }
+                    } catch (err) {
+                        console.error('Unable to Accept Application');
+                        return;
+                    }
+                    try {
+                        await projectSchema.updateOne({ _id: projectId }, { $push: { members: userId } });
+                    } catch (err) {
+                        console.error('Unable to Accept');
+                        return;
+                    }
+                    return res.json({ message: 'Accepted Successfully!' });
+                } else {
+                    return res.json({ message: 'Not able to Accept' });
+                }
+            } else if (result === 'Reject') {
+                try {
+                    const applicationExists = await applicationSchema.findOneAndUpdate(
+                        {
+                            projectId: projectId,
+                            jobId: jobId,
+                            userId: userId,
+                        },
+                        {
+                            $set: { applicationStatus: 'Rejected' },
+                        }
+                    );
+                    if (applicationExists) {
+                        return res.json({ message: 'Rejected Successfully!' });
+                    } else {
+                        return res.json({ message: 'Not able to Reject' });
+                    }
+                } catch (err) {
+                    console.error('Unable to Reject');
+                }
+            }
+        } catch (err) {
+            console.error(err);
         }
     };
 }

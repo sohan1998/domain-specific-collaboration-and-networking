@@ -8,6 +8,7 @@ import './../common/button.css';
 import './../common/font.css';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { backendIP, backendPort } from './../common/constants';
+import { CircularBackdrop } from '../common/CircularBackdrop';
 
 export const RegisterUserInterests = () => {
     const [interests, setInterests] = useState({});
@@ -118,7 +119,9 @@ export const RegisterUserInterests = () => {
             // console.log(JSON.stringify(payload));
             const response = await axios.post(`http://${backendIP}:${backendPort}/user/registerUser`, payload);
             // console.log('API call successful');
-            // console.log(response);
+            console.log(response);
+            console.log(response.data._id);
+            localStorage.setItem('userID', response.data._id);
         } catch (error) {
             console.error(error);
         }
@@ -136,7 +139,8 @@ export const RegisterUserInterests = () => {
         let professionalExperience = {};
 
         try {
-            console.log('ENTERING');
+            console.log('ENTERING BACKDROP');
+            // <CircularBackdrop transitionDuration={5000} />;
             payload['firstName'] = localStorage.getItem('firstName');
             payload['lastName'] = localStorage.getItem('lastName');
             payload['email'] = localStorage.getItem('email');
