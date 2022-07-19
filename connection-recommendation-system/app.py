@@ -1,5 +1,6 @@
 from crypt import methods
-from flask import Flask,request,jsonify
+import json
+from flask import Flask, Response,request,jsonify
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 from numpy import equal
@@ -54,9 +55,9 @@ def recommend_connections():
     result = recommendation.results(user_id,data)
     res = dict()
     for i,v in enumerate(result):
-        res[str(i)] = str(fetch_user_data(v))
-        print("\n")
-    return jsonify(res)
+        res[i] = fetch_user_data(v)
+    # return res
+    return Response(json.dumps(res,default=str),mimetype="application/json")
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
