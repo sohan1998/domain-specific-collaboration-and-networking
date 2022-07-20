@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Sidebar from '../common/sidebar';
+import Sidebar from '../common/Sidebar';
 import RolesList from './RoleCard';
 import './roles.css';
 import { Button, Card, Col, Container, Form, Modal } from 'react-bootstrap';

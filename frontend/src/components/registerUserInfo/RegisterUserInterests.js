@@ -119,8 +119,8 @@ export const RegisterUserInterests = () => {
             // console.log(JSON.stringify(payload));
             const response = await axios.post(`http://${backendIP}:${backendPort}/user/registerUser`, payload);
             // console.log('API call successful');
-            console.log(response);
-            console.log(response.data._id);
+            // console.log(response.data);
+            // console.log(response.data._id);
             localStorage.setItem('userID', response.data._id);
         } catch (error) {
             console.error(error);
