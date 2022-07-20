@@ -9,7 +9,7 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+import { red, blue, purple } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -91,23 +91,19 @@ const ConnectCard = () => {
                 <Card className='mb-2' sx={{ maxWidth: 500, borderRadius: '20px', boxShadow: '1px 2px 9px', height: 275 }}>
                     {/* <div>{console.log(cardData[item].firstName)}</div> */}
                     <CardHeader
-                        avatar={
-                            <Avatar src='https://pbs.twimg.com/profile_images/638771889339404289/h64dZ4wh_400x400.png' sx={{ bgcolor: red[500] }}>
-                                S
-                            </Avatar>
-                        }
+                        avatar={<Avatar sx={{ bgcolor: '#6053F1' }}> {`${cardData[item].firstName.charAt()}`} </Avatar>}
                         // action={
                         //     <IconButton aria-label='settings'>
                         //         <MoreVertIcon />
                         //     </IconButton>
                         // }
-                        style={{ textAlign: 'left' }}
+                        style={{ textAlign: 'left', color: 'black' }}
                         titleTypographyProps={{ variant: 'h5' }}
                         title={`${cardData[item].firstName} ${cardData[item].lastName}`} // '{firstName} {lastName}'
                         subheader={`${cardData[item].professionalExperience.position} at ${cardData[item].professionalExperience.employerName}`} // '{position} at {employerName}'
                     />
                     {/* <CardMedia component='img' height='194' image='/static/images/cards/paella.jpg' alt='Paella dish' /> */}
-                    <CardContent style={{ textAlign: 'justify' }}>
+                    <CardContent style={{ textAlign: 'justify', color: 'black' }}>
                         <Typography variant='body2' color='text.secondary'>
                             {`${cardData[item].about_me.substring(0, 200) + ' ...'}`}
                         </Typography>
