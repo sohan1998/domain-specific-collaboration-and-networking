@@ -261,6 +261,8 @@ export const RegisterUserInterests = () => {
                     <Button variant='success' type='submit' className='green-primary-btn' onClick={createAccountHandler}>
                         Register
                     </Button>
+                    <br />
+                    <br />
                 </Form>
                 {/* </Container> */}
                 {/* </div> */}

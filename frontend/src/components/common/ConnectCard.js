@@ -39,6 +39,7 @@ const ConnectCard = () => {
 
         return () => {
             // clean up previously assigned
+            GetRecommendations();
         };
     }, []);
 
@@ -62,10 +63,13 @@ const ConnectCard = () => {
     };
 
     const handleConnect = async (e, userID_2) => {
+        let payload = { userId2: userID_2 };
+
         try {
             const userID = localStorage.getItem('userID');
-            const connect = await axios.post(`http://localhost:3001/user/userConnections?_id=${userID}`, userID_2);
+            const connect = await axios.post(`http://localhost:3001/user/userConnections?_id=${userID}`, payload);
             console.log(connect);
+            GetRecommendations();
         } catch (error) {
             console.error(error);
         }
@@ -138,10 +142,25 @@ const ConnectCard = () => {
                                         <Typography>Set aside off of the heat to let rest for 10 minutes, and then serve.</Typography>
                                     </CardContent>
                                 </Collapse> */}
+                    {/* {console.log(localStorage.getItem('userID'))} */}
+
+                    {/* {cardData[item].connections.includes(localStorage.getItem('userID')) ? console.log('HELLO') : console.log('BYE')} */}
+
+                    {/* {console.log(cardData[item].connections.indexOf(`${cardData[item]._id}`) > -1)} */}
+
                     <CardContent>
-                        <Button className='purple-primary-btn' size='md' onClick={(e) => handleConnect(e, cardData[item]._id)}>
-                            <strong style={{ color: 'white', fontSize: 18 }}>Connect</strong>
-                        </Button>
+                        {cardData[item].connections.includes(localStorage.getItem('userID')) ? (
+                            <span style={{ color: '#6053F1', fontSize: 20 }}> Connected </span>
+                        ) : (
+                            <Button
+                                className='connect-btn'
+                                size='md'
+                                onClick={(e) => handleConnect(e, cardData[item]._id)}
+                                style={{ marginTop: '80 px' }}
+                            >
+                                <strong style={{ color: 'white', fontSize: 18 }}> Connect </strong>
+                            </Button>
+                        )}
                     </CardContent>
                 </Card>
                 <br />
