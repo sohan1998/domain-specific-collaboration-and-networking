@@ -80,13 +80,17 @@ export class UserController {
         try {
             let userId1 = req.query._id;
             const userId2 = req.body.userId2;
-
-            const connectionExists = await userSchema.findOne({ connections: userId2 });
-            if (connectionExists) return res.status(401).json({ message: 'Connection already exists!' });
-
-            await userSchema.updateOne({ _id: userId1 }, { $push: { connections: userId2 } });
-            await userSchema.updateOne({ _id: userId2 }, { $push: { connections: userId1 } });
-            return res.status(200).json({ message: 'Connected Successfully!' });
+            const userConnectionExists = await userSchema.findOne({
+                _id: userId1,
+                connections: userId2,
+            });
+            if (userConnectionExists) {
+                return res.status(401).json({ message: 'Connection already exists!' });
+            } else {
+                await userSchema.updateOne({ _id: userId1 }, { $push: { connections: userId2 } });
+                await userSchema.updateOne({ _id: userId2 }, { $push: { connections: userId1 } });
+                return res.status(200).json({ message: 'Connected Successfully!' });
+            }
         } catch (err) {
             console.error(err);
             return res.status(404).json({ message: 'Error Connecting' });

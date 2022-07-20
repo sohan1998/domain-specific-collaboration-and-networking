@@ -109,28 +109,40 @@ export class ProjectsController {
 
     removeMemberFromProject = async (req, res) => {
         try {
-            const { projectId, userId } = req.body;
-            await projectSchema.findOneAndUpdate(
-                {
-                    _id: projectId,
-                },
-                {
-                    $pull: {
-                        members: userId,
-                    },
-                },
-                {
-                    safe: true,
-                    new: true,
-                },
-                (err, result) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        return res.status(200).send({ message: 'Removed Successfully!', result });
+            let { projectId, userId } = req.body;
+            let flag = false;
+            const projectMembersToUpdate = await projectSchema.findOne({
+                _id: projectId,
+            });
+            if (projectMembersToUpdate) {
+                const tempArray = projectMembersToUpdate.members;
+                tempArray.forEach((element) => {
+                    if (element.toString() === userId) {
+                        flag = true;
                     }
-                }
-            );
+                });
+            } else {
+                return res.status(404).send({ message: 'No such project found!' });
+            }
+            if (flag) {
+                const response = await projectSchema.findOneAndUpdate(
+                    {
+                        _id: projectId,
+                    },
+                    {
+                        $pull: {
+                            members: userId,
+                        },
+                    },
+                    {
+                        safe: true,
+                        new: true,
+                    }
+                );
+                return res.status(200).send({ message: 'Removed successfully!', response });
+            } else {
+                return res.send({ message: 'No member exists' });
+            }
         } catch (err) {
             console.log(err);
         }
