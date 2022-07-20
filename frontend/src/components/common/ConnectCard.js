@@ -61,6 +61,16 @@ const ConnectCard = () => {
         );
     };
 
+    const handleConnect = async (e, userID_2) => {
+        try {
+            const userID = localStorage.getItem('userID');
+            const connect = await axios.post(`http://localhost:3001/user/userConnections?_id=${userID}`, userID_2);
+            console.log(connect);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     // console.log(cardData);
 
     // const handleExpandClick = () => {
@@ -71,13 +81,14 @@ const ConnectCard = () => {
     //     console.log(cardDataVar);
     //     return <div>{cardDataVar.firstName}</div>;
     // });
+
     const cards = Object.keys(cardData).map((item, i) => {
         return (
             // <div>
             // <Row md={3}>
 
-            <Col>
-                <Card key={i} sx={{ maxWidth: 500, borderRadius: '20px', boxShadow: '1px 2px 9px' }}>
+            <Col key={cardData[item]._id} className='mb-2'>
+                <Card className='mb-2' sx={{ maxWidth: 500, borderRadius: '20px', boxShadow: '1px 2px 9px', height: 275 }}>
                     {/* <div>{console.log(cardData[item].firstName)}</div> */}
                     <CardHeader
                         avatar={
@@ -90,13 +101,13 @@ const ConnectCard = () => {
                         //         <MoreVertIcon />
                         //     </IconButton>
                         // }
-
+                        style={{ textAlign: 'left' }}
                         titleTypographyProps={{ variant: 'h5' }}
                         title={`${cardData[item].firstName} ${cardData[item].lastName}`} // '{firstName} {lastName}'
                         subheader={`${cardData[item].professionalExperience.position} at ${cardData[item].professionalExperience.employerName}`} // '{position} at {employerName}'
                     />
                     {/* <CardMedia component='img' height='194' image='/static/images/cards/paella.jpg' alt='Paella dish' /> */}
-                    <CardContent>
+                    <CardContent style={{ textAlign: 'justify' }}>
                         <Typography variant='body2' color='text.secondary'>
                             {`${cardData[item].about_me.substring(0, 200) + ' ...'}`}
                         </Typography>
@@ -131,12 +142,13 @@ const ConnectCard = () => {
                                         <Typography>Set aside off of the heat to let rest for 10 minutes, and then serve.</Typography>
                                     </CardContent>
                                 </Collapse> */}
-                    <CardContent align='right'>
-                        <Button className='purple-primary-btn' size='md'>
-                            Connect
+                    <CardContent>
+                        <Button className='purple-primary-btn' size='md' onClick={(e) => handleConnect(e, cardData[item]._id)}>
+                            <strong style={{ color: 'white', fontSize: 18 }}>Connect</strong>
                         </Button>
                     </CardContent>
                 </Card>
+                <br />
             </Col>
             // </Row>
             // </div>
@@ -146,7 +158,9 @@ const ConnectCard = () => {
     return (
         <div>
             <div>
-                <Row md={3}>{cards}</Row>
+                <Row md={3} className='mb-2'>
+                    {cards}
+                </Row>
             </div>
         </div>
     );
