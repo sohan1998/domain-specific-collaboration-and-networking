@@ -7,6 +7,7 @@ import { backendIP, backendPort } from './../common/constants';
 import axios from 'axios';
 import { CircularBackdrop } from './../common/CircularBackdrop';
 import { Backdrop } from '@mui/material';
+import ReactS3 from 'react-s3';
 
 export default class Register extends Component {
     constructor(props) {
@@ -18,6 +19,8 @@ export default class Register extends Component {
             last_name: '',
             email: '',
             password: '',
+            // profile_picture: '',
+            // profile_picture_file: '',
             redirect: '',
         };
         // Bind the handlers to this class
@@ -25,6 +28,7 @@ export default class Register extends Component {
         this.lastNameChangeHandler = this.lastNameChangeHandler.bind(this);
         this.emailChangeHandler = this.emailChangeHandler.bind(this);
         this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
+        // this.profilePictureChangeHandler = this.profilePictureChangeHandler.bind(this);
     }
 
     // API call for the final registration page
@@ -61,26 +65,53 @@ export default class Register extends Component {
     componentDidMount() {
         const { history } = this.props;
     }
+
     firstNameChangeHandler = (e) => {
         this.setState({
             first_name: e.target.value,
         });
     };
+
     lastNameChangeHandler = (e) => {
         this.setState({
             last_name: e.target.value,
         });
     };
+
     emailChangeHandler = (e) => {
         this.setState({
             email: e.target.value,
         });
     };
+
     passwordChangeHandler = (e) => {
         this.setState({
             password: e.target.value,
         });
     };
+
+    // profilePictureChangeHandler = (e) => {
+    //     const file = e.target.files[0];
+    //     console.log(file);
+
+    //     this.setState({
+    //         profile_picture_file: file,
+    //     });
+    // };
+
+    // uploadImageToS3 = async () => {
+    //     if (this.state.profile_picture_file) {
+    //         try {
+    //             const data = await ReactS3.uploadFile(this.state.profile_picture_file, s3_config);
+    //             this.setState({
+    //                 profile_picture: data.location,
+    //             });
+    //         } catch (err) {
+    //             console.error(err);
+    //         }
+    //     }
+    // };
+
     submit = async (e) => {
         console.log('SUBMITTING');
         <CircularBackdrop />;
@@ -151,12 +182,18 @@ export default class Register extends Component {
                             {/* <Form.Text className='text-muted'>We'll never share your email with anyone else.</Form.Text> */}
                         </Form.Group>
                         <Form.Group className='mb-3' controlId='formPassword'>
-                            {/* <Form.Label>Password</Form.Label> */}
                             <Form.Control type='password' placeholder='Enter Password' onChange={this.passwordChangeHandler} />
                         </Form.Group>
-                        {/* <Form.Group className='mb-3' controlId='formBasicCheckbox'>
-                            <Form.Check type='checkbox' label='Check me out' />
-                        </Form.Group> */}
+                        {/* <br />
+                        <br /> */}
+                        {/* <Form.Group className='mb-3' controlId='formProfilePicture'> */}
+                        {/* <Form.Label> */}
+                        {/* <b>Please upload your profile picture </b> */}
+                        {/* </Form.Label> */}
+                        {/* <Form.Control type='file' onChange={this.profilePictureChangeHandler} /> */}
+                        {/* <Form.Check type='checkbox' label='Check me out' /> */}
+                        {/* </Form.Group> */}
+                        <br />
                         {/* <span>
                             Already have an account?
                             <Link>Click here</Link>
