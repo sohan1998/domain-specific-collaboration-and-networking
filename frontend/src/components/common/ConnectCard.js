@@ -62,10 +62,13 @@ const ConnectCard = () => {
     };
 
     const handleConnect = async (e, userID_2) => {
+        let payload = { userId2: userID_2 };
+
         try {
             const userID = localStorage.getItem('userID');
-            const connect = await axios.post(`http://localhost:3001/user/userConnections?_id=${userID}`, userID_2);
+            const connect = await axios.post(`http://localhost:3001/user/userConnections?_id=${userID}`, payload);
             console.log(connect);
+            GetRecommendations();
         } catch (error) {
             console.error(error);
         }
