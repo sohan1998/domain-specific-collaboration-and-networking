@@ -39,6 +39,7 @@ const ConnectCard = () => {
 
         return () => {
             // clean up previously assigned
+            GetRecommendations();
         };
     }, []);
 
@@ -151,7 +152,12 @@ const ConnectCard = () => {
                         {cardData[item].connections.includes(localStorage.getItem('userID')) ? (
                             <span style={{ color: '#6053F1', fontSize: 20 }}> Connected </span>
                         ) : (
-                            <Button className='purple-primary-btn' size='md' onClick={(e) => handleConnect(e, cardData[item]._id)}>
+                            <Button
+                                className='connect-btn'
+                                size='md'
+                                onClick={(e) => handleConnect(e, cardData[item]._id)}
+                                style={{ marginTop: '80 px' }}
+                            >
                                 <strong style={{ color: 'white', fontSize: 18 }}> Connect </strong>
                             </Button>
                         )}
