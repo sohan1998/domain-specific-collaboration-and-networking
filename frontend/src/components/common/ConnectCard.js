@@ -138,10 +138,20 @@ const ConnectCard = () => {
                                         <Typography>Set aside off of the heat to let rest for 10 minutes, and then serve.</Typography>
                                     </CardContent>
                                 </Collapse> */}
+                    {/* {console.log(localStorage.getItem('userID'))} */}
+
+                    {/* {cardData[item].connections.includes(localStorage.getItem('userID')) ? console.log('HELLO') : console.log('BYE')} */}
+
+                    {/* {console.log(cardData[item].connections.indexOf(`${cardData[item]._id}`) > -1)} */}
+
                     <CardContent>
-                        <Button className='purple-primary-btn' size='md' onClick={(e) => handleConnect(e, cardData[item]._id)}>
-                            <strong style={{ color: 'white', fontSize: 18 }}>Connect</strong>
-                        </Button>
+                        {cardData[item].connections.includes(localStorage.getItem('userID')) ? (
+                            <span style={{ color: '#6053F1', fontSize: 20 }}> Connected </span>
+                        ) : (
+                            <Button className='purple-primary-btn' size='md' onClick={(e) => handleConnect(e, cardData[item]._id)}>
+                                <strong style={{ color: 'white', fontSize: 18 }}> Connect </strong>
+                            </Button>
+                        )}
                     </CardContent>
                 </Card>
                 <br />
