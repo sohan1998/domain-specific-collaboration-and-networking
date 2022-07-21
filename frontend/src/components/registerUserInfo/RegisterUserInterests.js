@@ -113,21 +113,12 @@ export const RegisterUserInterests = () => {
         'DevOps Domain',
     ];
 
-    const registerAPI = async (payload) => {
-        // console.log(JSON.stringify(payload));
-        try {
-            // console.log(JSON.stringify(payload));
-            const response = await axios.post(`http://${backendIP}:${backendPort}/user/registerUser`, payload);
-            // console.log('API call successful');
-            // console.log(response.data);
-            // console.log(response.data._id);
-            localStorage.setItem('userID', response.data._id);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    // const registerAPI = async (payload) => {
+    //     // console.log(JSON.stringify(payload));
+    //     let response;
+    // };
 
-    const createAccountHandler = (e) => {
+    const createAccountHandler = async (e) => {
         console.log('SUBMITTING');
         // const db = {
         //     "name": "Slowhan"
@@ -160,10 +151,34 @@ export const RegisterUserInterests = () => {
             payload['skills'] = JSON.parse(localStorage.getItem('searchSkills'));
             payload['interests'] = interests;
             // console.log('Calling API');
-            registerAPI(payload);
+
+            let response;
+            try {
+                // console.log(JSON.stringify(payload));
+                response = await axios.post(`http://${backendIP}:${backendPort}/user/registerUser`, payload);
+                // console.log('API call successful');
+                // console.log(response.data);
+                // console.log(response.data._id);
+                localStorage.setItem('userID', response.data._id);
+                // return response;
+            } catch (error) {
+                console.error(error);
+            }
+
+            // console.log('Response: ', response.data);
+            // registerAPI(payload);
             // console.log('SUCCESS');
-            console.log(payload);
-            navigate('/connections');
+            // console.log(payload);
+            // response.data ? console.log('YES') : console.log('NO');
+            // registerAPI(payload).then(navigate('/connections'));
+
+            if (response.status === 200) {
+                // console.log(localStorage.getItem('userID'));
+                // console.log('YES');
+                navigate('/connections');
+            } else {
+                console.log('NO RESPONSE');
+            }
         } catch (error) {
             console.log(error);
         }
@@ -258,7 +273,7 @@ export const RegisterUserInterests = () => {
                             sx={{ width: '100%' }}
                             renderInput={(params) => <TextField {...params} label='Search Skills' />}
                         /> */}
-                    <Button variant='success' type='submit' className='green-primary-btn' onClick={createAccountHandler}>
+                    <Button variant='success' type='button' className='green-primary-btn' onClick={createAccountHandler}>
                         Register
                     </Button>
                     <br />
