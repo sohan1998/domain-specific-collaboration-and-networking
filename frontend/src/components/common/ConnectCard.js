@@ -92,7 +92,10 @@ const ConnectCard = () => {
             // <Row md={3}>
 
             <Col key={cardData[item]._id} className='mb-2'>
-                <Card className='mb-2' sx={{ maxWidth: 500, borderRadius: '20px', boxShadow: '1px 2px 9px', height: 275 }}>
+                <Card
+                    className='mb-2'
+                    sx={{ maxWidth: 500, borderRadius: '20px', boxShadow: '1px 2px 9px', height: 275, backgroundColor: '#ffffff' }}
+                >
                     {/* <div>{console.log(cardData[item].firstName)}</div> */}
                     <CardHeader
                         avatar={<Avatar sx={{ bgcolor: '#6053F1' }}> {`${cardData[item].firstName.charAt()}`} </Avatar>}
@@ -148,16 +151,11 @@ const ConnectCard = () => {
 
                     {/* {console.log(cardData[item].connections.indexOf(`${cardData[item]._id}`) > -1)} */}
 
-                    <CardContent>
+                    <CardContent style={{ marginTop: '20 px' }}>
                         {cardData[item].connections.includes(localStorage.getItem('userID')) ? (
                             <span style={{ color: '#6053F1', fontSize: 20 }}> Connected </span>
                         ) : (
-                            <Button
-                                className='connect-btn'
-                                size='md'
-                                onClick={(e) => handleConnect(e, cardData[item]._id)}
-                                style={{ marginTop: '80 px' }}
-                            >
+                            <Button className='connect-btn' size='md' onClick={(e) => handleConnect(e, cardData[item]._id)}>
                                 <strong style={{ color: 'white', fontSize: 18 }}> Connect </strong>
                             </Button>
                         )}
