@@ -14,6 +14,7 @@ import './about.css';
 import About from '../projectDashboardView/about';
 import Member from './members';
 import Button from '@mui/material/Button';
+import DashboardRoles from './dashboardRoles';
 
 export default class ProjectDashboard extends Component {
     state = { key: 'about', projectData: [], projectId: '' };
@@ -23,6 +24,7 @@ export default class ProjectDashboard extends Component {
             const projectArray = {
                 title: 'Circles',
                 description: 'This is our project',
+                ownerId: 'shagshaghs',
                 members: [
                     {
                         userId: 'shagshaghs',
@@ -71,11 +73,40 @@ export default class ProjectDashboard extends Component {
         this.fetchProjectData();
     }
 
-    render() {
-        // let tt;
-        // if (false) {
-        //     tt = <Tab eventKey='members' title='Members'></Tab>;
+    connectWithMember = async (userId2) => {
+        console.log(userId2);
+        // const payload = {
+        //     userId2: userId2,
+        // };
+        // try {
+        //     const response = await axios.post(`http://${backendIP}:${backendPort}/roles/applyParticularJob`, payload);
+        //     this.fetchProjectData();
+        //     console.log(response);
+        // } catch (error) {
+        //     console.log(error);
         // }
+    };
+
+    removeMember = async (memberId) => {
+        try {
+            console.log(`Removed - ${memberId}`);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    render() {
+        let membersButton, membersButtonFunction, rolesButton, applicationsTab, userType;
+        if (this.state.projectData.ownerId == 'shagshaghs') {
+            applicationsTab = <Tab eventKey='applications' title='Applications'></Tab>;
+            membersButton = 'Remove';
+            membersButtonFunction = this.removeMember;
+            userType = 'Owner';
+        } else {
+            membersButton = 'Connect';
+            membersButtonFunction = this.connectWithMember;
+            userType = 'Member';
+        }
         return (
             <div>
                 <Container>
@@ -110,12 +141,17 @@ export default class ProjectDashboard extends Component {
                             <div className='align-about'>{this.state.projectData.description}</div>
                         </Tab>
                         <Tab eventKey='members' title='Members'>
-                            <Member memberInfo={this.state.projectData.members} />
+                            <Member
+                                memberInfo={this.state.projectData.members}
+                                memberButton={membersButton}
+                                membersButtonFunction={membersButtonFunction}
+                            />
                         </Tab>
                         <Tab eventKey='roles' title='Roles'>
-                            <Roles />
+                            <DashboardRoles userType={userType} />
                         </Tab>
-                        <Tab eventKey='applications' title='Applications'></Tab>
+                        {/* <Tab eventKey='applications' title='Applications'></Tab> */}
+                        {applicationsTab}
                     </Tabs>
                 </Container>
             </div>
