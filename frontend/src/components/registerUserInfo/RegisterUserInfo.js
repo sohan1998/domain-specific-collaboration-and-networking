@@ -410,10 +410,14 @@ export class RegisterUserInfo extends Component {
             'visualization',
             'Xen Virtualization',
             'xgboost',
-        ].sort();
-        const searchSkills = skills.map((element) => {
+        ];
+
+        const lowerCaseSkills = skills.map((element) => {
             return element.toLowerCase();
         });
+
+        const searchSkills = lowerCaseSkills.filter((val, id, skillsArray) => skillsArray.indexOf(val) === id).sort();
+        // console.log(searchSkills);
 
         return (
             <div className='container registerUserInfo-wrapper'>
