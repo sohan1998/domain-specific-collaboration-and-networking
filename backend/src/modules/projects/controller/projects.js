@@ -61,11 +61,11 @@ export class ProjectsController {
             });
 
             // rolesSpecificToProjectOnly.map(x => console.log(JSON.stringify(x)));
-            console.log('Project roles => ', rolesSpecificToProjectOnly);
+            // console.log('Project roles => ', rolesSpecificToProjectOnly);
 
             const rolesSpecificToUserForProject = await applicationSchema.find({ $and: [{ projectId: projectId }, { userId: userId }] });
             // rolesSpecificToUserForProject.map(x => console.log(JSON.stringify(x)));
-            console.log('Roles within the project for which user has applied => ', rolesSpecificToUserForProject);
+            // console.log('Roles within the project for which user has applied => ', rolesSpecificToUserForProject);
 
             let result = [];
 
@@ -80,7 +80,7 @@ export class ProjectsController {
                     }
                 }
             }
-            console.log(result.length);
+            // console.log(result.length);
             result.map((x) => console.log(JSON.stringify(x)));
 
             return res.status(200).send(result);
