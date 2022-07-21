@@ -50,23 +50,40 @@ export class ProjectsController {
             console.error(err);
         }
     };
+
     viewRolesOfParticularProject = async (req, res) => {
         try {
-            const projectId = req.query.projectId;
-            console.log(projectId);
-            jobSchema.findOne(
-                {
-                    projectId: projectId,
-                },
-                function (err, allRoles) {
-                    console.log(allRoles);
-                    if (err) {
-                        console.error(err);
+            let projectId = req.query.projectId;
+            let userId = req.query.userId;
+
+            const rolesSpecificToProjectOnly = await jobSchema.find({
+                projectId: projectId,
+            });
+
+            // rolesSpecificToProjectOnly.map(x => console.log(JSON.stringify(x)));
+            console.log('Project roles => ', rolesSpecificToProjectOnly);
+
+            const rolesSpecificToUserForProject = await applicationSchema.find({ $and: [{ projectId: projectId }, { userId: userId }] });
+            // rolesSpecificToUserForProject.map(x => console.log(JSON.stringify(x)));
+            console.log('Roles within the project for which user has applied => ', rolesSpecificToUserForProject);
+
+            let result = [];
+
+            for (const role of rolesSpecificToProjectOnly) {
+                for (const appliedRole of rolesSpecificToUserForProject) {
+                    if (appliedRole.jobId.toString() === role.id.toString()) {
+                        const updatedRole = { ...role, isApplied: 'APPLIED' };
+                        result.push(updatedRole);
                     } else {
-                        return res.json(allRoles);
+                        const updatedRole = { ...role, isApplied: 'NOT_APPLIED' };
+                        result.push(updatedRole);
                     }
                 }
-            );
+            }
+            console.log(result.length);
+            result.map((x) => console.log(JSON.stringify(x)));
+
+            return res.status(200).send(result);
         } catch (err) {
             console.error(err);
         }
