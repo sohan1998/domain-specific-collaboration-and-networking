@@ -65,14 +65,13 @@ export class RolesController {
     appliedJob = async (req, res) => {
         try {
             let userId = req.query.userId;
-            applicationSchema.find(
-                {
+            const appliedJobs = await applicationSchema
+                .find({
                     userId: userId,
-                },
-                function (err, appliedjobs) {
-                    return res.json(appliedjobs);
-                }
-            );
+                })
+                .populate('jobId')
+                .lean();
+            return res.status(200).send(appliedJobs);
         } catch (err) {
             console.error(err);
         }
