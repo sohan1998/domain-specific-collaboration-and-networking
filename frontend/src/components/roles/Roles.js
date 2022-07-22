@@ -2,12 +2,33 @@ import React, { Component } from 'react';
 import Sidebar from '../common/Sidebar';
 import RolesList from './RoleCard';
 import './roles.css';
-import { Button, Card, Col, Container, Form, Modal } from 'react-bootstrap';
+import { Card, Col, Container, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { backendIP, backendPort } from '../common/constants';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import TabPanel from '@mui/lab/TabPanel';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import AllProjects from '../projects/projects';
+import About from '../projectDashboardView/about';
+import Button from '@mui/material/Button';
 
 export default class Roles extends Component {
-    state = { rolesData: [], showw: false, title: '', description: '', jobId: '', projectId: '', messageApplication: '' };
+    state = {
+        rolesData: [],
+        appliedRolesData: [],
+        value: '1',
+        showw: false,
+        title: '',
+        description: '',
+        jobId: '',
+        projectId: '',
+        messageApplication: '',
+    };
 
     fetchAllJobs = async () => {
         // try {
@@ -60,6 +81,37 @@ export default class Roles extends Component {
         // console.log(this.state);
     };
 
+    fetchAppliedJobs = async () => {
+        try {
+            const appliedJobsArray = [
+                {
+                    title: 'Machine Learning Engineer',
+                    description:
+                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+                    status: 'Applied',
+                },
+                {
+                    title: 'Google',
+                    description:
+                        'Circle is an application which helps people build projects, connect with people having similar interests. Circle is anapplication which helps people build projects, connect with people having similar interests. Circle is an application which',
+                    status: 'Applied',
+                },
+            ];
+            this.setState({ appliedRolesData: appliedJobsArray });
+            console.log(this.state.appliedRolesData);
+        } catch (err) {
+            console.error(err);
+        }
+
+        // const userId= ""
+        // try {
+        //     const response = await axios.get(`http://${backendIP}:${backendPort}/roles/appliedJob?userId=${userId}`);
+        //     this.setState({ appliedRolesData: response.data });
+        // } catch (error) {
+        //     console.log(err);
+        // }
+    };
+
     componentDidMount() {
         this.fetchAllJobs();
     }
@@ -87,24 +139,32 @@ export default class Roles extends Component {
         this.setState({ showw: true, title: title, description: description, jobId: jobId, projectId: projectId });
     };
 
+    handleChange = (e, newValue) => {
+        this.setState({ value: newValue });
+    };
+
     render() {
         return (
             <div className='roles-wrapper'>
                 <Sidebar />
                 <br />
                 <div className='roles-main-wrapper'>
-                    <div className='roles-subheader-wrapper'>
-                        <div className='left'>
-                            <div>Browse All</div>
-                            <div>Applied</div>
-                        </div>
-                        <div className='right'>
-                            <div>Filters</div>
-                        </div>
-                    </div>
+                    <TabContext value={this.state.value}>
+                        <Box>
+                            <TabList onChange={this.handleChange} aria-label='lab API tabs example'>
+                                <Tab label='Browse All' value='1' />
+                                <Tab label='Applied' value='2' onClick={this.fetchAppliedJobs} />
+                            </TabList>
+                        </Box>
+                        <TabPanel value='1'>
+                            <RolesList allRoles={this.state.rolesData} onShow={this.handleOnShow} />
+                        </TabPanel>
+                        <TabPanel value='2'>
+                            <RolesList allRoles={this.state.appliedRolesData} onShow={this.handleOnShow} appliedTab={true} />
+                        </TabPanel>
+                    </TabContext>
                     <div>
                         <Container>
-                            <RolesList allRoles={this.state.rolesData} onShow={this.handleOnShow} />
                             <Modal show={this.state.showw} onHide={this.handleOnHide}>
                                 <Modal.Header closeButton>
                                     <Modal.Title>{this.state.title}</Modal.Title>

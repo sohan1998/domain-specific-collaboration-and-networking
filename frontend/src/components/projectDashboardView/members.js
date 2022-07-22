@@ -19,13 +19,20 @@ import { Row, Col, Container, Modal, Form } from 'react-bootstrap';
 
 const Member = (props) => {
     console.log(props.memberInfo);
-    // const clickApply = (title, description, jobId, projectId, e) => {
-    //     e.preventDefault();
-    //     props.onShow(title, description, jobId, projectId);
-    // };
+    const handleOnClick = (memberId, e) => {
+        e.preventDefault();
+        props.membersButtonFunction(memberId);
+    };
 
     const projectMembers = props.memberInfo?.map((member) => {
-        // console.log(member);
+        let actions;
+        if (props.memberButton == 'Remove') {
+            actions = (
+                <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} onClick={(e) => handleOnClick(member.userId, e)}>
+                    {props.memberButton}
+                </Button>
+            );
+        }
         return (
             <Row className='m-4'>
                 <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
@@ -35,11 +42,8 @@ const Member = (props) => {
                                 S
                             </Avatar>
                         }
-                        action={
-                            <Button variant='contained' sx={{ backgroundColor: '#6053F1' }}>
-                                Connect
-                            </Button>
-                        }
+                        action={actions}
+                        // action={props.memberButton}
                         style={{ textAlign: 'left' }}
                         titleTypographyProps={{ variant: 'h5' }}
                         title={`${member.firstName} ${member.lastName}`}
