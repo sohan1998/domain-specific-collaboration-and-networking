@@ -67,23 +67,61 @@ export class ProjectsController {
             // rolesSpecificToUserForProject.map(x => console.log(JSON.stringify(x)));
             // console.log('Roles within the project for which user has applied => ', rolesSpecificToUserForProject);
 
-            let result = [];
+            // let result = [];
+            // let ids = [];
 
-            for (const role of rolesSpecificToProjectOnly) {
-                for (const appliedRole of rolesSpecificToUserForProject) {
-                    if (appliedRole.jobId.toString() === role.id.toString()) {
-                        const updatedRole = { ...role, isApplied: 'APPLIED' };
-                        result.push(updatedRole);
-                    } else {
-                        const updatedRole = { ...role, isApplied: 'NOT_APPLIED' };
-                        result.push(updatedRole);
+            // for (const role of rolesSpecificToProjectOnly) {
+            //     let flag = false;
+            //     for (const appliedRole of rolesSpecificToUserForProject) {
+            //         if (appliedRole.jobId.toString() === role.id.toString()) {
+            //             const updatedRole = { ...role, isApplied: 'APPLIED' };
+            //             result.push(updatedRole);
+            //             ids.push(role.id.toString());
+            //             flag = true;
+            //         }
+            //         if (flag === true) {
+            //             break;
+            //         }
+            //     }
+            // }
+            // console.log(result);
+            // console.log(result.length);
+            // result.map((x) => console.log(JSON.stringify(x)));
+            let final = [];
+            let result = [];
+            let ids = [];
+            if (rolesSpecificToUserForProject.length === 0) {
+                for (const role of rolesSpecificToProjectOnly) {
+                    const updateFinalRole = { ...role, isApplied: 'NOT_APPLIED' };
+                    final.push(updateFinalRole);
+                }
+                return res.status(200).send(final);
+            } else {
+                for (const role of rolesSpecificToProjectOnly) {
+                    let flag = false;
+                    for (const appliedRole of rolesSpecificToUserForProject) {
+                        if (appliedRole.jobId.toString() === role.id.toString()) {
+                            const updatedRole = { ...role, isApplied: 'APPLIED' };
+                            result.push(updatedRole);
+                            ids.push(role.id.toString());
+                            flag = true;
+                        }
+                        if (flag === true) {
+                            break;
+                        }
                     }
                 }
+                for (const role of rolesSpecificToProjectOnly) {
+                    // for (const appliedRoleInResult of result) {
+                    if (!ids.includes(role.id.toString())) {
+                        const updateFinalRole = { ...role, isApplied: 'NOT_APPLIED' };
+                        result.push(updateFinalRole);
+                        ids.push(role.id.toString());
+                    }
+                    // }
+                }
+                return res.status(200).send(result);
             }
-            // console.log(result.length);
-            result.map((x) => console.log(JSON.stringify(x)));
-
-            return res.status(200).send(result);
         } catch (err) {
             console.error(err);
         }
