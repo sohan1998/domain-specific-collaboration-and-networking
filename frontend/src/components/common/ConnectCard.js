@@ -17,6 +17,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import '../common/button.css';
 import axios from 'axios';
+import { backendIP, backendPort, flaskIP, flaskPort } from './constants';
 
 // const ExpandMore = styled((props) => {
 //     const { expand, ...other } = props;
@@ -32,6 +33,7 @@ import axios from 'axios';
 const ConnectCard = () => {
     // const [expanded, setExpanded] = React.useState(false);
     const [cardData, setCardData] = useState({});
+    const userID = localStorage.getItem('userID');
 
     useEffect(() => {
         console.log('Rendering');
@@ -39,14 +41,13 @@ const ConnectCard = () => {
 
         return () => {
             // clean up previously assigned
-            GetRecommendations();
+            // GetRecommendations();
         };
-    }, []);
+    }, [userID]);
 
     const GetRecommendations = async () => {
         try {
-            const userID = localStorage.getItem('userID');
-            const response = await axios.get(`http://127.0.0.1:5000/recommend/?_id=${userID}`);
+            const response = await axios.get(`http://${flaskIP}:${flaskPort}/recommend/?_id=${userID}`);
             // console.log(response);
             // console.log('-------------');
             // console.log(response.data);
@@ -66,8 +67,8 @@ const ConnectCard = () => {
         let payload = { userId2: userID_2 };
 
         try {
-            const userID = localStorage.getItem('userID');
-            const connect = await axios.post(`http://localhost:3001/user/userConnections?_id=${userID}`, payload);
+            // const userID = localStorage.getItem('userID');
+            const connect = await axios.post(`http://${backendIP}:${backendPort}/user/userConnections?_id=${userID}`, payload);
             console.log(connect);
             GetRecommendations();
         } catch (error) {
