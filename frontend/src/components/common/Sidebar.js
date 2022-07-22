@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { Navbar, Nav, NavDropdown, Col, Row } from 'react-bootstrap';
 import { styled } from '@mui/material/styles';
@@ -24,7 +24,18 @@ import { backendIP, backendPort } from './constants';
 // }
 
 const Sidebar = () => {
-    const [existingProjects, setExistingProjects] = useState();
+    const [existingProjects, setExistingProjects] = useState([]);
+    const userID = localStorage.getItem('userID');
+    console.log(userID);
+
+    useEffect(() => {
+        console.log('Rendering');
+        GetExistingProjectsOfUser();
+
+        return () => {
+            // second;
+        };
+    }, [existingProjects]);
 
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
@@ -63,48 +74,58 @@ const Sidebar = () => {
 
     function BadgeAvatars() {
         return (
-            <Stack direction='row' spacing={2} style={{ backgroundColor: 'brown', alignContent: 'space-between' }}>
-                <StyledBadge
-                    overlap='circular'
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                    variant='dot'
-                    style={{ backgroundColor: 'green' }}
-                >
-                    <Avatar alt='1' src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
-                </StyledBadge>
-                {/* <Badge
+            <div>
+                <Stack direction='row' spacing={2} style={{ backgroundColor: 'brown' }}>
+                    <StyledBadge
+                        overlap='circular'
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                        variant='dot'
+                        style={{ backgroundColor: 'green', alignContent: 'auto' }}
+                    >
+                        <Avatar alt='1' src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
+                    </StyledBadge>
+                    {/* <Badge
                     overlap='circular'
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                     badgeContent={<SmallAvatar alt='Remy Sharp' src='/static/images/avatar/1.jpg' />}
                 >
                     <Avatar alt='Travis Howard' src='/static/images/avatar/2.jpg' />
                 </Badge> */}
-            </Stack>
+                </Stack>
+            </div>
         );
     }
 
     const GetExistingProjectsOfUser = async () => {
         try {
-            const userID = localStorage.getItem('userID');
+            // console.log('TRY');
             const response = await axios.get(`http://${backendIP}:${backendPort}/user/existingProjectsOfUser?_id=${userID}`);
-            console.log(response.data);
+            console.log(response.data.projectIdArrayMember);
+            // setExistingProjects(response.data.projectIdArrayMember);
         } catch (error) {
+            // console.log('CATCH');
             console.log(error);
         }
-        return <div>sidebar</div>;
+        return <div></div>;
     };
 
     // const badges =
 
     return (
-        <div className='sidebar-wrapper' style={{ backgroundColor: 'turquoise' }}>
-            <br />
-            <br />
-            <div>{BadgeAvatars()}</div> <br />
-            <div>Project 2</div>
-            <div>Project 3</div>
-            <div>Project 4</div>
-        </div>
+        <Container>
+            <div className='sidebar-wrapper' style={{ backgroundColor: 'turquoise' }}>
+                <br />
+                <br />
+                <div>
+                    {BadgeAvatars()}
+                    <br />
+                </div>
+                <br />
+                {/* <div>Project 2</div>
+                <div>Project 3</div>
+                <div>Project 4</div> */}
+            </div>
+        </Container>
     );
 };
 
