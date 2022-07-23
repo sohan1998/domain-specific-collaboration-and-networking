@@ -135,6 +135,7 @@ export class ProjectsController {
                     projectId: projectId,
                 })
                 .populate('userId')
+                .populate('jobId')
                 .lean();
             let result = [];
             allSubmissions.forEach((element) => {
