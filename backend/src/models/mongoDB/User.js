@@ -62,10 +62,13 @@ const userSchema = new Schema({
         type: String,
         default: '',
     },
-    connections: {
-        type: Array,
-        default: [],
-    },
+    connections: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user',
+            default: [],
+        },
+    ],
     timeStamp: {
         type: Date,
         default: Date.now,

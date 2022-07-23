@@ -34,18 +34,18 @@ export class ProjectsController {
     viewParticularProject = async (req, res) => {
         try {
             const projectId = req.query._id;
-            projectSchema.findOne(
-                {
+            await projectSchema
+                .findOne({
                     _id: projectId,
-                },
-                function (err, targetProject) {
+                })
+                .populate('members')
+                .exec(function (err, targetProject) {
                     if (err) {
                         console.error(err);
                     } else {
                         return res.json(targetProject);
                     }
-                }
-            );
+                });
         } catch (err) {
             console.error(err);
         }
