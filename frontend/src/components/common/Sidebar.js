@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
+import { Link, Redirect, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, NavDropdown, Col, Row } from 'react-bootstrap';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
@@ -8,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import axios from 'axios';
 import { backendIP, backendPort } from './constants';
+
 // import './../common/header.css';
 
 // export default class Sidebar extends Component {
@@ -25,17 +27,22 @@ import { backendIP, backendPort } from './constants';
 
 const Sidebar = () => {
     const [existingProjects, setExistingProjects] = useState([]);
+    const [projectCount, setProjectCount] = useState(1);
+    const navigate = useNavigate();
     const userID = localStorage.getItem('userID');
-    console.log(userID);
+    const lengthOfExistingProjects = existingProjects.length;
+    console.log('Number of projects: ', lengthOfExistingProjects);
+    // console.log('User ID: ', userID);
 
     useEffect(() => {
         console.log('Rendering');
         GetExistingProjectsOfUser();
+        // const returnedProjectCount = incrementCount();
 
         return () => {
             // second;
         };
-    }, [existingProjects]);
+    }, [lengthOfExistingProjects]);
 
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
@@ -72,36 +79,12 @@ const Sidebar = () => {
         border: `2px solid ${theme.palette.background.paper}`,
     }));
 
-    function BadgeAvatars() {
-        return (
-            <div>
-                <Stack direction='row' spacing={2} style={{ backgroundColor: 'brown' }}>
-                    <StyledBadge
-                        overlap='circular'
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                        variant='dot'
-                        style={{ backgroundColor: 'green', alignContent: 'auto' }}
-                    >
-                        <Avatar alt='1' src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
-                    </StyledBadge>
-                    {/* <Badge
-                    overlap='circular'
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                    badgeContent={<SmallAvatar alt='Remy Sharp' src='/static/images/avatar/1.jpg' />}
-                >
-                    <Avatar alt='Travis Howard' src='/static/images/avatar/2.jpg' />
-                </Badge> */}
-                </Stack>
-            </div>
-        );
-    }
-
     const GetExistingProjectsOfUser = async () => {
         try {
             // console.log('TRY');
             const response = await axios.get(`http://${backendIP}:${backendPort}/user/existingProjectsOfUser?_id=${userID}`);
-            console.log(response.data.projectIdArrayMember);
-            // setExistingProjects(response.data.projectIdArrayMember);
+            // console.log('Project IDs: ', response.data.projectIdArrayMember);
+            setExistingProjects(response.data.projectIdArrayMember);
         } catch (error) {
             // console.log('CATCH');
             console.log(error);
@@ -109,7 +92,56 @@ const Sidebar = () => {
         return <div></div>;
     };
 
-    // const badges =
+    const incrementCount = () => {
+        setProjectCount((prevCount) => prevCount + 1);
+        return projectCount;
+    };
+
+    const projectBadges = existingProjects.map((badge, i) => {
+        console.log(badge);
+        // lengthOfExistingProjects ? setProjectCount((prevCount) => prevCount + 1) : console.log('GO');
+
+        const selectProjectOnClick = () => {
+            return (
+                <div>
+                    {console.log(badge)}
+                    {localStorage.setItem('projectID', badge)}
+                    {navigate('/projectDashboardView')}
+                </div>
+            );
+        };
+
+        function BadgeAvatars() {
+            return (
+                <div>
+                    <Stack direction='row' spacing={2} style={{ backgroundColor: 'brown' }}>
+                        <StyledBadge
+                            overlap='circular'
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            // variant={{ badge } ? 'dot' : 'none'}
+                            style={{ backgroundColor: 'green', alignContent: 'auto' }}
+                            onClick={selectProjectOnClick}
+                        >
+                            <Avatar alt={`${projectCount}`} src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
+                        </StyledBadge>
+                        {/* <Badge
+                        overlap='circular'
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                        badgeContent={<SmallAvatar alt='Remy Sharp' src='/static/images/avatar/1.jpg' />}
+                    >
+                        <Avatar alt='Travis Howard' src='/static/images/avatar/2.jpg' />
+                    </Badge> */}
+                    </Stack>
+                    <br />
+                </div>
+            );
+        }
+        return (
+            <Row key={badge}>
+                {BadgeAvatars(badge)} <br />
+            </Row>
+        );
+    });
 
     return (
         <Container>
@@ -117,7 +149,8 @@ const Sidebar = () => {
                 <br />
                 <br />
                 <div>
-                    {BadgeAvatars()}
+                    {/* {BadgeAvatars()} */}
+                    {projectBadges}
                     <br />
                 </div>
                 <br />
