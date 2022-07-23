@@ -71,7 +71,8 @@ export class RolesController {
                 })
                 .populate('jobId')
                 .lean();
-            return res.status(200).send(appliedJobs);
+            let response = appliedJobs.filter((element) => element.jobId !== null);
+            return res.status(200).send(response);
         } catch (err) {
             console.error(err);
         }
