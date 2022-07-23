@@ -230,6 +230,12 @@ export class ProjectsController {
                     const memberExists = await projectSchema.findOne({ members: userId });
                     // console.log(memberExists);
                     if (memberExists) {
+                        await applicationSchema.update(
+                            { $and: [{ userId: userId }, { projectId: projectId }] },
+                            {
+                                $set: { applicationStatus: 'No Longer Under Consideration' },
+                            }
+                        );
                         return res.status(401).json({ message: 'Member already exists!' });
                     } else {
                         const applications = await applicationSchema.find({
