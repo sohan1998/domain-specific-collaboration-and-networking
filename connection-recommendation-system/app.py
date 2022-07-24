@@ -86,7 +86,7 @@ def drop_jobs_column_roles(df):
     l = df.columns
     c = 0
     for i in l:
-        if i != "_id" and i != "title" and i != "description" and i != "tags":
+        if i != "_id" and i != "title" and i != "description" and i != "tags" and i != "projectId":
             revised_df = revised_df.drop([i], axis = 1)
             c += 1
     return revised_df
