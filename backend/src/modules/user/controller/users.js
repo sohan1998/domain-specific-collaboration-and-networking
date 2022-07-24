@@ -13,8 +13,9 @@ export class UserController {
                 } else {
                     bcrypt.compare(password, user.password).then((isMatch) => {
                         if (isMatch) {
-                            res.writeHead(200, { 'Content-Type': 'text/plain' });
-                            res.end('Successful Login');
+                            res.status(200).send({ message: 'Successful Login', user });
+                            // res.writeHead(200, { 'Content-Type': 'text/plain' });
+                            // res.end('Successful Login');
                         } else {
                             return res.status(404).json({ message: 'Incorrect Password! ' });
                         }
