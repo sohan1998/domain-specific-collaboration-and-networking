@@ -49,10 +49,10 @@ def preprocess_job_data(job_df):
     job_processed_df = job_df.fillna(str(np.NAN))
     job_processed_df["tags"] = job_processed_df["tags"].apply(lambda x: ", ".join(map(str, x)))
     for value in job_processed_df.columns:
-        if value != "_id":
+        if value != "_id" and value != 'projectId':
             job_processed_df[value] = job_processed_df[value].apply(clean_txt)
     job_processed_df['text'] = job_processed_df['title'].map(str) + " " + job_processed_df['description'].map(str) + " " +job_processed_df['tags'].map(str)
-    job_processed_df = job_processed_df.drop(["title","description","tags"], axis = 1)
+    job_processed_df = job_processed_df.drop(["projectId","title","description","tags"], axis = 1)
     return job_processed_df
 
 
@@ -78,11 +78,12 @@ def preprocess_user_data(user_df):
     return user_processed_df
 
 def get_recommendation(top, df_all, scores,user_data):
-  recommendation = pd.DataFrame(columns = ['user_id', 'job_id',  'title', 'description' ,'score'])
+  recommendation = pd.DataFrame(columns = ['user_id', 'job_id', 'project_id' ,'title', 'description' ,'score'])
   count = 0
   for i in top:
       recommendation.at[count, 'user_id'] = user_data['_id'][0]['$oid']
       recommendation.at[count, 'job_id'] = df_all['_id'][i]['$oid']
+      recommendation.at[count, 'project_id'] = df_all['projectId'][i]['$oid']
       recommendation.at[count, 'title'] = df_all['title'][i]
       recommendation.at[count, 'description'] = df_all['description'][i]
       recommendation.at[count, 'score'] =  scores[count]
