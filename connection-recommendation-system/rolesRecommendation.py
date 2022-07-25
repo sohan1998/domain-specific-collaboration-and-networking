@@ -22,6 +22,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from warnings import filterwarnings
 filterwarnings(action="ignore")
 np.set_printoptions(suppress=True)
+# nltk.download('all')
 
 
 stop = stopwords.words('english')
