@@ -1,6 +1,6 @@
 from crypt import methods
 import json
-from turtle import clear
+# from turtle import clear
 from flask import Flask,request,jsonify,Response
 from flask_pymongo import PyMongo
 from flask_cors import CORS
