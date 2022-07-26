@@ -7,25 +7,26 @@ export class ProfileController {
     getUserProfile = async (req, res) => {
         try {
             const userId = req.query._id;
-            userSchema.findOne(
-                {
+            await userSchema
+                .findOne({
                     _id: userId,
-                },
-                function (err, userDetails) {
+                })
+                .populate('connections')
+                .exec(function (err, userDetails) {
                     if (err) {
                         console.error(err);
                     } else {
                         return res.json(userDetails);
                     }
-                }
-            );
+                });
         } catch (err) {
             console.error(err);
         }
     };
+
     editUserDetails = async (req, res) => {
         try {
-            const { userId, firstName, lastName, education, professionalExperience, interests, skills, status, about_me } = req.body;
+            const { _id, firstName, lastName, education, professionalExperience, interests, skills, status, about_me } = req.body;
             const update = {
                 firstName,
                 lastName,
@@ -38,7 +39,7 @@ export class ProfileController {
             };
             const response = await userSchema.findOneAndUpdate(
                 {
-                    _id: userId,
+                    _id: _id,
                 },
                 update,
                 {

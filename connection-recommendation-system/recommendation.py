@@ -42,7 +42,7 @@ def results(user_id,data):
     user_arr_final = np.delete(user_arr,0,1)
     result_matrix = findSimilarUsers(user_arr_final, interest_df)
     user_id_list = []
-    for i in result_matrix[0][0:3]:
+    for i in result_matrix[0][1:6]:
         user_id_list.append(interest_data_final_df.loc[i][0])
     return user_id_list
 

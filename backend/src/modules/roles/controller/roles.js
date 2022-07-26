@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import jobSchema from '../../../models/mongoDB/Jobs.js';
 import applicationSchema from '../../../models/mongoDB/Applications.js';
+import projectSchema from '../../../models/mongoDB/Projects.js';
 
 export class RolesController {
     createJob = async (req, res) => {
@@ -45,17 +46,36 @@ export class RolesController {
             const { projectId, userId, jobId, messageApplication, applicationStatus } = req.body;
             const applicationExists = await applicationSchema.findOne({ projectId, userId, jobId });
             if (applicationExists) {
-                return res.status(401).json({ message: 'Member already exists!' });
+                return res.status(401).json({ message: 'Member has already applied to this job!' });
             } else {
-                const applyJob = new applicationSchema({
-                    projectId,
-                    userId,
-                    jobId,
-                    messageApplication,
-                    applicationStatus,
-                });
-                const response = await applyJob.save();
-                return res.status(200).send(response);
+                const memberAlreadyInProject = await projectSchema.findOne({ $and: [{ _id: projectId }, { members: userId }] });
+                if (memberAlreadyInProject) {
+                    const applyJob = new applicationSchema({
+                        projectId,
+                        userId,
+                        jobId,
+                        messageApplication,
+                        applicationStatus: 'No Longer Under Consideration',
+                    });
+                    const response = await applyJob.save();
+                    // await applicationSchema.updateMany(
+                    //     { $and: [{ _id: projectId }, { userId: userId }] },
+                    //     {
+                    //         $set: { applicationStatus: 'No Longer Under Consideration' },
+                    //     }
+                    // );
+                    return res.status(403).send({ message: 'Already part of the project so this application is no longer under consideration' });
+                } else {
+                    const applyJob = new applicationSchema({
+                        projectId,
+                        userId,
+                        jobId,
+                        messageApplication,
+                        applicationStatus,
+                    });
+                    const response = await applyJob.save();
+                    return res.status(200).send(response);
+                }
             }
         } catch (err) {
             console.error(err);
@@ -65,14 +85,14 @@ export class RolesController {
     appliedJob = async (req, res) => {
         try {
             let userId = req.query.userId;
-            applicationSchema.find(
-                {
+            const appliedJobs = await applicationSchema
+                .find({
                     userId: userId,
-                },
-                function (err, appliedjobs) {
-                    return res.json(appliedjobs);
-                }
-            );
+                })
+                .populate('jobId')
+                .lean();
+            let response = appliedJobs.filter((element) => element.jobId !== null);
+            return res.status(200).send(response);
         } catch (err) {
             console.error(err);
         }

@@ -11,6 +11,8 @@ import { RegisterUserInterests } from './components/registerUserInfo/RegisterUse
 import { RegisterUserInfo } from './components/registerUserInfo/RegisterUserInfo';
 import { Connections } from './components/common/Connections';
 import ProjectDashboard from './components/projectDashboardView/dashboard';
+import Sidebar from './components/common/Sidebar';
+import { UserProfile } from './components/user/UserProfile';
 // import { Navbar } from 'react-bootstrap';
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
                     <Route path='/registerUserInfo' element={<RegisterUserInfo />} />
                     <Route path='/connections' element={<Connections />} />
                     <Route path='/projectDashboardView' element={<ProjectDashboard />} />
+                    {/* <Route path='/sidebar' element={<Sidebar />} /> */}
+                    <Route path='/editUserProfile' element={<UserProfile />} />
                 </Routes>
             </Router>
         </div>
