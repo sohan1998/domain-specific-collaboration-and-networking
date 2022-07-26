@@ -108,6 +108,15 @@ def checkAppliedOrNot(job_id_list,user_id):
             final.append(i)
     return final
 
+def checkIfOwner(project_id_list,user_id):
+    final = list()
+    for i in project_id_list:
+        ifOwner = db.projects.find_one({"_id":ObjectId(i)})
+        # print(ifOwner["ownerId"])
+        if ifOwner["ownerId"] == ObjectId(user_id):
+            final.append(i)
+    return final
+
 
 @app.route('/recommendRoles/',methods=['GET'])
 def recommend_roles():
@@ -123,9 +132,15 @@ def recommend_roles():
     # print("Result=>", result)
     # print("checkedJobLists=>",checkedJobLists)
     for id_ in checkedJobLists:
-        print(type(id_))
+        # print(type(id_))
         result.drop(result[(result['job_id'] == id_)].index, inplace = True)
-    
+    # print(result)
+    b = result['project_id'].to_list()
+    checkIfOwnerList = checkIfOwner(b,user_id)
+    print(checkIfOwnerList)
+    for ids_ in checkIfOwnerList:
+        # print(type(id_))
+        result.drop(result[(result['project_id'] == ids_)].index, inplace = True)
     # res = pd.DataFrame(result)
     final = result.to_json(orient = 'records')
     return final
