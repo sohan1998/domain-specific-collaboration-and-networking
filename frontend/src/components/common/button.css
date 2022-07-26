@@ -30,6 +30,22 @@
     box-shadow: none !important;
 }
 
+.grey-close-btn {
+    /* background-color: blueviolet !important; */
+    background-color: #64618495 !important;
+    color: black !important;
+    position: relative !important;
+    width: 213px !important;
+    height: 43px !important;
+    /* left: 883px;
+    top: 508px; */
+    /* border: #7bfb9f; */
+    outline: none !important;
+    outline-offset: none !important;
+    border-radius: 30px !important;
+    box-shadow: none !important;
+}
+
 .connect-btn {
     /* background-color: blueviolet !important; */
     background-color: #6053f1 !important;
