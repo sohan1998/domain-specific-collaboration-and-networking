@@ -29,6 +29,7 @@ import './sidebar.css';
 const Sidebar = () => {
     const [existingProjects, setExistingProjects] = useState([]);
     const [projectCount, setProjectCount] = useState(1);
+    const [displayBadges, setDisplayBadges] = useState(false);
     const navigate = useNavigate();
     const userID = localStorage.getItem('userID');
     const lengthOfExistingProjects = existingProjects.length;
@@ -83,12 +84,16 @@ const Sidebar = () => {
     const GetExistingProjectsOfUser = async () => {
         try {
             // console.log('TRY');
-            const response = await axios.get(`http://${backendIP}:${backendPort}/user/existingProjectsOfUser?_id=${userID}`);
-            // console.log('Project IDs: ', response.data.projectIdArrayMember);
-            setExistingProjects(response.data.projectIdArrayMember);
+            const response = await axios.get(`http://${backendIP}:${backendPort}/user/existingProjectsOfUser?_id=62bbaa969f3d5875ca3468e3`);
+            console.log('Project IDs: ', response.data);
+            if (response.data.projectIdArrayMember) {
+                setExistingProjects(response.data.projectIdArrayMember);
+            }
+            setDisplayBadges(true);
         } catch (error) {
             // console.log('CATCH');
             console.log(error);
+            setDisplayBadges(false);
         }
         return <div></div>;
     };
@@ -120,7 +125,7 @@ const Sidebar = () => {
                             overlap='circular'
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             // variant={{ badge } ? 'dot' : 'none'}
-                            style={{ alignContent: 'auto' }}
+                            style={{ alignContent: 'auto', backgroundColor: 'turquoise' }}
                             onClick={selectProjectOnClick}
                         >
                             <Avatar alt={`${projectCount}`} src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
@@ -138,7 +143,7 @@ const Sidebar = () => {
             );
         }
         return (
-            <Row key={badge}>
+            <Row key={badge} style={{ backgroundColor: 'brown' }}>
                 {BadgeAvatars(badge)} <br />
             </Row>
         );
@@ -147,27 +152,26 @@ const Sidebar = () => {
     return (
         <Row xs={1}>
             <Col xs={1}>
-                {' '}
-                <Col xs={1}>
-                    {/* <br /> */}
-                    {/* <Col> */}
-                    <div className='sidebar-wrapper'>
+                {/* <br /> */}
+                {/* <Col> */}
+                <div className='sidebar-wrapper' style={{ backgroundColor: 'brown' }}>
+                    <br />
+                    <br />
+                    <div className='container mt-3' style={{ backgroundColor: 'brown' }}>
+                        {/* {BadgeAvatars()} */}
+                        {displayBadges ? projectBadges : ''}
                         <br />
-                        <br />
-                        <div className='container mt-3'>
-                            {/* {BadgeAvatars()} */}
-                            {projectBadges}
-                            <br />
-                        </div>
-                        <br />
-                        {/* <div>Project 2</div>
+                    </div>
+                    <br />
+                    {/* <div>Project 2</div>
                 <div>Project 3</div>
                 <div>Project 4</div> */}
-                    </div>
-                    {/* </Col> */}
-                </Col>
+                </div>
+                {/* </Col> */}
             </Col>
-            <Row xs={1}></Row>
+            <Col xs={1}></Col>
+
+            {/* <Row xs={1}></Row> */}
         </Row>
     );
 };
