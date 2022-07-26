@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import axios from 'axios';
 import { backendIP, backendPort } from './constants';
+import './sidebar.css';
 
 // import './../common/header.css';
 
@@ -114,12 +115,12 @@ const Sidebar = () => {
         function BadgeAvatars() {
             return (
                 <div>
-                    <Stack direction='row' spacing={2} style={{ backgroundColor: 'brown' }}>
+                    <Stack direction='row' spacing={2}>
                         <StyledBadge
                             overlap='circular'
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             // variant={{ badge } ? 'dot' : 'none'}
-                            style={{ backgroundColor: 'green', alignContent: 'auto' }}
+                            style={{ alignContent: 'auto' }}
                             onClick={selectProjectOnClick}
                         >
                             <Avatar alt={`${projectCount}`} src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
@@ -144,21 +145,30 @@ const Sidebar = () => {
     });
 
     return (
-        <Container>
-            <div className='sidebar-wrapper' style={{ backgroundColor: 'turquoise' }}>
-                <br />
-                <br />
-                <div>
-                    {/* {BadgeAvatars()} */}
-                    {projectBadges}
-                    <br />
-                </div>
-                <br />
-                {/* <div>Project 2</div>
+        <Row xs={1}>
+            <Col xs={1}>
+                {' '}
+                <Col xs={1}>
+                    {/* <br /> */}
+                    {/* <Col> */}
+                    <div className='sidebar-wrapper'>
+                        <br />
+                        <br />
+                        <div className='container mt-3'>
+                            {/* {BadgeAvatars()} */}
+                            {projectBadges}
+                            <br />
+                        </div>
+                        <br />
+                        {/* <div>Project 2</div>
                 <div>Project 3</div>
                 <div>Project 4</div> */}
-            </div>
-        </Container>
+                    </div>
+                    {/* </Col> */}
+                </Col>
+            </Col>
+            <Row xs={1}></Row>
+        </Row>
     );
 };
 
