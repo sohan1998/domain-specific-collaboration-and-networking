@@ -1,6 +1,8 @@
 import React from 'react';
 import ConnectCard from './ConnectCard';
 import './../common/font.css';
+import './button.css';
+import { Button } from 'react-bootstrap';
 
 export const Connections = () => {
     return (
@@ -16,6 +18,13 @@ export const Connections = () => {
                 <div className='container' style={{ marginLeft: 'auto', marginRight: 'auto' }}>
                     <ConnectCard />
                 </div>
+                {/* <div>
+                    <Button variant='success' type='button' className='green-primary-btn'>
+                        Next
+                    </Button>
+                    <br />
+                    <br />
+                </div> */}
             </div>
         </div>
     );
