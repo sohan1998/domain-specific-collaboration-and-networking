@@ -100,19 +100,21 @@ const Sidebar = () => {
 
     const incrementCount = () => {
         setProjectCount((prevCount) => prevCount + 1);
+        console.log('Count: ', projectCount);
         return projectCount;
     };
 
     const projectBadges = existingProjects.map((badge, i) => {
-        console.log(badge);
+        // console.log(badge);
         // lengthOfExistingProjects ? setProjectCount((prevCount) => prevCount + 1) : console.log('GO');
 
         const selectProjectOnClick = () => {
             return (
                 <div>
-                    {console.log(badge)}
+                    {/* {console.log(badge)} */}
                     {localStorage.setItem('projectID', badge)}
                     {navigate('/projectDashboardView')}
+                    {window.location.reload()}
                 </div>
             );
         };
@@ -125,10 +127,10 @@ const Sidebar = () => {
                             overlap='circular'
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             // variant={{ badge } ? 'dot' : 'none'}
-                            style={{ alignContent: 'auto', backgroundColor: 'turquoise' }}
+                            style={{ alignContent: 'auto', cursor: 'pointer' }}
                             onClick={selectProjectOnClick}
                         >
-                            <Avatar alt={`${projectCount}`} src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
+                            <Avatar alt='1' src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
                         </StyledBadge>
                         {/* <Badge
                         overlap='circular'
@@ -143,21 +145,22 @@ const Sidebar = () => {
             );
         }
         return (
-            <Row key={badge} style={{ backgroundColor: 'brown' }}>
+            <Row key={badge}>
                 {BadgeAvatars(badge)} <br />
             </Row>
         );
     });
 
     return (
-        <Row xs={1}>
-            <Col xs={1}>
+        // <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Row>
+            <Col xs={1} style={{ width: '5%' }}>
                 {/* <br /> */}
                 {/* <Col> */}
-                <div className='sidebar-wrapper' style={{ backgroundColor: 'brown' }}>
+                <div className='sidebar-wrapper'>
                     <br />
                     <br />
-                    <div className='container mt-3' style={{ backgroundColor: 'brown' }}>
+                    <div className='container mt-3'>
                         {/* {BadgeAvatars()} */}
                         {displayBadges ? projectBadges : ''}
                         <br />
@@ -169,10 +172,11 @@ const Sidebar = () => {
                 </div>
                 {/* </Col> */}
             </Col>
-            <Col xs={1}></Col>
+            {/* <Col xs={11} style={{ backgroundColor: 'yellow' }}></Col> */}
 
             {/* <Row xs={1}></Row> */}
         </Row>
+        // </div>
     );
 };
 

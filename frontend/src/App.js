@@ -13,6 +13,7 @@ import { Connections } from './components/common/Connections';
 import ProjectDashboard from './components/projectDashboardView/dashboard';
 import Sidebar from './components/common/Sidebar';
 import { UserProfile } from './components/user/UserProfile';
+import { Col, Row } from 'react-bootstrap';
 // import { Navbar } from 'react-bootstrap';
 
 function App() {
@@ -21,21 +22,26 @@ function App() {
         <div className='App'>
             {/* {location.pathname !== '/login' && location.pathname !== '/register' && <NavbarComponent />} */}
             {<NavbarComponent />}
-
-            <Router>
-                <Routes>
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/register' element={<Register />} />
-                    <Route path='/projects' element={<AllProjects />} />
-                    <Route path='/roles' element={<Roles />} />
-                    <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
-                    <Route path='/registerUserInfo' element={<RegisterUserInfo />} />
-                    <Route path='/connections' element={<Connections />} />
-                    <Route path='/projectDashboardView' element={<ProjectDashboard />} />
-                    {/* <Route path='/sidebar' element={<Sidebar />} /> */}
-                    <Route path='/editUserProfile' element={<UserProfile />} />
-                </Routes>
-            </Router>
+            <Row>
+                {/* <Col xs={1}></Col> */}
+                <Col xs={1}>{<Sidebar />}</Col>
+                <Col xs={10}>
+                    {/* <Router> */}
+                    <Routes>
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/register' element={<Register />} />
+                        <Route path='/projects' element={<AllProjects />} />
+                        <Route path='/roles' element={<Roles />} />
+                        <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
+                        <Route path='/registerUserInfo' element={<RegisterUserInfo />} />
+                        <Route path='/connections' element={<Connections />} />
+                        {/* <Route path='/projectDashboardView' element={<ProjectDashboard />} /> */}
+                        {/* <Route path='/sidebar' element={<Sidebar />} /> */}
+                        <Route path='/editUserProfile' element={<UserProfile />} />
+                    </Routes>
+                    {/* </Router> */}
+                </Col>
+            </Row>
         </div>
     );
 }
