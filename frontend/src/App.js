@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Login from './components/login/login';
 import Register from './components/register/register';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,14 +17,21 @@ import { Col, Row } from 'react-bootstrap';
 // import { Navbar } from 'react-bootstrap';
 
 function App() {
-    // const location = useLocation();
+    let location = useLocation();
+
     return (
         <div className='App'>
             {/* {location.pathname !== '/login' && location.pathname !== '/register' && <NavbarComponent />} */}
             {<NavbarComponent />}
             <Row>
                 {/* <Col xs={1}></Col> */}
-                <Col xs={1}>{<Sidebar />}</Col>
+                <Col xs={1}>
+                    {location.pathname !== '/login' &&
+                        location.pathname !== '/register' &&
+                        location.pathname !== '/registerUserInfo' &&
+                        location.pathname !== '/registerUserInterests' &&
+                        location.pathname !== '/connections' && <Sidebar />}
+                </Col>
                 <Col xs={10}>
                     {/* <Router> */}
                     <Routes>
@@ -32,8 +39,8 @@ function App() {
                         <Route path='/register' element={<Register />} />
                         <Route path='/projects' element={<AllProjects />} />
                         <Route path='/roles' element={<Roles />} />
-                        <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
                         <Route path='/registerUserInfo' element={<RegisterUserInfo />} />
+                        <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
                         <Route path='/connections' element={<Connections />} />
                         {/* <Route path='/projectDashboardView' element={<ProjectDashboard />} /> */}
                         {/* <Route path='/sidebar' element={<Sidebar />} /> */}
