@@ -23,9 +23,10 @@ export class ProfileController {
             console.error(err);
         }
     };
+
     editUserDetails = async (req, res) => {
         try {
-            const { userId, firstName, lastName, education, professionalExperience, interests, skills, status, about_me } = req.body;
+            const { _id, firstName, lastName, education, professionalExperience, interests, skills, status, about_me } = req.body;
             const update = {
                 firstName,
                 lastName,
@@ -38,7 +39,7 @@ export class ProfileController {
             };
             const response = await userSchema.findOneAndUpdate(
                 {
-                    _id: userId,
+                    _id: _id,
                 },
                 update,
                 {
