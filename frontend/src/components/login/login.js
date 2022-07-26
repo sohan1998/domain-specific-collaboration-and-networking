@@ -33,14 +33,25 @@ export default class Login extends Component {
         const payload = { email: this.state.email, password: this.state.password };
         try {
             const res = await axios.post(`http://${backendIP}:${backendPort}/user/loginUser`, payload);
-            console.log(res.data);
-            // localStorage.setItem("user_id", res.data._id)
-            // localStorage.setItem("user_email", res.data.email)
+            console.log('Response: ', res.data.user);
+            // Store in local storage
+            localStorage.setItem('userID', res.data.user._id);
+            localStorage.setItem('firstName', res.data.user.firstName);
+            localStorage.setItem('lastName', res.data.user.lastName);
+            localStorage.setItem('email', res.data.user.email);
+            localStorage.setItem('schoolName', res.data.user.education.schoolName);
+            localStorage.setItem('degree', res.data.user.education.degree);
+            localStorage.setItem('major', res.data.user.education.major);
+            localStorage.setItem('employerName', res.data.user.professionalExperience.employerName);
+            localStorage.setItem('position', res.data.user.professionalExperience.position);
+            localStorage.setItem('aboutMe', res.data.user.about_me);
+            localStorage.setItem('skills', res.data.user.skills);
+
             this.setState({
                 redirect: <Navigate to='/projects' replace={true} />,
             });
         } catch (error) {
-            console.log('error occured');
+            console.error(error);
         }
     };
 
