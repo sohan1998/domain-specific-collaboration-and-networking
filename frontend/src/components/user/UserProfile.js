@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Form, Container, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { backendIP, backendPort } from './../common/constants';
@@ -8,11 +8,12 @@ import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
 import './../common/button.css';
 
-export const UserProfile = (props) => {
+export const UserProfile = () => {
     const [profile, setProfile] = useState({});
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const userID = localStorage.getItem('userID');
+    // const profileMemo = useMemo(() => setProfile(), [profile]);
 
     useEffect(() => {
         getUserProfile();
@@ -40,7 +41,7 @@ export const UserProfile = (props) => {
     const EditButton = () => {
         return (
             <Box sx={{ '& > :not(style)': { m: 1 } }}>
-                <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} aria-label='edit'>
+                <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} aria-label='edit' onClick={handleModalOnShow}>
                     EDIT
                 </Button>
             </Box>
@@ -96,10 +97,15 @@ export const UserProfile = (props) => {
     const submitEditedForm = async (e) => {
         e.preventDefault();
         try {
-            // console.log('Data for update: ', profile);
+            console.log('Data for update: ', profile);
             const response = await axios.put(`http://${backendIP}:${backendPort}/profile/editUserDetails`, profile);
-            setShowModal(false);
-            console.log(response.data);
+            // console.log(response.data);
+            if (response === 200) {
+                console.log(response.data);
+                getUserProfile();
+            }
+            handleModalOnHide();
+            window.location.reload(false);
         } catch (error) {
             console.error(error);
         }
@@ -109,16 +115,79 @@ export const UserProfile = (props) => {
     if (profile.education) {
         renderInfo = (
             <Container className='mt-3'>
+                <Container className='mt-3'>
+                    <div>
+                        <h3>Personal Information</h3>
+                        <br />
+                        <Form.Group className='mb-3' controlId='updateFirstName'>
+                            <Form.Control type='text' defaultValue={profile.firstName} placeholder='First Name' disabled />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='updateLastName'>
+                            <Form.Control type='text' defaultValue={profile.lastName} placeholder='Last Name' disabled />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='updateEmail'>
+                            <Form.Control type='email' defaultValue={profile.email} placeholder='Email' disabled />
+                        </Form.Group>
+                        <br />
+                    </div>
+                    <div>
+                        <br />
+                        <h3>Education</h3>
+                        <br />
+                        <Form.Group className='mb-3' controlId='updateSchoolName'>
+                            <Form.Control type='text' defaultValue={profile.education.schoolName} placeholder='School Name' disabled />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='updateDegree'>
+                            <Form.Control type='text' defaultValue={profile.education.degree} placeholder='Degree' disabled />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='updateMajor'>
+                            <Form.Control type='text' defaultValue={profile.education.major} placeholder='Major' disabled />
+                        </Form.Group>
+                        <br />
+                    </div>
+                    <div>
+                        <br />
+                        <h3>Professional Experience</h3>
+                        <br />
+                        <Form.Group className='mb-3' controlId='updateEmployerName'>
+                            <Form.Control
+                                type='text'
+                                defaultValue={profile.professionalExperience.employerName}
+                                placeholder='Employer Name'
+                                disabled
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='updatePosition'>
+                            <Form.Control type='text' defaultValue={profile.professionalExperience.position} placeholder='Position' disabled />
+                        </Form.Group>
+                        <br />
+                    </div>
+                    <div>
+                        <br />
+                        <h3>About Me</h3>
+                        <br />
+                        <Form.Group className='mb-3' controlId='updateAboutMe'>
+                            <Form.Control as='textarea' rows={7} defaultValue={profile.about_me} placeholder='About Me' disabled />
+                        </Form.Group>
+                        {/* <Form.Group className='mb-3' controlId='updatePosition'>
+                <Form.Control type='text' defaultValue={profile.professionalExperience.position} placeholder='Position' onChange={handleInputPosition} />
+            </Form.Group> */}
+                    </div>
+                </Container>
+
+                {/* ------------------------------------------------- */}
+                {/* --------------- MODAL begins here --------------- */}
+
                 <Modal show={showModal} onHide={handleModalOnHide}>
                     <Modal.Header closeButton>
                         <Modal.Title>EDIT FORM</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {/* <div align='right'>
-                    <br />
-                    {EditButton()}
-                    <br />
-                </div> */}
+                            <br />
+                            {EditButton()}
+                            <br />
+                        </div> */}
                         {/* <Form onSubmit={handleEditForm}>  */}
                         <div>
                             <h3>Personal Information</h3>
@@ -127,7 +196,7 @@ export const UserProfile = (props) => {
                                 <Form.Control type='text' defaultValue={profile.firstName} placeholder='First Name' onChange={handleInputFirstName} />
                             </Form.Group>
                             <Form.Group className='mb-3' controlId='updateLastName'>
-                                <Form.Control type='text' defaultValue={profile.lastName} placeholder='Last Name' />
+                                <Form.Control type='text' defaultValue={profile.lastName} placeholder='Last Name' onChange={handleInputLastName} />
                             </Form.Group>
                             <Form.Group className='mb-3' controlId='updateEmail'>
                                 <Form.Control type='email' defaultValue={profile.email} placeholder='Email' disabled />
@@ -189,6 +258,7 @@ export const UserProfile = (props) => {
                                     onChange={handleInputAboutMe}
                                 />
                             </Form.Group>
+                            <br />
                             {/* <Form.Group className='mb-3' controlId='updatePosition'>
                 <Form.Control type='text' defaultValue={profile.professionalExperience.position} placeholder='Position' onChange={handleInputPosition} />
             </Form.Group> */}
@@ -222,13 +292,13 @@ export const UserProfile = (props) => {
                 <div align='right'>
                     <br />
                     {EditButton()}
-                    {console.log('ABCD')}
+                    {/* {console.log('Check')} */}
                     <br />
                 </div>
             </Container>
+            {renderInfo}
 
             {/* {!profile.education ? getUserProfile() : console.log('GO AHEAD')} */}
-            {renderInfo}
         </div>
     );
 };
