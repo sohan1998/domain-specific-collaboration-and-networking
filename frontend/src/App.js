@@ -42,7 +42,7 @@ function App() {
                         <Route path='/registerUserInfo' element={<RegisterUserInfo />} />
                         <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
                         <Route path='/connections' element={<Connections />} />
-                        {/* <Route path='/projectDashboardView' element={<ProjectDashboard />} /> */}
+                        <Route path='/projectDashboardView' element={<ProjectDashboard />} />
                         {/* <Route path='/sidebar' element={<Sidebar />} /> */}
                         <Route path='/editUserProfile' element={<UserProfile />} />
                     </Routes>

@@ -8,24 +8,25 @@ import { Navigate } from 'react-router-dom';
 import { backendIP, backendPort } from './../common/constants';
 
 export default class Login extends Component {
-    state = { email: null, password: null };
+    // state = { email: null, password: null };
 
-    constructor(props) {
-        // Call the constructor of Super class i.e. the Component
-        super(props);
-        // Maintain the state required for this component
-        this.state = {
-            email: '',
-            password: '',
-            // authFlag: false,
-            // loginStatus: ""
-            redirect: '',
-        };
-        // Bind the handlers to this class
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.login = this.login.bind(this);
-    }
+    state = {
+        email: '',
+        password: '',
+        // authFlag: false,
+        // loginStatus: ""
+        redirect: null,
+        message: '',
+    };
+    // constructor(props) {
+    //     // Call the constructor of Super class i.e. the Component
+    //     super(props);
+    //     // Maintain the state required for this component
+    //     // Bind the handlers to this class
+    //     this.handleEmailChange = this.handleEmailChange.bind(this);
+    //     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    //     this.login = this.login.bind(this);
+    // }
 
     login = async (e) => {
         e.preventDefault();
@@ -50,6 +51,7 @@ export default class Login extends Component {
             this.setState({
                 redirect: <Navigate to='/projects' replace={true} />,
             });
+            console.log('Redirecting to projects');
         } catch (error) {
             console.error(error);
         }
@@ -96,6 +98,7 @@ export default class Login extends Component {
                                 Login
                             </Button>
                         </Form>
+                        {this.state.message}
                     </Container>
                 </div>
             </div>

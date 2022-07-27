@@ -22,21 +22,21 @@ const NavbarComponent = () => {
     const navigate = useNavigate();
     const location = useLocation();
     // console.log('First Name: ', firstName);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        localStorage.clear();
+        // navigate('/login');
+    };
 
     function AccountMenu() {
-        const [anchorEl, setAnchorEl] = useState(null);
-        const open = Boolean(anchorEl);
-        const handleClick = (event) => {
-            setAnchorEl(event.currentTarget);
-        };
-        const handleClose = () => {
-            setAnchorEl(null);
-        };
-
-        const handleLogout = () => {
-            localStorage.clear();
-            // navigate('/login');
-        };
         return (
             <React.Fragment>
                 <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>

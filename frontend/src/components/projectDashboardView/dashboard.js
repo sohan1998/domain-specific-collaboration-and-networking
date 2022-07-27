@@ -21,12 +21,12 @@ export default class ProjectDashboard extends Component {
     state = {
         key: 'about',
         projectData: {},
-        projectId: '62cf4bc7a70584858cc28524',
+        projectId: localStorage.getItem('projectID'),
         showw: false,
         title: '',
         description: '',
         status: '',
-        currentUserId: '62cf4b63a70584858cc28521',
+        currentUserId: localStorage.getItem('userID'),
     };
 
     fetchProjectData = async () => {
@@ -67,9 +67,11 @@ export default class ProjectDashboard extends Component {
         // } catch (err) {
         //     console.error(err);
         // }
-
+        // this.setState({ projectId: 'jhjhj' });
         try {
-            // this.setState({ projectId: localStorage.getItem('projectID') });
+            // this.setState({ projectId: localStorage.getItem('projectID') })
+            // console.log(`ID, ${this.state.projectId}`);
+            console.log('Local', localStorage.getItem('projectID'));
             // this.setState({currentUserId: localStorage.getItem('userID')})
             const projectId = this.state.projectId;
             const response = await axios.get(`http://${backendIP}:${backendPort}/projects/viewParticularProject?_id=${projectId}`);
@@ -90,6 +92,10 @@ export default class ProjectDashboard extends Component {
     };
 
     componentDidMount() {
+        // let temp = localStorage.getItem('projectID');
+        // console.log('temp', temp);
+        // this.setState({ projectId: temp });
+        console.log('renderer');
         this.fetchProjectData();
     }
 
@@ -147,11 +153,16 @@ export default class ProjectDashboard extends Component {
     handleOnShow = () => this.setState({ showw: true });
 
     render() {
+        if (localStorage.getItem('projectID') !== this.state.projectId) {
+            this.fetchProjectData();
+        }
         let membersButton, membersButtonFunction, editButton, applicationsTab, userType;
+        // console.log('ProjectID from State:', this.state.projectId);
+
         if (this.state.projectData.ownerId === this.state.currentUserId) {
             applicationsTab = (
                 <Tab eventKey='applications' title='Applications'>
-                    <Applications projectId={this.state.projectId} />{' '}
+                    <Applications projectId={this.state.projectId} onClickUpdate={this.fetchProjectData} />{' '}
                 </Tab>
             );
             editButton = (
@@ -227,21 +238,24 @@ export default class ProjectDashboard extends Component {
                     <Row style={{ height: '200px' }} className='m-4'>
                         <Col xs={2}>
                             {' '}
-                            <img className='rounded-circle' alt='200x200' src='https://picsum.photos/id/3/200/200' data-holder-rendered='true'></img>
+                            <img className='rounded-circle' alt='200x200' src='https://picsum.photos/id/3/150/150' data-holder-rendered='true'></img>
                         </Col>
                         <Col>
                             <Row>
                                 <br />
                             </Row>
-                            <Row>
+                            <Row style={{ height: '30px' }}>
                                 <br />
                             </Row>
-                            <Row className='m-3'>
-                                <Col xs={2} style={{ fontSize: '50px' }}>
-                                    {this.state.projectData.title}
+                            {/* <Row>
+                                <br />
+                            </Row> */}
+                            <Row>
+                                <Col xs={10} style={{ fontSize: '30px' }}>
+                                    <div className='align-about'>{this.state.projectData.title}</div>
                                 </Col>
-                                <Col xs={8}></Col>
-                                <Col style={{ fontSize: '50px' }}>
+                                {/* <Col xs={2} style={{ backgroundColor: 'red' }}></Col> */}
+                                <Col style={{ fontSize: '30px' }}>
                                     {/* <Button variant='outlined' sx={{ color: '#6053F1', borderColor: '#6053F1' }}>
                                         Edit
                                     </Button> */}
@@ -250,7 +264,7 @@ export default class ProjectDashboard extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <br></br>
+                    {/* <br></br> */}
                     <Tabs id='controlled-tab-example' activeKey={this.state.key} onSelect={(k) => this.setState({ key: k })} className='mb-3'>
                         <Tab eventKey='about' title='About'>
                             <div className='align-about'>{this.state.projectData.description}</div>
@@ -329,11 +343,13 @@ export default class ProjectDashboard extends Component {
                             </Form>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button variant='secondary' onClick={this.handleOnHide}>
+                            <Button variant='outlined' sx={{ color: '#FF3D00', borderColor: '#FF3D00' }} onClick={this.handleOnHide}>
                                 Close
                             </Button>
-                            <Button variant='primary' onClick={this.editProject}>
-                                Create
+
+                            <h1> </h1>
+                            <Button variant='contained' sx={{ backgroundColor: '#6053F1', borderColor: '#6053F1' }} onClick={this.editProject}>
+                                Save
                             </Button>
                         </Modal.Footer>
                     </Modal>

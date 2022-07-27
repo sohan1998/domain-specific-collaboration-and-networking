@@ -6,9 +6,10 @@ import axios from 'axios';
 import './../common/header.css';
 import './../common/button.css';
 import { backendIP, backendPort } from './../common/constants';
+import { Navigate } from 'react-router-dom';
 
 export default class AllProjects extends Component {
-    state = { projects: [], showw: false, newProject: { status: 'Active' } };
+    state = { projects: [], showw: false, newProject: { status: 'Active' }, redirect: '' };
 
     fetchAllProjects = async () => {
         // try {
@@ -39,6 +40,7 @@ export default class AllProjects extends Component {
         try {
             const response = await axios.get(`http://${backendIP}:${backendPort}/projects/viewAllProjects`);
             // console.log(JSON.stringify(res.data))
+            console.log('Loading projects');
             this.setState({
                 projects: response.data,
             });
@@ -51,11 +53,16 @@ export default class AllProjects extends Component {
         this.fetchAllProjects();
     }
 
+    handleOnClick(projectId, e) {
+        localStorage.setItem('projectID', projectId);
+        this.setState({ redirect: <Navigate to='/projectDashboardView' replace={true} /> });
+    }
+
     renderRow = (row) => {
         return (
             // <Row xs={1} md={3}>
             <Col>
-                <Card style={{ width: '18rem', height: '18rem' }} className='mb-2'>
+                <Card style={{ width: '18rem', height: '18rem', cursor: 'pointer' }} className='mb-2' onClick={(e) => this.handleOnClick(row._id, e)}>
                     <Card.Body>
                         <Card.Title> {row.title} </Card.Title>
                         <Card.Text>{row.description.substring(0, 280) + ' ...'}</Card.Text>
@@ -71,11 +78,14 @@ export default class AllProjects extends Component {
     handleOnShow = () => this.setState({ showw: true });
 
     createProject = async () => {
-        const payload = { ...this.state.newProject, ownerId: '627a3162fbc0fd1fe102c8a8' };
+        const payload = { ...this.state.newProject, ownerId: localStorage.getItem('userID') };
         try {
             const response = await axios.post(`http://${backendIP}:${backendPort}/projects/createProject`, payload);
             this.setState({ showw: false });
             this.fetchAllProjects();
+            {
+                window.location.reload();
+            }
         } catch (err) {
             console.error(err);
         }
@@ -84,6 +94,7 @@ export default class AllProjects extends Component {
     render() {
         return (
             <div>
+                {this.state.redirect}
                 <Container>
                     <Row className='m-4'>
                         <Col sm={10}></Col>
@@ -102,6 +113,7 @@ export default class AllProjects extends Component {
                                 <Form.Group className='mb-3' controlId='exampleForm.ControlInput1'>
                                     <Form.Label>Project Title</Form.Label>
                                     <Form.Control
+                                        maxLength='20'
                                         type='text'
                                         placeholder='Title'
                                         autoFocus

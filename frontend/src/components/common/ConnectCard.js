@@ -78,6 +78,10 @@ const ConnectCard = () => {
         }
     };
 
+    const navigateToProjects = () => {
+        navigate('/projects');
+    };
+
     // console.log(cardData);
 
     // const handleExpandClick = () => {
@@ -179,7 +183,7 @@ const ConnectCard = () => {
                 </Row>
             </div>
             <div>
-                <Button variant='success' type='button' className='green-primary-btn'>
+                <Button variant='success' type='button' className='green-primary-btn' onClick={navigateToProjects}>
                     Next
                 </Button>
                 <br />
