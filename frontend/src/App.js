@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Login from './components/login/login';
 import Register from './components/register/register';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavbarComponent from './components/common/navbar';
+import NavbarComponent from './components/common/Navbar';
 import AllProjects from './components/projects/projects';
 import Roles from './components/roles/Roles';
 import { RegisterUserInterests } from './components/registerUserInfo/RegisterUserInterests';
