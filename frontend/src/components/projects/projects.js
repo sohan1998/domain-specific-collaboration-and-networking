@@ -40,6 +40,7 @@ export default class AllProjects extends Component {
         try {
             const response = await axios.get(`http://${backendIP}:${backendPort}/projects/viewAllProjects`);
             // console.log(JSON.stringify(res.data))
+            console.log('Loading projects');
             this.setState({
                 projects: response.data,
             });
