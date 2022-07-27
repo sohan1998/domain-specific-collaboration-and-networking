@@ -79,7 +79,7 @@ export default class Roles extends Component {
         const userId = this.state.currentUserId;
         try {
             console.log(userId);
-            const response = await axios.get(`http://127.0.0.1:5000/recommendRoles/?_id=62e06a4c021bce7ed3eb9b9e`);
+            const response = await axios.get(`http://127.0.0.1:5000/recommendRoles/?_id=${userId}`);
             this.setState({ rolesData: response.data });
 
             console.log('res', response.data);
