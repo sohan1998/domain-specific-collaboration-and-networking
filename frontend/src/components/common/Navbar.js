@@ -2,31 +2,68 @@ import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import './../common/header.css';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
 
-export default class NavbarComponent extends Component {
-    render() {
-        return (
-            <div>
-                <Navbar collapseOnSelect expand='lg' bg='light'>
-                    <Container>
-                        <Navbar.Brand href='/' className='title'>
-                            Circles
-                        </Navbar.Brand>
-                        <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-                        <Navbar.Collapse id='responsive-navbar-nav'>
-                            <Nav className='me-auto'></Nav>
-                            <Nav>
-                                {/* <Nav.Link href=''>Home</Nav.Link> */}
-                                <Nav.Link href='/projects'>Projects</Nav.Link>
-                                <Nav.Link href='/roles'>Roles</Nav.Link>
-                            </Nav>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
-            </div>
-        );
-    }
-}
+// export default class NavbarComponent extends Component {
+//     render() {
+//         return (
+//             <div>
+//                 <Navbar collapseOnSelect expand='lg' bg='light'>
+//                     <Container>
+//                         <Navbar.Brand href='/' className='title'>
+//                             Circles
+//                         </Navbar.Brand>
+//                         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+//                         <Navbar.Collapse id='responsive-navbar-nav'>
+//                             <Nav className='me-auto'></Nav>
+//                             <Nav>
+//                                 {/* <Nav.Link href=''>Home</Nav.Link> */}
+//                                 <Nav.Link href='/projects'>Projects</Nav.Link>
+//                                 <Nav.Link href='/roles'>Roles</Nav.Link>
+//                             </Nav>
+//                         </Navbar.Collapse>
+//                     </Container>
+//                 </Navbar>
+//             </div>
+//         );
+//     }
+// }
+
+const NavbarComponent = () => {
+    return (
+        <div>
+            <Navbar collapseOnSelect expand='lg' bg='light'>
+                <Container>
+                    <Navbar.Brand href='/' className='title'>
+                        Circles
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+                    <Navbar.Collapse id='responsive-navbar-nav'>
+                        <Nav className='me-auto'></Nav>
+                        <Nav>
+                            {/* <Nav.Link href=''>Home</Nav.Link> */}
+                            <Nav.Link href='/projects'>Projects</Nav.Link>
+                            <Nav.Link href='/roles'>Roles</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+        </div>
+    );
+};
+
+export default NavbarComponent;
 
 // ------------------------------------------------
 
