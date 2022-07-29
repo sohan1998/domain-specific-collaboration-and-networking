@@ -18,6 +18,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import '../common/button.css';
 import axios from 'axios';
 import { backendIP, backendPort, flaskIP, flaskPort } from './constants';
+import { useNavigate } from 'react-router-dom';
 
 // const ExpandMore = styled((props) => {
 //     const { expand, ...other } = props;
@@ -34,6 +35,7 @@ const ConnectCard = () => {
     // const [expanded, setExpanded] = React.useState(false);
     const [cardData, setCardData] = useState({});
     const userID = localStorage.getItem('userID');
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log('Rendering');
@@ -74,6 +76,10 @@ const ConnectCard = () => {
         } catch (error) {
             console.error(error);
         }
+    };
+
+    const navigateToProjects = () => {
+        navigate('/projects');
     };
 
     // console.log(cardData);
@@ -175,6 +181,13 @@ const ConnectCard = () => {
                 <Row md={3} className='mb-2'>
                     {cards}
                 </Row>
+            </div>
+            <div>
+                <Button variant='success' type='button' className='green-primary-btn' onClick={navigateToProjects}>
+                    Next
+                </Button>
+                <br />
+                <br />
             </div>
         </div>
     );

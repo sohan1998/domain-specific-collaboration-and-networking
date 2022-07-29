@@ -29,6 +29,7 @@ import './sidebar.css';
 const Sidebar = () => {
     const [existingProjects, setExistingProjects] = useState([]);
     const [projectCount, setProjectCount] = useState(1);
+    const [displayBadges, setDisplayBadges] = useState(false);
     const navigate = useNavigate();
     const userID = localStorage.getItem('userID');
     const lengthOfExistingProjects = existingProjects.length;
@@ -84,30 +85,36 @@ const Sidebar = () => {
         try {
             // console.log('TRY');
             const response = await axios.get(`http://${backendIP}:${backendPort}/user/existingProjectsOfUser?_id=${userID}`);
-            // console.log('Project IDs: ', response.data.projectIdArrayMember);
-            setExistingProjects(response.data.projectIdArrayMember);
+            console.log('Project IDs: ', response.data);
+            if (response.data.projectIdArrayMember) {
+                setExistingProjects(response.data.projectIdArrayMember);
+            }
+            setDisplayBadges(true);
         } catch (error) {
             // console.log('CATCH');
             console.log(error);
+            setDisplayBadges(false);
         }
         return <div></div>;
     };
 
     const incrementCount = () => {
         setProjectCount((prevCount) => prevCount + 1);
+        console.log('Count: ', projectCount);
         return projectCount;
     };
 
     const projectBadges = existingProjects.map((badge, i) => {
-        console.log(badge);
+        // console.log(badge);
         // lengthOfExistingProjects ? setProjectCount((prevCount) => prevCount + 1) : console.log('GO');
 
         const selectProjectOnClick = () => {
             return (
                 <div>
-                    {console.log(badge)}
+                    {/* {console.log(badge)} */}
                     {localStorage.setItem('projectID', badge)}
                     {navigate('/projectDashboardView')}
+                    {window.location.reload()}
                 </div>
             );
         };
@@ -120,10 +127,10 @@ const Sidebar = () => {
                             overlap='circular'
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             // variant={{ badge } ? 'dot' : 'none'}
-                            style={{ alignContent: 'auto' }}
+                            style={{ alignContent: 'auto', cursor: 'pointer' }}
                             onClick={selectProjectOnClick}
                         >
-                            <Avatar alt={`${projectCount}`} src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
+                            <Avatar alt='1' src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
                         </StyledBadge>
                         {/* <Badge
                         overlap='circular'
@@ -145,30 +152,31 @@ const Sidebar = () => {
     });
 
     return (
-        <Row xs={1}>
-            <Col xs={1}>
-                {' '}
-                <Col xs={1}>
-                    {/* <br /> */}
-                    {/* <Col> */}
-                    <div className='sidebar-wrapper'>
+        // <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Row>
+            <Col xs={1} style={{ width: '5%' }}>
+                {/* <br /> */}
+                {/* <Col> */}
+                <div className='sidebar-wrapper'>
+                    <br />
+                    <br />
+                    <div className='container mt-3'>
+                        {/* {BadgeAvatars()} */}
+                        {displayBadges ? projectBadges : ''}
                         <br />
-                        <br />
-                        <div className='container mt-3'>
-                            {/* {BadgeAvatars()} */}
-                            {projectBadges}
-                            <br />
-                        </div>
-                        <br />
-                        {/* <div>Project 2</div>
+                    </div>
+                    <br />
+                    {/* <div>Project 2</div>
                 <div>Project 3</div>
                 <div>Project 4</div> */}
-                    </div>
-                    {/* </Col> */}
-                </Col>
+                </div>
+                {/* </Col> */}
             </Col>
-            <Row xs={1}></Row>
+            {/* <Col xs={11} style={{ backgroundColor: 'yellow' }}></Col> */}
+
+            {/* <Row xs={1}></Row> */}
         </Row>
+        // </div>
     );
 };
 

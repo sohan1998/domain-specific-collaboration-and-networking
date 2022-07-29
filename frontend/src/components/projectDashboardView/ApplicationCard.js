@@ -17,30 +17,59 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import { Row, Col, Container, Modal, Form } from 'react-bootstrap';
 
-const Member = (props) => {
+const ApplicationCard = (props) => {
     // console.log(props.memberInfo);
-    const handleOnClick = (memberId, e) => {
+    const handleOnClick = (title, jobId, projectId, userId, firstName, lastName, message, e) => {
         e.preventDefault();
-        props.membersButtonFunction(memberId);
+        props.onShow(title, jobId, projectId, userId, firstName, lastName, message);
     };
 
-    const projectMembers = props.memberInfo?.map((member) => {
-        let actions;
-        if (props.memberButton === 'Remove') {
-            actions = (
-                <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} onClick={(e) => handleOnClick(member._id, e)}>
-                    {props.memberButton}
-                </Button>
-            );
-        } else {
-            actions = member.connections.includes(localStorage.getItem('userID')) ? (
-                <span style={{ color: '#6053F1' }}> Connected </span>
-            ) : (
-                <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} onClick={(e) => handleOnClick(member._id, e)}>
-                    {props.memberButton}
-                </Button>
-            );
-        }
+    const applications = props.allApplications?.map((application) => {
+        let actions = (
+            <Row>
+                <Col>
+                    <Button
+                        variant='contained'
+                        sx={{ backgroundColor: '#6053F1' }}
+                        onClick={(e) =>
+                            handleOnClick(
+                                application.jobId.title,
+                                application.jobId._id,
+                                application.projectId,
+                                application.userId._id,
+                                application.userId.firstName,
+                                application.userId.lastName,
+                                application.messageApplication,
+                                e
+                            )
+                        }
+                    >
+                        Reject
+                    </Button>
+                </Col>
+                <Col>
+                    <Button
+                        variant='contained'
+                        sx={{ backgroundColor: '#6053F1' }}
+                        onClick={(e) =>
+                            handleOnClick(
+                                application.jobId.title,
+                                application.jobId._id,
+                                application.projectId,
+                                application.userId._id,
+                                application.userId.firstName,
+                                application.userId.lastName,
+                                application.messageApplication,
+                                e
+                            )
+                        }
+                    >
+                        Accept
+                    </Button>
+                </Col>
+            </Row>
+        );
+
         return (
             <Row className='m-4'>
                 <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
@@ -55,8 +84,8 @@ const Member = (props) => {
                         // action={props.memberButton}
                         style={{ textAlign: 'left' }}
                         titleTypographyProps={{ variant: 'h5' }}
-                        title={`${member.firstName} ${member.lastName}`}
-                        subheader={`${member.professionalExperience.position} at ${member.professionalExperience.employerName}`} // '{position} at {employerName}'
+                        title={`${application.jobId.title}`}
+                        subheader={`${application.userId.firstName} ${application.userId.lastName}`} // '{position} at {employerName}'
                     />
                 </Card>
             </Row>
@@ -77,7 +106,7 @@ const Member = (props) => {
         );
     });
 
-    return <div>{projectMembers}</div>;
+    return <div>{applications}</div>;
 };
 
-export default Member;
+export default ApplicationCard;
