@@ -32,7 +32,7 @@ const Member = (props) => {
                     {props.memberButton}
                 </Button>
             );
-        } else {
+        } else if (member._id !== localStorage.getItem('userID')) {
             actions = member.connections.includes(localStorage.getItem('userID')) ? (
                 <span style={{ color: '#6053F1' }}> Connected </span>
             ) : (

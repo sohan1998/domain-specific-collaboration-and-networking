@@ -244,6 +244,22 @@ export default class Roles extends Component {
             'Active listening',
             'Adaptability',
             'airflow',
+            'Network Security',
+            'Application Security',
+            'Security',
+            'Owasp',
+            'SSO',
+            'LDAP',
+            'cyber security',
+            'Kotlin',
+            'Android',
+            'Android NDK',
+            'MVP',
+            'MVVM',
+            'Bluetooth Protocols',
+            'Android SDK',
+            'Java RX',
+            'Flutter',
             'amazon web services',
             'Analytical Skills',
             'angular',
@@ -601,6 +617,14 @@ export default class Roles extends Component {
             'Putty',
             'MS Office Suite',
         ];
+
+        const lowerCaseSkills = interests.map((element) => {
+            return element.toLowerCase();
+        });
+
+        const searchSkills = lowerCaseSkills.filter((val, id, skillsArray) => skillsArray.indexOf(val) === id).sort();
+        // console.log(searchSkills);
+
         let rolesToDisplay, createRoleButton, displaySideBar;
         if (this.props.userType) {
             if (this.props.userType === 'Owner') {
@@ -735,7 +759,7 @@ export default class Roles extends Component {
                                             disablePortal
                                             id='combo-box-demo'
                                             multiple
-                                            options={interests}
+                                            options={searchSkills}
                                             sx={{ width: '100%' }}
                                             onChange={this.interestsChangeHandler}
                                             renderInput={(params) => <TextField {...params} label='Select Tags' />}

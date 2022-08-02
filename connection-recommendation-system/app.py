@@ -58,7 +58,8 @@ def recommend_connections():
     result = recommendation.results(user_id,data)
     res = dict()
     for i,v in enumerate(result):
-        res[i] = fetch_user_data(v)
+        if v!=user_id:
+            res[i] = fetch_user_data(v)
     # return res
     return Response(json.dumps(res,default=str),mimetype="application/json")
 
