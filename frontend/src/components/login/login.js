@@ -51,19 +51,19 @@ export default class Login extends Component {
             this.setState({
                 redirect: <Navigate to='/projects' replace={true} />,
             });
-            console.log('Redirecting to projects');
+            // console.log('Redirecting to projects');
         } catch (error) {
             console.error(error);
         }
     };
 
     handleEmailChange = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         this.setState({ email: e.target.value });
     };
 
     handlePasswordChange = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         this.setState({ password: e.target.value });
     };
 
