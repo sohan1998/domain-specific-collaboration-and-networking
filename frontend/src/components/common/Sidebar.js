@@ -33,11 +33,11 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const userID = localStorage.getItem('userID');
     const lengthOfExistingProjects = existingProjects.length;
-    console.log('Number of projects: ', lengthOfExistingProjects);
+    // console.log('Number of projects: ', lengthOfExistingProjects);
     // console.log('User ID: ', userID);
 
     useEffect(() => {
-        console.log('Rendering');
+        // console.log('Rendering');
         GetExistingProjectsOfUser();
         // const returnedProjectCount = incrementCount();
 
@@ -85,7 +85,7 @@ const Sidebar = () => {
         try {
             // console.log('TRY');
             const response = await axios.get(`http://${backendIP}:${backendPort}/user/existingProjectsOfUser?_id=${userID}`);
-            console.log('Project IDs: ', response.data);
+            // console.log('Project IDs: ', response.data);
             if (response.data.projectIdArrayMember) {
                 setExistingProjects(response.data.projectIdArrayMember);
             }
