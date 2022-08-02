@@ -478,6 +478,22 @@ export class RegisterUserInfo extends Component {
             'Apache Tomcat',
             'Putty',
             'MS Office Suite',
+            'Network Security',
+            'Application Security',
+            'Security',
+            'Owasp',
+            'SSO',
+            'LDAP',
+            'cyber security',
+            'Kotlin',
+            'Android',
+            'Flutter',
+            'Android NDK',
+            'MVP',
+            'MVVM',
+            'Bluetooth Protocols',
+            'Android SDK',
+            'Java RX',
         ];
 
         const lowerCaseSkills = skills.map((element) => {

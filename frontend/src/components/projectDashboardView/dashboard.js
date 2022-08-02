@@ -10,6 +10,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import AllProjects from '../projects/projects';
 import Roles from '../roles/Roles';
+import Avatar from '@mui/material/Avatar';
 import './about.css';
 import About from '../projectDashboardView/about';
 import Member from './members';
@@ -238,7 +239,10 @@ export default class ProjectDashboard extends Component {
                     <Row style={{ height: '200px' }} className='m-4'>
                         <Col xs={2}>
                             {' '}
-                            <img className='rounded-circle' alt='200x200' src='https://picsum.photos/id/3/150/150' data-holder-rendered='true'></img>
+                            {/* <img className='rounded-circle' alt='200x200' src='https://picsum.photos/id/3/150/150' data-holder-rendered='true'></img> */}
+                            <Avatar sx={{ width: 150, height: 150 }} style={{ backgroundColor: '#6053f1' }}>
+                                <h1>{this.state.projectData.title ? this.state.projectData.title[0] : ''}</h1>
+                            </Avatar>
                         </Col>
                         <Col>
                             <Row>

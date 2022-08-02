@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, Col } from 'react-bootstrap';
 import './roles.css';
+import './../projectDashboardView/about.css';
 
 const RolesList = (props) => {
     // console.log(props.allRoles);
@@ -63,7 +64,7 @@ const RolesList = (props) => {
                 <Card.Header>{title}</Card.Header>
                 <Card.Body>
                     <div className='rolecard-content-wrapper'>
-                        <div>{description}</div>
+                        <div className='align-about'>{description.length > 250 ? description.substring(0, 250) + '...' : description}</div>
                         <div>{buttonHolder}</div>
                     </div>
                 </Card.Body>
