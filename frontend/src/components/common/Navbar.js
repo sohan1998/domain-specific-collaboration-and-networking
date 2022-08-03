@@ -18,6 +18,7 @@ import { useLocation, useNavigate } from 'react-router';
 // import './../common/button.css';
 
 const NavbarComponent = () => {
+    const userID = localStorage.getItem('userID');
     const userFirstName = localStorage.getItem('firstName');
     const navigate = useNavigate();
     const location = useLocation();
@@ -126,11 +127,21 @@ const NavbarComponent = () => {
         );
     }
 
+    let circlesLogoPath;
+    if (!userID) {
+        circlesLogoPath = '/login';
+        console.log('Login');
+    } else {
+        circlesLogoPath = '/projects';
+        console.log('Projects');
+        // alert();
+    }
+
     return (
         <div>
             <Navbar collapseOnSelect expand='lg' bg='light'>
                 <Container>
-                    <Navbar.Brand href='/' className='title'>
+                    <Navbar.Brand href={circlesLogoPath} className='title'>
                         Circles
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls='responsive-navbar-nav' />
@@ -140,7 +151,8 @@ const NavbarComponent = () => {
                             <Nav.Link href='/projects'>Projects</Nav.Link>
                             <Nav.Link href='/roles'>Roles</Nav.Link>
                         </Nav> */}
-                        {location.pathname !== '/login' &&
+                        {location.pathname !== '/' &&
+                            location.pathname !== '/login' &&
                             location.pathname !== '/register' &&
                             location.pathname !== '/registerUserInfo' &&
                             location.pathname !== '/registerUserInterests' &&

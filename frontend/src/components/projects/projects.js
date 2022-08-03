@@ -50,7 +50,11 @@ export default class AllProjects extends Component {
     };
 
     componentDidMount() {
-        this.fetchAllProjects();
+        if (!localStorage.getItem('userID')) {
+            this.setState({ redirect: <Navigate to='/login' replace={true} /> });
+        } else {
+            this.fetchAllProjects();
+        }
     }
 
     handleOnClick(projectId, e) {
