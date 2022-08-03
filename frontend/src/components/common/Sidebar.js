@@ -84,6 +84,9 @@ const Sidebar = () => {
     const GetExistingProjectsOfUser = async () => {
         try {
             // console.log('TRY');
+            if (!userID) {
+                return <div></div>;
+            }
             const response = await axios.get(`http://${backendIP}:${backendPort}/user/existingProjectsOfUser?_id=${userID}`);
             // console.log('Project IDs: ', response.data);
             if (response.data.projectIdArrayMember) {
