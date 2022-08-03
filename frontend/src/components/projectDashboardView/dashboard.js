@@ -17,6 +17,7 @@ import Member from './members';
 import Button from '@mui/material/Button';
 import DashboardRoles from './dashboardRoles';
 import Applications from './applications';
+import { Navigate } from 'react-router-dom';
 
 export default class ProjectDashboard extends Component {
     state = {
@@ -28,6 +29,7 @@ export default class ProjectDashboard extends Component {
         description: '',
         status: '',
         currentUserId: localStorage.getItem('userID'),
+        redirect: '',
     };
 
     fetchProjectData = async () => {
@@ -96,8 +98,12 @@ export default class ProjectDashboard extends Component {
         // let temp = localStorage.getItem('projectID');
         // console.log('temp', temp);
         // this.setState({ projectId: temp });
-        // console.log('renderer');
-        this.fetchProjectData();
+        if (!localStorage.getItem('userID')) {
+            this.setState({ redirect: <Navigate to='/login' replace={true} /> });
+        } else {
+            // console.log('renderer');
+            this.fetchProjectData();
+        }
     }
 
     connectWithMember = async (userId2) => {
