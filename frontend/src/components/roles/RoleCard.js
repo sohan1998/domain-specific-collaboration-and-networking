@@ -33,8 +33,8 @@ const RolesList = (props) => {
             title = role._doc.title;
             description = role._doc.description;
         } else if (props.dashboardRole) {
-            if (role.isApplied === 'APPLIED') {
-                buttonHolder = 'Applied';
+            if (role.isApplied !== 'NOT_APPLIED') {
+                buttonHolder = role.isApplied;
             } else {
                 buttonHolder = (
                     <Button

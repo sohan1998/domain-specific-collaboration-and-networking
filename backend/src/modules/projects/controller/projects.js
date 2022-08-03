@@ -101,7 +101,8 @@ export class ProjectsController {
                     let flag = false;
                     for (const appliedRole of rolesSpecificToUserForProject) {
                         if (appliedRole.jobId.toString() === role.id.toString()) {
-                            const updatedRole = { ...role, isApplied: 'APPLIED' };
+                            const applicationStatusVariable = appliedRole.applicationStatus;
+                            const updatedRole = { ...role, isApplied: applicationStatusVariable };
                             result.push(updatedRole);
                             ids.push(role.id.toString());
                             flag = true;

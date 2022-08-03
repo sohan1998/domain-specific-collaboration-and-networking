@@ -115,7 +115,7 @@ const Sidebar = () => {
             return (
                 <div>
                     {/* {console.log(badge)} */}
-                    {localStorage.setItem('projectID', badge)}
+                    {localStorage.setItem('projectID', badge._id)}
                     {navigate('/projectDashboardView')}
                     {window.location.reload()}
                 </div>
@@ -133,7 +133,10 @@ const Sidebar = () => {
                             style={{ alignContent: 'auto', cursor: 'pointer' }}
                             onClick={selectProjectOnClick}
                         >
-                            <Avatar alt='1' src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
+                            {/* <Avatar alt='1' src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} /> */}
+                            <Avatar style={{ backgroundColor: '#6053f1', alignCenter: 'center' }}>
+                                <h7>{badge.title ? badge.title[0] : ''}</h7>
+                            </Avatar>
                         </StyledBadge>
                         {/* <Badge
                         overlap='circular'
