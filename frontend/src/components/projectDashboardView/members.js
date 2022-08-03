@@ -34,7 +34,10 @@ const Member = (props) => {
             );
         } else if (member._id !== localStorage.getItem('userID')) {
             actions = member.connections.includes(localStorage.getItem('userID')) ? (
-                <span style={{ color: '#6053F1' }}> Connected </span>
+                <p style={{ color: '#6053F1' }}>
+                    <br />
+                    Connected
+                </p>
             ) : (
                 <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} onClick={(e) => handleOnClick(member._id, e)}>
                     {props.memberButton}
