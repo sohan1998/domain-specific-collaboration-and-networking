@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Form, Container } from 'react-bootstrap';
+import { Button, Form, Container, NavLink } from 'react-bootstrap';
 import axios from 'axios';
 import './../common/button.css';
 import './../common/font.css';
 import './login.css';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { backendIP, backendPort } from './../common/constants';
 
 export default class Login extends Component {
@@ -94,10 +94,15 @@ export default class Login extends Component {
                             {/* <Form.Group className='mb-3' controlId='formCheckbox'>
                             <Form.Check type='checkbox' label='Check me out' />
                         </Form.Group> */}
+                            <br />
                             <Button type='submit' className='green-primary-btn' onClick={this.login}>
                                 Login
                             </Button>
                         </Form>
+                        <br />
+                        <span>
+                            Don't have an account? <Link to='/register'>Register Here</Link>
+                        </span>
                         {this.state.message}
                     </Container>
                 </div>
