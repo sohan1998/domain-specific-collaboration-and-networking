@@ -17,6 +17,7 @@ import Member from './members';
 import Button from '@mui/material/Button';
 import DashboardRoles from './dashboardRoles';
 import Applications from './applications';
+import { Navigate } from 'react-router-dom';
 
 export default class ProjectDashboard extends Component {
     state = {
@@ -28,6 +29,7 @@ export default class ProjectDashboard extends Component {
         description: '',
         status: '',
         currentUserId: localStorage.getItem('userID'),
+        redirect: '',
     };
 
     fetchProjectData = async () => {
@@ -86,7 +88,7 @@ export default class ProjectDashboard extends Component {
             });
             this.setState({ description: response.data.description });
             this.setState({ status: response.data.status });
-            console.log(`here:${this.state.title},${this.state.description},${this.state.status}`);
+            // console.log(`Project Description: ${this.state.title},${this.state.description},${this.state.status}`);
         } catch {
             console.error('Some issue in fetching all projects');
         }
@@ -96,8 +98,12 @@ export default class ProjectDashboard extends Component {
         // let temp = localStorage.getItem('projectID');
         // console.log('temp', temp);
         // this.setState({ projectId: temp });
-        console.log('renderer');
-        this.fetchProjectData();
+        if (!localStorage.getItem('userID')) {
+            this.setState({ redirect: <Navigate to='/login' replace={true} /> });
+        } else {
+            // console.log('renderer');
+            this.fetchProjectData();
+        }
     }
 
     connectWithMember = async (userId2) => {
@@ -154,87 +160,97 @@ export default class ProjectDashboard extends Component {
     handleOnShow = () => this.setState({ showw: true });
 
     render() {
-        if (localStorage.getItem('projectID') !== this.state.projectId) {
-            this.fetchProjectData();
-        }
-        let membersButton, membersButtonFunction, editButton, applicationsTab, userType;
-        // console.log('ProjectID from State:', this.state.projectId);
+        // {
+        //     this.state.redirect;
+        // }
+        let membersButton, membersButtonFunction, editButton, applicationsTab, userType, checkButtons;
+        if (localStorage.getItem('userID')) {
+            // if (localStorage.getItem('userID')) {
+            //     return <div>{this.state.redirect}</div>;
+            // }
+            if (localStorage.getItem('projectID') !== this.state.projectId) {
+                this.fetchProjectData();
+            }
+            // let membersButton, membersButtonFunction, editButton, applicationsTab, userType;
+            // console.log('ProjectID from State:', this.state.projectId);
 
-        if (this.state.projectData.ownerId === this.state.currentUserId) {
-            applicationsTab = (
-                <Tab eventKey='applications' title='Applications'>
-                    <Applications projectId={this.state.projectId} onClickUpdate={this.fetchProjectData} />{' '}
-                </Tab>
-            );
-            editButton = (
-                <Button variant='outlined' sx={{ color: '#6053F1', borderColor: '#6053F1' }} onClick={this.handleOnShow}>
-                    Edit
-                </Button>
-            );
-            membersButton = 'Remove';
-            membersButtonFunction = this.removeMember;
-            userType = 'Owner';
-        } else {
-            membersButton = 'Connect';
-            membersButtonFunction = this.connectWithMember;
-            userType = 'Member';
-        }
-        let checkButtons;
-        if (this.state.projectData.status) {
-            checkButtons = (
-                <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
-                    <Form.Check
-                        inline
-                        name='group1'
-                        type='radio'
-                        id='default-radio'
-                        label='Active'
-                        defaultChecked
-                        onChange={(e) => {
-                            this.setState({ status: 'Active' });
-                        }}
-                    />
-                    <Form.Check
-                        inline
-                        name='group1'
-                        type='radio'
-                        id='default-radio'
-                        label='Inactive'
-                        onChange={(e) => {
-                            this.setState({ status: 'Inactive' });
-                        }}
-                    />
-                </Form.Group>
-            );
-        } else {
-            checkButtons = (
-                <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
-                    <Form.Check
-                        inline
-                        name='group1'
-                        type='radio'
-                        id='default-radio'
-                        label='Active'
-                        onChange={(e) => {
-                            this.setState({ status: 'Active' });
-                        }}
-                    />
-                    <Form.Check
-                        inline
-                        name='group1'
-                        type='radio'
-                        id='default-radio'
-                        label='Inactive'
-                        defaultChecked
-                        onChange={(e) => {
-                            this.setState({ status: 'Inactive' });
-                        }}
-                    />
-                </Form.Group>
-            );
+            if (this.state.projectData.ownerId?._id === this.state.currentUserId) {
+                applicationsTab = (
+                    <Tab eventKey='applications' title='Applications'>
+                        <Applications projectId={this.state.projectId} onClickUpdate={this.fetchProjectData} />{' '}
+                    </Tab>
+                );
+                editButton = (
+                    <Button variant='outlined' sx={{ color: '#6053F1', borderColor: '#6053F1' }} onClick={this.handleOnShow}>
+                        Edit
+                    </Button>
+                );
+                membersButton = 'Remove';
+                membersButtonFunction = this.removeMember;
+                userType = 'Owner';
+            } else {
+                membersButton = 'Connect';
+                membersButtonFunction = this.connectWithMember;
+                userType = 'Member';
+            }
+            // let checkButtons;
+            if (this.state.projectData.status) {
+                checkButtons = (
+                    <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
+                        <Form.Check
+                            inline
+                            name='group1'
+                            type='radio'
+                            id='default-radio'
+                            label='Active'
+                            defaultChecked
+                            onChange={(e) => {
+                                this.setState({ status: 'Active' });
+                            }}
+                        />
+                        <Form.Check
+                            inline
+                            name='group1'
+                            type='radio'
+                            id='default-radio'
+                            label='Inactive'
+                            onChange={(e) => {
+                                this.setState({ status: 'Inactive' });
+                            }}
+                        />
+                    </Form.Group>
+                );
+            } else {
+                checkButtons = (
+                    <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
+                        <Form.Check
+                            inline
+                            name='group1'
+                            type='radio'
+                            id='default-radio'
+                            label='Active'
+                            onChange={(e) => {
+                                this.setState({ status: 'Active' });
+                            }}
+                        />
+                        <Form.Check
+                            inline
+                            name='group1'
+                            type='radio'
+                            id='default-radio'
+                            label='Inactive'
+                            defaultChecked
+                            onChange={(e) => {
+                                this.setState({ status: 'Inactive' });
+                            }}
+                        />
+                    </Form.Group>
+                );
+            }
         }
         return (
             <div>
+                {this.state.redirect}
                 <Container>
                     <Row style={{ height: '200px' }} className='m-4'>
                         <Col xs={2}>
