@@ -14,6 +14,7 @@ import ProjectDashboard from './components/projectDashboardView/dashboard';
 import Sidebar from './components/common/Sidebar';
 import { UserProfile } from './components/user/UserProfile';
 import { Col, Row } from 'react-bootstrap';
+import LandingPage from './components/landingPage/LandingPage';
 // import { Navbar } from 'react-bootstrap';
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
                     <Routes>
                         {/* {homeUrlPath} */}
                         {/* <Redirect exact from='/' to='/home' /> */}
+                        {/* <Route path='/' element={<LandingPage />} /> */}
                         <Route path='/' element={homeUrlPath} />
                         <Route path='/login' element={home} />
                         <Route path='/register' element={<Register />} />
