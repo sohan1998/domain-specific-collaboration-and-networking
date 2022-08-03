@@ -1,18 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Form, Container, Modal } from 'react-bootstrap';
+import { Form, Container, Modal, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { backendIP, backendPort } from './../common/constants';
-import { Button, FormControl, Input } from '@mui/material';
+import { Button, FormControl, Input, Tab } from '@mui/material';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
 import './../common/button.css';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import Member from '../projectDashboardView/members';
 
-export const UserProfile = () => {
+export const UserProfile = (props) => {
     const [profile, setProfile] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const userID = localStorage.getItem('userID');
+    const [value, setValue] = useState('1');
+    // const [userConnections, setUserConnections] = useState();
     // const profileMemo = useMemo(() => setProfile(), [profile]);
 
     useEffect(() => {
@@ -20,14 +26,23 @@ export const UserProfile = () => {
     }, []);
 
     const getUserProfile = async () => {
+        let userIdToCheck;
         try {
-            const userProfile = await axios.get(`http://${backendIP}:${backendPort}/profile/getUserProfile?_id=${userID}`);
+            if (props.otherUserId) {
+                userIdToCheck = props.otherUserId;
+            } else {
+                userIdToCheck = userID;
+            }
+            const userProfile = await axios.get(`http://${backendIP}:${backendPort}/profile/getUserProfile?_id=${userIdToCheck}`);
             // console.log(userProfile.data);
-            setProfile(userProfile.data);
-            // console.log(profile);
+            if (userProfile.status === 200) {
+                setProfile(userProfile.data);
+                // console.log('Profile ID: ', profile._id);
+            }
         } catch (error) {
             console.error(error);
         }
+        console.log('Connections: ', profile.connections);
     };
 
     const handleModalOnHide = () => {
@@ -36,16 +51,6 @@ export const UserProfile = () => {
 
     const handleModalOnShow = () => {
         setShowModal(true);
-    };
-
-    const EditButton = () => {
-        return (
-            <Box sx={{ '& > :not(style)': { m: 1 } }}>
-                <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} aria-label='edit' onClick={handleModalOnShow}>
-                    EDIT
-                </Button>
-            </Box>
-        );
     };
 
     const handleInputFirstName = (e) => {
@@ -94,6 +99,20 @@ export const UserProfile = () => {
     //     setProfile({ ...profile, [e.target.firstName]: e.target.value });
     // };
 
+    const handleTabChange = (e, newValue) => {
+        setValue(newValue);
+    };
+
+    // const EditButton = () => {
+    //     return (
+    //         <Box sx={{ '& > :not(style)': { m: 1 } }}>
+    //             <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} aria-label='edit' onClick={handleModalOnShow}>
+    //                 EDIT
+    //             </Button>
+    //         </Box>
+    //     );
+    // };
+
     const submitEditedForm = async (e) => {
         e.preventDefault();
         try {
@@ -105,17 +124,61 @@ export const UserProfile = () => {
                 getUserProfile();
             }
             handleModalOnHide();
-            window.location.reload(false);
+            // window.location.reload(false);
         } catch (error) {
             console.error(error);
         }
+        setLoading(true);
     };
+
+    const connectWithMember = async (userId2) => {
+        // console.log(userId2);
+
+        const payload = {
+            userId2: userId2,
+        };
+
+        try {
+            const response = await axios.post(`http://${backendIP}:${backendPort}/user/userConnections?_id=${userID}`, payload);
+            getUserProfile();
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    let connectionsToDisplay, editButton;
+    // if (profile) {
+    if (profile._id === userID) {
+        // connectionsToDisplay = <RolesList allRoles={projectRolesData} onShow={handleOnShow} deleteRole={deleteRole} />;
+        editButton = (
+            // <Row className='m-4'>
+            //     <Col sm={10}></Col>
+            //     <Col sm={2}>
+            //         <Button type='submit' className='green-primary-btn' size='sm' onClick={EditButton}>
+            //             Edit
+            //         </Button>
+            //     </Col>
+            // </Row>
+            <div align='right'>
+                <Box sx={{ '& > :not(style)': { m: 1 } }}>
+                    <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} aria-label='edit' onClick={handleModalOnShow}>
+                        EDIT
+                    </Button>
+                </Box>
+            </div>
+        );
+    }
+    // } else {
 
     let renderInfo;
     if (profile.education) {
         renderInfo = (
             <Container className='mt-3'>
+                {editButton}
                 <Container className='mt-3'>
+                    <br />
+                    {/* <br /> */}
                     <div>
                         <h3>Personal Information</h3>
                         <br />
@@ -170,8 +233,8 @@ export const UserProfile = () => {
                             <Form.Control as='textarea' rows={7} defaultValue={profile.about_me} placeholder='About Me' disabled />
                         </Form.Group>
                         {/* <Form.Group className='mb-3' controlId='updatePosition'>
-                <Form.Control type='text' defaultValue={profile.professionalExperience.position} placeholder='Position' onChange={handleInputPosition} />
-            </Form.Group> */}
+                    <Form.Control type='text' defaultValue={profile.professionalExperience.position} placeholder='Position' onChange={handleInputPosition} />
+                </Form.Group> */}
                     </div>
                 </Container>
 
@@ -184,10 +247,10 @@ export const UserProfile = () => {
                     </Modal.Header>
                     <Modal.Body>
                         {/* <div align='right'>
-                            <br />
-                            {EditButton()}
-                            <br />
-                        </div> */}
+                                <br />
+                                {EditButton()}
+                                <br />
+                            </div> */}
                         {/* <Form onSubmit={handleEditForm}>  */}
                         <div>
                             <h3>Personal Information</h3>
@@ -260,8 +323,8 @@ export const UserProfile = () => {
                             </Form.Group>
                             <br />
                             {/* <Form.Group className='mb-3' controlId='updatePosition'>
-                <Form.Control type='text' defaultValue={profile.professionalExperience.position} placeholder='Position' onChange={handleInputPosition} />
-            </Form.Group> */}
+                    <Form.Control type='text' defaultValue={profile.professionalExperience.position} placeholder='Position' onChange={handleInputPosition} />
+                </Form.Group> */}
                         </div>
                     </Modal.Body>
                     <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -286,17 +349,41 @@ export const UserProfile = () => {
         }
     }
 
+    {
+        /* ------------------------------------------------- */
+        /* --------------- MODAL ends here --------------- */
+    }
+
+    connectionsToDisplay = (
+        <TabContext value={value}>
+            <Box>
+                <TabList onChange={handleTabChange} aria-label='lab API tabs example'>
+                    <Tab label='Profile' value='1' />
+                    <Tab label='Connections' value='2'></Tab>
+                </TabList>
+            </Box>
+            <TabPanel value='1'>{renderInfo}</TabPanel>
+            <TabPanel value='2'>
+                <Member memberInfo={profile.connections} memberButton='CONNECT' membersButtonFunction={connectWithMember} />
+            </TabPanel>
+        </TabContext>
+    );
+    // }
+
     return (
         <div>
             <Container className='mt-3'>
-                <div align='right'>
+                <div>
                     <br />
-                    {EditButton()}
+                    {connectionsToDisplay}
+                    {/* {editButton} */}
+                    {/* {console.log(profile.connections)} */}
+                    <br />
                     {/* {console.log('Check')} */}
                     <br />
                 </div>
             </Container>
-            {renderInfo}
+            {/* {renderInfo} */}
 
             {/* {!profile.education ? getUserProfile() : console.log('GO AHEAD')} */}
         </div>
