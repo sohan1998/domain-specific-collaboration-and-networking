@@ -86,7 +86,7 @@ export default class ProjectDashboard extends Component {
             });
             this.setState({ description: response.data.description });
             this.setState({ status: response.data.status });
-            console.log(`here:${this.state.title},${this.state.description},${this.state.status}`);
+            // console.log(`Project Description: ${this.state.title},${this.state.description},${this.state.status}`);
         } catch {
             console.error('Some issue in fetching all projects');
         }
@@ -96,7 +96,7 @@ export default class ProjectDashboard extends Component {
         // let temp = localStorage.getItem('projectID');
         // console.log('temp', temp);
         // this.setState({ projectId: temp });
-        console.log('renderer');
+        // console.log('renderer');
         this.fetchProjectData();
     }
 
@@ -159,8 +159,9 @@ export default class ProjectDashboard extends Component {
         }
         let membersButton, membersButtonFunction, editButton, applicationsTab, userType;
         // console.log('ProjectID from State:', this.state.projectId);
+        // console.log('ownerid', Object.keys(this.state.projectData.ownerId));
 
-        if (this.state.projectData.ownerId === this.state.currentUserId) {
+        if (this.state.projectData.ownerId?._id === this.state.currentUserId) {
             applicationsTab = (
                 <Tab eventKey='applications' title='Applications'>
                     <Applications projectId={this.state.projectId} onClickUpdate={this.fetchProjectData} />{' '}
