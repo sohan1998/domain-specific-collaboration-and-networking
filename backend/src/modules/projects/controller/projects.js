@@ -39,6 +39,7 @@ export class ProjectsController {
                     _id: projectId,
                 })
                 .populate('members')
+                .populate('ownerId')
                 .exec(function (err, targetProject) {
                     if (err) {
                         console.error(err);
