@@ -11,6 +11,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Member from '../projectDashboardView/members';
+import { useNavigate } from 'react-router-dom';
 
 export const UserProfile = (props) => {
     const [profile, setProfile] = useState({});
@@ -18,11 +19,16 @@ export const UserProfile = (props) => {
     const [loading, setLoading] = useState(false);
     const userID = localStorage.getItem('userID');
     const [value, setValue] = useState('1');
+    const navigate = useNavigate();
     // const [userConnections, setUserConnections] = useState();
     // const profileMemo = useMemo(() => setProfile(), [profile]);
 
     useEffect(() => {
-        getUserProfile();
+        if (!userID) {
+            navigate('/login');
+        } else {
+            getUserProfile();
+        }
     }, []);
 
     const getUserProfile = async () => {
@@ -374,7 +380,7 @@ export const UserProfile = (props) => {
         <div>
             <Container className='mt-3'>
                 <div>
-                    <br />
+                    {/* <br /> */}
                     {connectionsToDisplay}
                     {/* {editButton} */}
                     {/* {console.log(profile.connections)} */}
