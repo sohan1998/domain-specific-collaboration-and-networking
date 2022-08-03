@@ -166,42 +166,43 @@ export default class Register extends Component {
                 </div>
                 <div className='register-wrapper-item'>
                     <Container className='mt-3'>
-                        <Form>
-                            <Form.Group className='mb-3' controlId='formFirstName'>
-                                {/* <Form.Label>First Name</Form.Label> */}
-                                <Form.Control type='firstName' placeholder='Enter First Name' onChange={this.firstNameChangeHandler} />
-                                {/* <Form.Text className='text-muted'>We'll never share your email with anyone else.</Form.Text> */}
-                            </Form.Group>
-                            <Form.Group className='mb-3' controlId='formLastName'>
-                                {/* <Form.Label>Last Name</Form.Label> */}
-                                <Form.Control type='lastName' placeholder='Enter Last Name' onChange={this.lastNameChangeHandler} />
-                            </Form.Group>
-                            <Form.Group className='mb-3' controlId='formEmail'>
-                                {/* <Form.Label>Email address</Form.Label> */}
-                                <Form.Control type='email' placeholder='Enter Email' onChange={this.emailChangeHandler} />
-                                {/* <Form.Text className='text-muted'>We'll never share your email with anyone else.</Form.Text> */}
-                            </Form.Group>
-                            <Form.Group className='mb-3' controlId='formPassword'>
-                                <Form.Control type='password' placeholder='Enter Password' onChange={this.passwordChangeHandler} />
-                            </Form.Group>
-                            {/* <br />
+                        {/* <Form> */}
+                        <Form.Group className='mb-3' controlId='formFirstName'>
+                            {/* <Form.Label>First Name</Form.Label> */}
+                            <Form.Control type='firstName' placeholder='Enter First Name' onChange={this.firstNameChangeHandler} />
+                            {/* <Form.Text className='text-muted'>We'll never share your email with anyone else.</Form.Text> */}
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='formLastName'>
+                            {/* <Form.Label>Last Name</Form.Label> */}
+                            <Form.Control type='lastName' placeholder='Enter Last Name' onChange={this.lastNameChangeHandler} />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='formEmail'>
+                            {/* <Form.Label>Email address</Form.Label> */}
+                            <Form.Control type='email' placeholder='Enter Email' onChange={this.emailChangeHandler} />
+                            {/* <Form.Text className='text-muted'>We'll never share your email with anyone else.</Form.Text> */}
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='formPassword'>
+                            <Form.Control type='password' placeholder='Enter Password' onChange={this.passwordChangeHandler} />
+                        </Form.Group>
+                        {/* <br />
                         <br /> */}
-                            {/* <Form.Group className='mb-3' controlId='formProfilePicture'> */}
-                            {/* <Form.Label> */}
-                            {/* <b>Please upload your profile picture </b> */}
-                            {/* </Form.Label> */}
-                            {/* <Form.Control type='file' onChange={this.profilePictureChangeHandler} /> */}
-                            {/* <Form.Check type='checkbox' label='Check me out' /> */}
-                            {/* </Form.Group> */}
-                            <br />
-                            {/* <span>
+                        {/* <Form.Group className='mb-3' controlId='formProfilePicture'> */}
+                        {/* <Form.Label> */}
+                        {/* <b>Please upload your profile picture </b> */}
+                        {/* </Form.Label> */}
+                        {/* <Form.Control type='file' onChange={this.profilePictureChangeHandler} /> */}
+                        {/* <Form.Check type='checkbox' label='Check me out' /> */}
+                        {/* </Form.Group> */}
+                        <br />
+                        {/* <span>
                             Already have an account?
                             <Link>Click here</Link>
                         </span> */}
-                            <Button variant='success' type='submit' className='green-primary-btn' onClick={this.submit}>
-                                Next
-                            </Button>
-                        </Form>
+                        <Button variant='success' type='submit' className='green-primary-btn' onClick={this.submit}>
+                            Next
+                        </Button>
+                        {/* </Form> */}
+                        <br />
                         <br />
                         <span>
                             Already have an account? <Link to='/login'>Click here</Link>
