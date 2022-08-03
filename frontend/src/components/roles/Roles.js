@@ -17,6 +17,7 @@ import AllProjects from '../projects/projects';
 import About from '../projectDashboardView/about';
 import Button from '@mui/material/Button';
 import { Autocomplete, TextField } from '@mui/material';
+import { Navigate } from 'react-router-dom';
 
 export default class Roles extends Component {
     state = {
@@ -34,6 +35,7 @@ export default class Roles extends Component {
         messageApplication: '',
         interests: [],
         currentUserId: localStorage.getItem('userID'),
+        redirect: '',
     };
 
     fetchAllJobs = async () => {
@@ -154,7 +156,11 @@ export default class Roles extends Component {
             console.log('Rendering particula project jobs.');
             this.fetchRolesOfParticularProject();
         } else {
-            this.fetchAllJobs();
+            if (!localStorage.getItem('userID')) {
+                this.setState({ redirect: <Navigate to='/login' replace={true} /> });
+            } else {
+                this.fetchAllJobs();
+            }
         }
     }
 
@@ -663,6 +669,7 @@ export default class Roles extends Component {
         }
         return (
             <div className='roles-wrapper'>
+                {this.state.redirect}
                 {displaySideBar}
                 {/* <Sidebar /> */}
                 <br />
