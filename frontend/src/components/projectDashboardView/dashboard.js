@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { Container } from 'react-bootstrap';
 // import { Card } from 'react-bootstrap';
-import { Row, Col, Card, Container, Modal, Form } from 'react-bootstrap';
+import { Row, Col, Container, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 import './../common/header.css';
 import './../common/button.css';
@@ -18,6 +18,10 @@ import Button from '@mui/material/Button';
 import DashboardRoles from './dashboardRoles';
 import Applications from './applications';
 import { Navigate } from 'react-router-dom';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import { red } from '@mui/material/colors';
+// import Avatar from '@mui/material/Avatar';
 
 export default class ProjectDashboard extends Component {
     state = {
@@ -163,7 +167,7 @@ export default class ProjectDashboard extends Component {
         // {
         //     this.state.redirect;
         // }
-        let membersButton, membersButtonFunction, editButton, applicationsTab, userType, checkButtons;
+        let membersButton, membersButtonFunction, editButton, applicationsTab, userType, checkButtons, actions;
         if (localStorage.getItem('userID')) {
             // if (localStorage.getItem('userID')) {
             //     return <div>{this.state.redirect}</div>;
@@ -192,6 +196,20 @@ export default class ProjectDashboard extends Component {
                 membersButton = 'Connect';
                 membersButtonFunction = this.connectWithMember;
                 userType = 'Member';
+                actions = this.state.projectData.ownerId?.connections.includes(localStorage.getItem('userID')) ? (
+                    <p style={{ color: '#6053F1' }}>
+                        <br />
+                        Connected
+                    </p>
+                ) : (
+                    <Button
+                        variant='contained'
+                        sx={{ backgroundColor: '#6053F1' }}
+                        onClick={(e) => this.connectWithMember(this.state.projectData.ownerId?._id, e)}
+                    >
+                        Connect
+                    </Button>
+                );
             }
             // let checkButtons;
             if (this.state.projectData.status) {
@@ -287,7 +305,32 @@ export default class ProjectDashboard extends Component {
                     {/* <br></br> */}
                     <Tabs id='controlled-tab-example' activeKey={this.state.key} onSelect={(k) => this.setState({ key: k })} className='mb-3'>
                         <Tab eventKey='about' title='About'>
-                            <div className='align-about'>{this.state.projectData.description}</div>
+                            <div className='align-about'>
+                                {this.state.projectData.description}
+                                <br />
+                                <br />
+                                <p>
+                                    <h5>Owner</h5>
+                                </p>
+                                <div>
+                                    <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
+                                        <CardHeader
+                                            avatar={
+                                                <Avatar src='https://picsum.photos/seed/picsum/200/300' sx={{ bgcolor: red[500] }}>
+                                                    S
+                                                </Avatar>
+                                            }
+                                            action={actions}
+                                            // action={actions}
+                                            // action={props.memberButton}
+                                            style={{ textAlign: 'left' }}
+                                            titleTypographyProps={{ variant: 'h5' }}
+                                            title={`${this.state.projectData.ownerId?.firstName} ${this.state.projectData.ownerId?.lastName}`}
+                                            subheader={`${this.state.projectData.ownerId?.professionalExperience.position} at ${this.state.projectData.ownerId?.professionalExperience.employerName}`} // '{position} at {employerName}'
+                                        />
+                                    </Card>
+                                </div>
+                            </div>
                         </Tab>
                         <Tab eventKey='members' title='Members'>
                             <Member

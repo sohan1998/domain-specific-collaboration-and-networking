@@ -16,12 +16,22 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import { Row, Col, Container, Modal, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const Member = (props) => {
     // console.log(props.memberInfo);
+    const navigate = useNavigate();
+    // const history = useHistory();
     const handleOnClick = (memberId, e) => {
         e.preventDefault();
         props.membersButtonFunction(memberId);
+    };
+
+    const nameOnClick = (memberId, e) => {
+        e.preventDefault();
+        navigate('/editUserProfile', { state: { otherUserId: memberId } });
+        // history.push('/editUserProfile', { state: { otherUserId: memberId } });
+        window.location.reload(0);
     };
 
     const projectMembers = props.memberInfo?.map((member) => {
@@ -58,7 +68,9 @@ const Member = (props) => {
                         // action={props.memberButton}
                         style={{ textAlign: 'left' }}
                         titleTypographyProps={{ variant: 'h5' }}
-                        title={`${member.firstName} ${member.lastName}`}
+                        title={
+                            <div style={{ width: '75%' }} onClick={(e) => nameOnClick(member._id, e)}>{`${member.firstName} ${member.lastName}`}</div>
+                        }
                         subheader={`${member.professionalExperience.position} at ${member.professionalExperience.employerName}`} // '{position} at {employerName}'
                     />
                 </Card>

@@ -37,6 +37,12 @@ const NavbarComponent = () => {
         // navigate('/login');
     };
 
+    const profileOnClick = (Id, e) => {
+        e.preventDefault();
+        navigate('/editUserProfile', { state: { otherUserId: Id } });
+        window.location.reload(0);
+    };
+
     function AccountMenu() {
         return (
             <React.Fragment>
@@ -98,7 +104,11 @@ const NavbarComponent = () => {
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
                     <MenuItem>
-                        <Avatar /> <NavLink href='/editUserProfile'>Profile</NavLink>
+                        <Avatar />
+                        {/* <NavLink to={{ pathname: '/editUserProfile', state: { otherUserId: userID } }}> */}
+                        <div onClick={(e) => profileOnClick(userID, e)}>Profile</div>
+                        {/* {window.location.reload(0)} */}
+                        {/* </NavLink> */}
                     </MenuItem>
                     {/* <MenuItem>
                         <Avatar /> My account
