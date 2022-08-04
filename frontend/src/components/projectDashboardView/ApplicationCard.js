@@ -71,7 +71,7 @@ const ApplicationCard = (props) => {
         );
 
         return (
-            <Row className='m-4'>
+            <Row className='m-4' key={application._id}>
                 <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
                     <CardHeader
                         avatar={
