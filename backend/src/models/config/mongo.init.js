@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import app from '../../../app.js';
+import { backendPort } from '../../../config/serverConfig.js';
 import mongoUri from './mongo.config.js';
 
 const mongoInit = () => {
@@ -10,7 +11,7 @@ const mongoInit = () => {
             maxPoolSize: 500,
         });
         console.log('Mongoose is connected.');
-        app.listen(3001, () => {
+        app.listen(backendPort, () => {
             console.log('Server listening on port 3001');
         });
     } catch (err) {
