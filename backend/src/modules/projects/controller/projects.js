@@ -227,13 +227,13 @@ export class ProjectsController {
                     return res.status(401).json({ message: 'User does not exists!' });
                 }
                 const memberToAccept = await projectSchema.findOne({ _id: projectId });
-                console.log('Project => ', memberToAccept);
+                // console.log('Project => ', memberToAccept);
                 if (memberToAccept) {
-                    const memberExists = await projectSchema.findOne({ members: userId });
+                    const memberExists = await projectSchema.findOne({ $and: [{ _id: projectId }, { members: userId }] });
                     // console.log(memberExists);
                     if (memberExists) {
                         await applicationSchema.update(
-                            { $and: [{ userId: userId }, { projectId: projectId }] },
+                            { $and: [{ userId: userId }, { projectId: projectId }, { applicationStatus: 'Applied' }] },
                             {
                                 $set: { applicationStatus: 'No Longer Under Consideration' },
                             }
@@ -249,6 +249,12 @@ export class ProjectsController {
                                     { $and: [{ userId: userId }, { projectId: projectId }, { jobId: jobId }] },
                                     {
                                         $set: { applicationStatus: 'Accepted' },
+                                    }
+                                );
+                                await applicationSchema.update(
+                                    { $and: [{ userId: userId }, { projectId: projectId }, { applicationStatus: 'Applied' }] },
+                                    {
+                                        $set: { applicationStatus: 'No Longer Under Consideration' },
                                     }
                                 );
                             } catch (err) {
