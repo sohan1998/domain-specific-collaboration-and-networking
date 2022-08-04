@@ -17,7 +17,7 @@ const RolesList = (props) => {
     };
 
     const roles = props.allRoles.map((role) => {
-        let buttonHolder, title, description, textColor;
+        let buttonHolder, title, description, textColor, id;
         if (props.appliedTab) {
             // console.log(props.allRoles);
             buttonHolder = role.applicationStatus;
@@ -25,6 +25,7 @@ const RolesList = (props) => {
             // console.log(Object.values(role)[3].title);
             title = Object.values(role)[3].title;
             description = Object.values(role)[3].description;
+            id = Object.values(role)[3]._id;
         } else if (props.deleteRole) {
             buttonHolder = (
                 <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} onClick={(e) => deleteRoleOnClick(role._doc._id, e)}>
@@ -34,6 +35,7 @@ const RolesList = (props) => {
             );
             title = role._doc.title;
             description = role._doc.description;
+            id = role._doc._id;
         } else if (props.dashboardRole) {
             if (role.isApplied !== 'NOT_APPLIED') {
                 buttonHolder = role.isApplied;
@@ -50,7 +52,7 @@ const RolesList = (props) => {
                     </Button>
                 );
             }
-
+            id = role._doc._id;
             title = role._doc.title;
             description = role._doc.description;
         } else {
@@ -66,9 +68,10 @@ const RolesList = (props) => {
             );
             title = role.title;
             description = role.description;
+            id = role.job_id;
         }
         return (
-            <Card className='mb-3'>
+            <Card className='mb-3' key={id}>
                 <Card.Header>{title}</Card.Header>
                 <Card.Body>
                     <div className='rolecard-content-wrapper'>
