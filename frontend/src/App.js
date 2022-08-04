@@ -21,7 +21,7 @@ function App() {
     let location = useLocation();
     const userID = localStorage.getItem('userID');
 
-    let homeUrlPath, home, register, registerUserInfo;
+    let homeUrlPath, home, register, registerUserInfo, registerUserInterests, connections;
     // let homeUrlPathLogin = <Route path='/login' element={<Login />} />;
     // let homeUrlPathProjects = <Route path='/projects' element={<AllProjects />} />;
     if (!userID) {
@@ -29,12 +29,16 @@ function App() {
         homeUrlPath = <LandingPage />;
         register = <Register />;
         registerUserInfo = <RegisterUserInfo />;
+        registerUserInterests = <RegisterUserInterests />;
+        connections = <Connections />;
         console.log('Login');
     } else {
         home = <Navigate to='/projects' />;
         homeUrlPath = <Navigate to='/projects' />;
         register = <Navigate to='/projects' />;
         registerUserInfo = <Navigate to='/projects' />;
+        registerUserInterests = <Navigate to='/projects' />;
+        connections = <Navigate to='/projects' />;
         console.log('Projects');
         // alert();
     }
@@ -68,8 +72,8 @@ function App() {
                         <Route path='/projects' element={<AllProjects />} />
                         <Route path='/roles' element={<Roles />} />
                         <Route path='/registerUserInfo' element={registerUserInfo} />
-                        <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
-                        <Route path='/connections' element={<Connections />} />
+                        <Route path='/registerUserInterests' element={registerUserInterests} />
+                        <Route path='/connections' element={connections} />
                         <Route path='/projectDashboardView' element={<ProjectDashboard />} />
                         {/* <Route path='/sidebar' element={<Sidebar />} /> */}
                         <Route path='/editUserProfile' element={<UserProfile />} />
