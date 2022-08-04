@@ -4,7 +4,7 @@ import RolesList from './RoleCard';
 import './roles.css';
 import { Card, Row, Col, Container, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import { backendIP, backendPort } from '../common/constants';
+import { backendIP, backendPort, flaskIP, flaskPort } from '../common/constants';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -16,7 +16,8 @@ import Box from '@mui/material/Box';
 import AllProjects from '../projects/projects';
 import About from '../projectDashboardView/about';
 import Button from '@mui/material/Button';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, CircularProgress, TextField } from '@mui/material';
+import { Navigate } from 'react-router-dom';
 
 export default class Roles extends Component {
     state = {
@@ -34,6 +35,8 @@ export default class Roles extends Component {
         messageApplication: '',
         interests: [],
         currentUserId: localStorage.getItem('userID'),
+        redirect: '',
+        load: true,
     };
 
     fetchAllJobs = async () => {
@@ -79,8 +82,9 @@ export default class Roles extends Component {
         const userId = this.state.currentUserId;
         try {
             console.log(userId);
-            const response = await axios.get(`http://127.0.0.1:5000/recommendRoles/?_id=${userId}`);
+            const response = await axios.get(`http://${flaskIP}:${flaskPort}/recommendRoles/?_id=${userId}`);
             this.setState({ rolesData: response.data });
+            this.setState({ load: false });
 
             console.log('res', response.data);
         } catch (err) {
@@ -154,7 +158,11 @@ export default class Roles extends Component {
             console.log('Rendering particula project jobs.');
             this.fetchRolesOfParticularProject();
         } else {
-            this.fetchAllJobs();
+            if (!localStorage.getItem('userID')) {
+                this.setState({ redirect: <Navigate to='/login' replace={true} /> });
+            } else {
+                this.fetchAllJobs();
+            }
         }
     }
 
@@ -244,6 +252,22 @@ export default class Roles extends Component {
             'Active listening',
             'Adaptability',
             'airflow',
+            'Network Security',
+            'Application Security',
+            'Security',
+            'Owasp',
+            'SSO',
+            'LDAP',
+            'cyber security',
+            'Kotlin',
+            'Android',
+            'Android NDK',
+            'MVP',
+            'MVVM',
+            'Bluetooth Protocols',
+            'Android SDK',
+            'Java RX',
+            'Flutter',
             'amazon web services',
             'Analytical Skills',
             'angular',
@@ -601,7 +625,15 @@ export default class Roles extends Component {
             'Putty',
             'MS Office Suite',
         ];
-        let rolesToDisplay, createRoleButton, displaySideBar;
+
+        const lowerCaseSkills = interests.map((element) => {
+            return element.toLowerCase();
+        });
+
+        const searchSkills = lowerCaseSkills.filter((val, id, skillsArray) => skillsArray.indexOf(val) === id).sort();
+        // console.log(searchSkills);
+
+        let rolesToDisplay, createRoleButton, loaderToDisplay;
         if (this.props.userType) {
             if (this.props.userType === 'Owner') {
                 rolesToDisplay = <RolesList allRoles={this.state.projectRolesData} onShow={this.handleOnShow} deleteRole={this.deleteRole} />;
@@ -620,30 +652,24 @@ export default class Roles extends Component {
             }
         } else {
             // displaySideBar = <Sidebar />;
-            rolesToDisplay = (
-                <TabContext value={this.state.value}>
-                    <Box>
-                        <TabList onChange={this.handleChange} aria-label='lab API tabs example'>
-                            <Tab label='Browse All' value='1' />
-                            <Tab label='Applied' value='2' onClick={this.fetchAppliedJobs} />
-                        </TabList>
-                    </Box>
-                    <TabPanel value='1'>
-                        <RolesList allRoles={this.state.rolesData} onShow={this.handleOnShow} />
-                    </TabPanel>
-                    <TabPanel value='2'>
-                        <RolesList allRoles={this.state.appliedRolesData} onShow={this.handleOnShow} appliedTab={true} />
-                    </TabPanel>
-                </TabContext>
-            );
-        }
-        return (
-            <div className='roles-wrapper'>
-                {displaySideBar}
-                {/* <Sidebar /> */}
-                <br />
-                <div className='roles-main-wrapper'>
-                    {/* <TabContext value={this.state.value}>
+            if (this.state.load) {
+                rolesToDisplay = (
+                    <div
+                        style={{
+                            // width: '100px',
+                            position: 'absolute',
+                            top: '50%',
+                            right: '45%',
+                        }}
+                    >
+                        <Box>
+                            <CircularProgress />
+                        </Box>
+                    </div>
+                );
+            } else {
+                rolesToDisplay = (
+                    <TabContext value={this.state.value}>
                         <Box>
                             <TabList onChange={this.handleChange} aria-label='lab API tabs example'>
                                 <Tab label='Browse All' value='1' />
@@ -656,17 +682,18 @@ export default class Roles extends Component {
                         <TabPanel value='2'>
                             <RolesList allRoles={this.state.appliedRolesData} onShow={this.handleOnShow} appliedTab={true} />
                         </TabPanel>
-                    </TabContext> */}
+                    </TabContext>
+                );
+            }
+        }
+        return (
+            <div className='roles-wrapper'>
+                {this.state.redirect}
+                <br />
+                <div>
                     {createRoleButton}
                     {rolesToDisplay}
-                    {/* <Row className='m-4'>
-                        <Col sm={10}></Col>
-                        <Col sm={2}>
-                            <Button type='submit' className='green-primary-btn' size='sm' onClick={this.handleOnShow}>
-                                + Create Project
-                            </Button>
-                        </Col>
-                    </Row> */}
+
                     <div>
                         <Container>
                             <Modal show={this.state.showw} onHide={this.handleOnHide}>
@@ -694,10 +721,11 @@ export default class Roles extends Component {
                                     </Form>
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant='secondary' onClick={this.handleOnHide}>
+                                    <Button variant='outlined' sx={{ color: '#FF3D00', borderColor: '#FF3D00' }} onClick={this.handleOnHide}>
                                         Close
                                     </Button>
-                                    <Button variant='primary' onClick={this.applyJob}>
+                                    <h1></h1>
+                                    <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} onClick={this.applyJob}>
                                         Apply
                                     </Button>
                                 </Modal.Footer>
@@ -735,7 +763,7 @@ export default class Roles extends Component {
                                             disablePortal
                                             id='combo-box-demo'
                                             multiple
-                                            options={interests}
+                                            options={searchSkills}
                                             sx={{ width: '100%' }}
                                             onChange={this.interestsChangeHandler}
                                             renderInput={(params) => <TextField {...params} label='Select Tags' />}
@@ -743,10 +771,15 @@ export default class Roles extends Component {
                                     </Form>
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant='secondary' onClick={this.handleOnHideCreateRoleModal}>
+                                    <Button
+                                        variant='outlined'
+                                        sx={{ color: '#FF3D00', borderColor: '#FF3D00' }}
+                                        onClick={this.handleOnHideCreateRoleModal}
+                                    >
                                         Close
                                     </Button>
-                                    <Button variant='primary' onClick={this.createRole}>
+                                    <h1></h1>
+                                    <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} onClick={this.createRole}>
                                         Create
                                     </Button>
                                 </Modal.Footer>

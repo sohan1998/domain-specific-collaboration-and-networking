@@ -10,6 +10,7 @@ import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import axios from 'axios';
 import { backendIP, backendPort } from './constants';
 import './sidebar.css';
+import { Tooltip } from '@mui/material';
 
 // import './../common/header.css';
 
@@ -33,11 +34,11 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const userID = localStorage.getItem('userID');
     const lengthOfExistingProjects = existingProjects.length;
-    console.log('Number of projects: ', lengthOfExistingProjects);
+    // console.log('Number of projects: ', lengthOfExistingProjects);
     // console.log('User ID: ', userID);
 
     useEffect(() => {
-        console.log('Rendering');
+        // console.log('Rendering');
         GetExistingProjectsOfUser();
         // const returnedProjectCount = incrementCount();
 
@@ -84,8 +85,11 @@ const Sidebar = () => {
     const GetExistingProjectsOfUser = async () => {
         try {
             // console.log('TRY');
+            if (!userID) {
+                return <div></div>;
+            }
             const response = await axios.get(`http://${backendIP}:${backendPort}/user/existingProjectsOfUser?_id=${userID}`);
-            console.log('Project IDs: ', response.data);
+            // console.log('Project IDs: ', response.data);
             if (response.data.projectIdArrayMember) {
                 setExistingProjects(response.data.projectIdArrayMember);
             }
@@ -112,7 +116,7 @@ const Sidebar = () => {
             return (
                 <div>
                     {/* {console.log(badge)} */}
-                    {localStorage.setItem('projectID', badge)}
+                    {localStorage.setItem('projectID', badge._id)}
                     {navigate('/projectDashboardView')}
                     {window.location.reload()}
                 </div>
@@ -130,7 +134,12 @@ const Sidebar = () => {
                             style={{ alignContent: 'auto', cursor: 'pointer' }}
                             onClick={selectProjectOnClick}
                         >
-                            <Avatar alt='1' src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} />
+                            {/* <Avatar alt='1' src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} /> */}
+                            <Tooltip title={badge.title} placement='right'>
+                                <Avatar style={{ backgroundColor: '#6053f1', alignCenter: 'center' }}>
+                                    <h7>{badge.title ? badge.title[0] : ''}</h7>
+                                </Avatar>
+                            </Tooltip>
                         </StyledBadge>
                         {/* <Badge
                         overlap='circular'

@@ -16,12 +16,22 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import { Row, Col, Container, Modal, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const Member = (props) => {
     // console.log(props.memberInfo);
+    const navigate = useNavigate();
+    // const history = useHistory();
     const handleOnClick = (memberId, e) => {
         e.preventDefault();
         props.membersButtonFunction(memberId);
+    };
+
+    const nameOnClick = (memberId, e) => {
+        e.preventDefault();
+        navigate('/editUserProfile', { state: { otherUserId: memberId } });
+        // history.push('/editUserProfile', { state: { otherUserId: memberId } });
+        window.location.reload(0);
     };
 
     const projectMembers = props.memberInfo?.map((member) => {
@@ -32,9 +42,12 @@ const Member = (props) => {
                     {props.memberButton}
                 </Button>
             );
-        } else {
+        } else if (member._id !== localStorage.getItem('userID')) {
             actions = member.connections.includes(localStorage.getItem('userID')) ? (
-                <span style={{ color: '#6053F1' }}> Connected </span>
+                <p style={{ color: '#6053F1' }}>
+                    <br />
+                    Connected
+                </p>
             ) : (
                 <Button variant='contained' sx={{ backgroundColor: '#6053F1' }} onClick={(e) => handleOnClick(member._id, e)}>
                     {props.memberButton}
@@ -42,12 +55,12 @@ const Member = (props) => {
             );
         }
         return (
-            <Row className='m-4'>
+            <Row className='m-4' key={member._id}>
                 <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
                     <CardHeader
                         avatar={
-                            <Avatar src='https://picsum.photos/seed/picsum/200/300' sx={{ bgcolor: red[500] }}>
-                                S
+                            <Avatar style={{ backgroundColor: '#6053f1' }}>
+                                <h7>{member.firstName ? member.firstName[0] : ''}</h7>
                             </Avatar>
                         }
                         action={actions}
@@ -55,7 +68,12 @@ const Member = (props) => {
                         // action={props.memberButton}
                         style={{ textAlign: 'left' }}
                         titleTypographyProps={{ variant: 'h5' }}
-                        title={`${member.firstName} ${member.lastName}`}
+                        title={
+                            <div
+                                style={{ width: '75%', cursor: 'pointer' }}
+                                onClick={(e) => nameOnClick(member._id, e)}
+                            >{`${member.firstName} ${member.lastName}`}</div>
+                        }
                         subheader={`${member.professionalExperience.position} at ${member.professionalExperience.employerName}`} // '{position} at {employerName}'
                     />
                 </Card>

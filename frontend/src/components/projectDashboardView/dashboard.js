@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { Container } from 'react-bootstrap';
 // import { Card } from 'react-bootstrap';
-import { Row, Col, Card, Container, Modal, Form } from 'react-bootstrap';
+import { Row, Col, Container, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 import './../common/header.css';
 import './../common/button.css';
@@ -10,12 +10,19 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import AllProjects from '../projects/projects';
 import Roles from '../roles/Roles';
+import Avatar from '@mui/material/Avatar';
 import './about.css';
 import About from '../projectDashboardView/about';
 import Member from './members';
 import Button from '@mui/material/Button';
 import DashboardRoles from './dashboardRoles';
 import Applications from './applications';
+import { Navigate } from 'react-router-dom';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import { red } from '@mui/material/colors';
+import { Skeleton } from '@mui/material';
+// import Avatar from '@mui/material/Avatar';
 
 export default class ProjectDashboard extends Component {
     state = {
@@ -27,6 +34,7 @@ export default class ProjectDashboard extends Component {
         description: '',
         status: '',
         currentUserId: localStorage.getItem('userID'),
+        redirect: '',
     };
 
     fetchProjectData = async () => {
@@ -85,7 +93,7 @@ export default class ProjectDashboard extends Component {
             });
             this.setState({ description: response.data.description });
             this.setState({ status: response.data.status });
-            console.log(`here:${this.state.title},${this.state.description},${this.state.status}`);
+            // console.log(`Project Description: ${this.state.title},${this.state.description},${this.state.status}`);
         } catch {
             console.error('Some issue in fetching all projects');
         }
@@ -95,8 +103,14 @@ export default class ProjectDashboard extends Component {
         // let temp = localStorage.getItem('projectID');
         // console.log('temp', temp);
         // this.setState({ projectId: temp });
-        console.log('renderer');
-        this.fetchProjectData();
+        if (!localStorage.getItem('userID')) {
+            this.setState({ redirect: <Navigate to='/login' replace={true} /> });
+        } else if (!localStorage.getItem('projectID')) {
+            // console.log('renderer');
+            this.setState({ redirect: <Navigate to='/projects' replace={true} /> });
+        } else {
+            this.fetchProjectData();
+        }
     }
 
     connectWithMember = async (userId2) => {
@@ -153,92 +167,119 @@ export default class ProjectDashboard extends Component {
     handleOnShow = () => this.setState({ showw: true });
 
     render() {
-        if (localStorage.getItem('projectID') !== this.state.projectId) {
-            this.fetchProjectData();
-        }
-        let membersButton, membersButtonFunction, editButton, applicationsTab, userType;
-        // console.log('ProjectID from State:', this.state.projectId);
+        // {
+        //     this.state.redirect;
+        // }
+        let membersButton, membersButtonFunction, editButton, applicationsTab, userType, checkButtons, actions;
+        if (localStorage.getItem('userID') && localStorage.getItem('projectID')) {
+            // if (localStorage.getItem('userID')) {
+            //     return <div>{this.state.redirect}</div>;
+            // }
+            if (localStorage.getItem('projectID') !== this.state.projectId) {
+                this.fetchProjectData();
+            }
+            // let membersButton, membersButtonFunction, editButton, applicationsTab, userType;
+            // console.log('ProjectID from State:', this.state.projectId);
 
-        if (this.state.projectData.ownerId === this.state.currentUserId) {
-            applicationsTab = (
-                <Tab eventKey='applications' title='Applications'>
-                    <Applications projectId={this.state.projectId} onClickUpdate={this.fetchProjectData} />{' '}
-                </Tab>
-            );
-            editButton = (
-                <Button variant='outlined' sx={{ color: '#6053F1', borderColor: '#6053F1' }} onClick={this.handleOnShow}>
-                    Edit
-                </Button>
-            );
-            membersButton = 'Remove';
-            membersButtonFunction = this.removeMember;
-            userType = 'Owner';
-        } else {
-            membersButton = 'Connect';
-            membersButtonFunction = this.connectWithMember;
-            userType = 'Member';
-        }
-        let checkButtons;
-        if (this.state.projectData.status) {
-            checkButtons = (
-                <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
-                    <Form.Check
-                        inline
-                        name='group1'
-                        type='radio'
-                        id='default-radio'
-                        label='Active'
-                        defaultChecked
-                        onChange={(e) => {
-                            this.setState({ status: 'Active' });
-                        }}
-                    />
-                    <Form.Check
-                        inline
-                        name='group1'
-                        type='radio'
-                        id='default-radio'
-                        label='Inactive'
-                        onChange={(e) => {
-                            this.setState({ status: 'Inactive' });
-                        }}
-                    />
-                </Form.Group>
-            );
-        } else {
-            checkButtons = (
-                <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
-                    <Form.Check
-                        inline
-                        name='group1'
-                        type='radio'
-                        id='default-radio'
-                        label='Active'
-                        onChange={(e) => {
-                            this.setState({ status: 'Active' });
-                        }}
-                    />
-                    <Form.Check
-                        inline
-                        name='group1'
-                        type='radio'
-                        id='default-radio'
-                        label='Inactive'
-                        defaultChecked
-                        onChange={(e) => {
-                            this.setState({ status: 'Inactive' });
-                        }}
-                    />
-                </Form.Group>
-            );
+            if (this.state.projectData.ownerId?._id === this.state.currentUserId) {
+                applicationsTab = (
+                    <Tab eventKey='applications' title='Applications'>
+                        <Applications projectId={this.state.projectId} onClickUpdate={this.fetchProjectData} />{' '}
+                    </Tab>
+                );
+                editButton = (
+                    <Button variant='outlined' sx={{ color: '#6053F1', borderColor: '#6053F1' }} onClick={this.handleOnShow}>
+                        Edit
+                    </Button>
+                );
+                membersButton = 'Remove';
+                membersButtonFunction = this.removeMember;
+                userType = 'Owner';
+            } else {
+                membersButton = 'Connect';
+                membersButtonFunction = this.connectWithMember;
+                userType = 'Member';
+                actions = this.state.projectData.ownerId?.connections.includes(localStorage.getItem('userID')) ? (
+                    <p style={{ color: '#6053F1' }}>
+                        <br />
+                        Connected
+                    </p>
+                ) : (
+                    <Button
+                        variant='contained'
+                        sx={{ backgroundColor: '#6053F1' }}
+                        onClick={(e) => this.connectWithMember(this.state.projectData.ownerId?._id, e)}
+                    >
+                        Connect
+                    </Button>
+                );
+            }
+            // let checkButtons;
+            if (this.state.projectData.status) {
+                checkButtons = (
+                    <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
+                        <Form.Check
+                            inline
+                            name='group1'
+                            type='radio'
+                            id='default-radio'
+                            label='Active'
+                            defaultChecked
+                            onChange={(e) => {
+                                this.setState({ status: 'Active' });
+                            }}
+                        />
+                        <Form.Check
+                            inline
+                            name='group1'
+                            type='radio'
+                            id='default-radio'
+                            label='Inactive'
+                            onChange={(e) => {
+                                this.setState({ status: 'Inactive' });
+                            }}
+                        />
+                    </Form.Group>
+                );
+            } else {
+                checkButtons = (
+                    <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
+                        <Form.Check
+                            inline
+                            name='group1'
+                            type='radio'
+                            id='default-radio'
+                            label='Active'
+                            onChange={(e) => {
+                                this.setState({ status: 'Active' });
+                            }}
+                        />
+                        <Form.Check
+                            inline
+                            name='group1'
+                            type='radio'
+                            id='default-radio'
+                            label='Inactive'
+                            defaultChecked
+                            onChange={(e) => {
+                                this.setState({ status: 'Inactive' });
+                            }}
+                        />
+                    </Form.Group>
+                );
+            }
         }
         return (
             <div>
+                {this.state.redirect}
                 <Container>
                     <Row style={{ height: '200px' }} className='m-4'>
                         <Col xs={2}>
                             {' '}
-                            <img className='rounded-circle' alt='200x200' src='https://picsum.photos/id/3/150/150' data-holder-rendered='true'></img>
+                            {/* <img className='rounded-circle' alt='200x200' src='https://picsum.photos/id/3/150/150' data-holder-rendered='true'></img> */}
+                            <Avatar sx={{ width: 150, height: 150 }} style={{ backgroundColor: '#6053f1' }}>
+                                <h1>{this.state.projectData.title ? this.state.projectData.title[0] : ''}</h1>
+                            </Avatar>
                         </Col>
                         <Col>
                             <Row>
@@ -267,7 +308,40 @@ export default class ProjectDashboard extends Component {
                     {/* <br></br> */}
                     <Tabs id='controlled-tab-example' activeKey={this.state.key} onSelect={(k) => this.setState({ key: k })} className='mb-3'>
                         <Tab eventKey='about' title='About'>
-                            <div className='align-about'>{this.state.projectData.description}</div>
+                            <div className='align-about'>
+                                {this.state.projectData.description}
+                                <br />
+                                <br />
+                                <p>
+                                    <h5>Owner</h5>
+                                </p>
+                                <div>
+                                    {this.state.projectData.ownerId ? (
+                                        <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
+                                            <CardHeader
+                                                avatar={
+                                                    <Avatar style={{ backgroundColor: '#6053f1' }}>
+                                                        <h7>
+                                                            {this.state.projectData.ownerId?.firstName
+                                                                ? this.state.projectData.ownerId?.firstName[0]
+                                                                : ''}
+                                                        </h7>
+                                                    </Avatar>
+                                                }
+                                                action={actions}
+                                                // action={actions}
+                                                // action={props.memberButton}
+                                                style={{ textAlign: 'left' }}
+                                                titleTypographyProps={{ variant: 'h5' }}
+                                                title={`${this.state.projectData.ownerId?.firstName} ${this.state.projectData.ownerId?.lastName}`}
+                                                subheader={`${this.state.projectData.ownerId?.professionalExperience.position} at ${this.state.projectData.ownerId?.professionalExperience.employerName}`} // '{position} at {employerName}'
+                                            />
+                                        </Card>
+                                    ) : (
+                                        <Skeleton variant='rectangular' width={1000} height={80} />
+                                    )}
+                                </div>
+                            </div>
                         </Tab>
                         <Tab eventKey='members' title='Members'>
                             <Member

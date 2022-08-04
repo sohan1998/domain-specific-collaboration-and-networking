@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Redirect, Navigate } from 'react-router-dom';
 import Login from './components/login/login';
 import Register from './components/register/register';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,34 +14,66 @@ import ProjectDashboard from './components/projectDashboardView/dashboard';
 import Sidebar from './components/common/Sidebar';
 import { UserProfile } from './components/user/UserProfile';
 import { Col, Row } from 'react-bootstrap';
+import LandingPage from './components/landingPage/LandingPage';
 // import { Navbar } from 'react-bootstrap';
 
 function App() {
     let location = useLocation();
+    const userID = localStorage.getItem('userID');
+
+    let homeUrlPath, home, register, registerUserInfo, registerUserInterests, connections;
+    // let homeUrlPathLogin = <Route path='/login' element={<Login />} />;
+    // let homeUrlPathProjects = <Route path='/projects' element={<AllProjects />} />;
+    if (!userID) {
+        home = <Login />;
+        homeUrlPath = <LandingPage />;
+        register = <Register />;
+        registerUserInfo = <RegisterUserInfo />;
+        registerUserInterests = <RegisterUserInterests />;
+        connections = <Connections />;
+        console.log('Login');
+    } else {
+        home = <Navigate to='/projects' />;
+        homeUrlPath = <Navigate to='/projects' />;
+        register = <Navigate to='/projects' />;
+        registerUserInfo = <Navigate to='/projects' />;
+        registerUserInterests = <Navigate to='/projects' />;
+        connections = <Navigate to='/projects' />;
+        console.log('Projects');
+        // alert();
+    }
 
     return (
         <div className='App'>
             {/* {location.pathname !== '/login' && location.pathname !== '/register' && <NavbarComponent />} */}
-            {<NavbarComponent />}
+            {location.pathname !== '/' && <NavbarComponent />}
             <Row>
                 {/* <Col xs={1}></Col> */}
-                <Col xs={1}>
-                    {location.pathname !== '/login' &&
-                        location.pathname !== '/register' &&
-                        location.pathname !== '/registerUserInfo' &&
-                        location.pathname !== '/registerUserInterests' &&
-                        location.pathname !== '/connections' && <Sidebar />}
-                </Col>
+
+                {location.pathname !== '/' &&
+                    location.pathname !== '/login' &&
+                    location.pathname !== '/register' &&
+                    location.pathname !== '/registerUserInfo' &&
+                    location.pathname !== '/registerUserInterests' &&
+                    location.pathname !== '/connections' && (
+                        <Col xs={1}>
+                            <Sidebar />
+                        </Col>
+                    )}
                 <Col xs={10}>
                     {/* <Router> */}
                     <Routes>
-                        <Route path='/login' element={<Login />} />
-                        <Route path='/register' element={<Register />} />
+                        {/* {homeUrlPath} */}
+                        {/* <Redirect exact from='/' to='/home' /> */}
+                        {/* <Route path='/' element={<LandingPage />} /> */}
+                        <Route path='/' element={homeUrlPath} />
+                        <Route path='/login' element={home} />
+                        <Route path='/register' element={register} />
                         <Route path='/projects' element={<AllProjects />} />
                         <Route path='/roles' element={<Roles />} />
-                        <Route path='/registerUserInfo' element={<RegisterUserInfo />} />
-                        <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
-                        <Route path='/connections' element={<Connections />} />
+                        <Route path='/registerUserInfo' element={registerUserInfo} />
+                        <Route path='/registerUserInterests' element={registerUserInterests} />
+                        <Route path='/connections' element={connections} />
                         <Route path='/projectDashboardView' element={<ProjectDashboard />} />
                         {/* <Route path='/sidebar' element={<Sidebar />} /> */}
                         <Route path='/editUserProfile' element={<UserProfile />} />

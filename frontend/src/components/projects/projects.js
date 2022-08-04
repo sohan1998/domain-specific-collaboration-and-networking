@@ -50,7 +50,11 @@ export default class AllProjects extends Component {
     };
 
     componentDidMount() {
-        this.fetchAllProjects();
+        if (!localStorage.getItem('userID')) {
+            this.setState({ redirect: <Navigate to='/login' replace={true} /> });
+        } else {
+            this.fetchAllProjects();
+        }
     }
 
     handleOnClick(projectId, e) {
@@ -61,11 +65,11 @@ export default class AllProjects extends Component {
     renderRow = (row) => {
         return (
             // <Row xs={1} md={3}>
-            <Col>
+            <Col key={row._id}>
                 <Card style={{ width: '18rem', height: '18rem', cursor: 'pointer' }} className='mb-2' onClick={(e) => this.handleOnClick(row._id, e)}>
                     <Card.Body>
                         <Card.Title> {row.title} </Card.Title>
-                        <Card.Text>{row.description.substring(0, 280) + ' ...'}</Card.Text>
+                        <Card.Text>{row.description.substring(0, 250) + ' ...'}</Card.Text>
                     </Card.Body>
                 </Card>
             </Col>

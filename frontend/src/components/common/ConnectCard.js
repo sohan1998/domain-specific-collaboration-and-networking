@@ -101,7 +101,7 @@ const ConnectCard = () => {
             <Col key={cardData[item]._id} className='mb-2'>
                 <Card
                     className='mb-2'
-                    sx={{ maxWidth: 500, borderRadius: '20px', boxShadow: '1px 2px 9px', height: 275, backgroundColor: '#ffffff' }}
+                    sx={{ maxWidth: 500, borderRadius: '20px', boxShadow: '1px 2px 9px', height: 300, backgroundColor: '#ffffff' }}
                 >
                     {/* <div>{console.log(cardData[item].firstName)}</div> */}
                     <CardHeader

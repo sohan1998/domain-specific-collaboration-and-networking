@@ -116,7 +116,7 @@ export class UserController {
             if (memberOfProject.length > 0) {
                 memberOfProject.forEach((element) => {
                     // console.log(element._id);
-                    projectIdArrayMember.push(element._id);
+                    projectIdArrayMember.push(element);
                 });
                 return res.status(200).json({ projectIdArrayMember });
             } else {

@@ -64,7 +64,8 @@ export class RolesController {
                     //         $set: { applicationStatus: 'No Longer Under Consideration' },
                     //     }
                     // );
-                    return res.status(403).send({ message: 'Already part of the project so this application is no longer under consideration' });
+                    return res.status(200).send(response);
+                    // return res.status(403).send({ message: 'Already part of the project so this application is no longer under consideration' });
                 } else {
                     const applyJob = new applicationSchema({
                         projectId,

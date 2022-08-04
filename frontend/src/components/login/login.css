@@ -14,3 +14,11 @@
     padding: 10px;
     padding-top: 10%;
 }
+
+.landing {
+    background-color: yellow;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../landingPage/Circles_Landing.png');
+    background-size: auto;
+}

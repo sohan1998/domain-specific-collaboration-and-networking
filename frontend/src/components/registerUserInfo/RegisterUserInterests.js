@@ -139,13 +139,13 @@ export const RegisterUserInterests = () => {
             education['schoolName'] = localStorage.getItem('schoolName');
             education['degree'] = localStorage.getItem('degree');
             education['major'] = localStorage.getItem('major');
-            education['startDate'] = '01/27/2021';
-            education['endDate'] = '01/27/2022';
+            education['startDate'] = '02/23/2019';
+            education['endDate'] = '05/18/2021';
             payload['education'] = education;
             professionalExperience['employerName'] = localStorage.getItem('employerName');
             professionalExperience['position'] = localStorage.getItem('position');
-            professionalExperience['startDate'] = '05/15/2021';
-            professionalExperience['endDate'] = '07/10/2022';
+            professionalExperience['startDate'] = '07/10/2021';
+            professionalExperience['endDate'] = '07/29/2022';
             payload['professionalExperience'] = professionalExperience;
             payload['about_me'] = localStorage.getItem('aboutMe');
             payload['skills'] = JSON.parse(localStorage.getItem('searchSkills'));
