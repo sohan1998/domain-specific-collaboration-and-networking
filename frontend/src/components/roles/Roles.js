@@ -4,7 +4,7 @@ import RolesList from './RoleCard';
 import './roles.css';
 import { Card, Row, Col, Container, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import { backendIP, backendPort } from '../common/constants';
+import { backendIP, backendPort, flaskIP, flaskPort } from '../common/constants';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -82,7 +82,7 @@ export default class Roles extends Component {
         const userId = this.state.currentUserId;
         try {
             console.log(userId);
-            const response = await axios.get(`http://127.0.0.1:5000/recommendRoles/?_id=${userId}`);
+            const response = await axios.get(`http://${flaskIP}:${flaskPort}/recommendRoles/?_id=${userId}`);
             this.setState({ rolesData: response.data });
             this.setState({ load: false });
 
