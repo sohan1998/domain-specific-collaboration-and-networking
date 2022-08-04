@@ -21,6 +21,7 @@ import { Navigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import { red } from '@mui/material/colors';
+import { Skeleton } from '@mui/material';
 // import Avatar from '@mui/material/Avatar';
 
 export default class ProjectDashboard extends Component {
@@ -104,8 +105,10 @@ export default class ProjectDashboard extends Component {
         // this.setState({ projectId: temp });
         if (!localStorage.getItem('userID')) {
             this.setState({ redirect: <Navigate to='/login' replace={true} /> });
-        } else {
+        } else if (!localStorage.getItem('projectID')) {
             // console.log('renderer');
+            this.setState({ redirect: <Navigate to='/projects' replace={true} /> });
+        } else {
             this.fetchProjectData();
         }
     }
@@ -168,7 +171,7 @@ export default class ProjectDashboard extends Component {
         //     this.state.redirect;
         // }
         let membersButton, membersButtonFunction, editButton, applicationsTab, userType, checkButtons, actions;
-        if (localStorage.getItem('userID')) {
+        if (localStorage.getItem('userID') && localStorage.getItem('projectID')) {
             // if (localStorage.getItem('userID')) {
             //     return <div>{this.state.redirect}</div>;
             // }
@@ -313,26 +316,30 @@ export default class ProjectDashboard extends Component {
                                     <h5>Owner</h5>
                                 </p>
                                 <div>
-                                    <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
-                                        <CardHeader
-                                            avatar={
-                                                <Avatar style={{ backgroundColor: '#6053f1' }}>
-                                                    <h7>
-                                                        {this.state.projectData.ownerId?.firstName
-                                                            ? this.state.projectData.ownerId?.firstName[0]
-                                                            : ''}
-                                                    </h7>
-                                                </Avatar>
-                                            }
-                                            action={actions}
-                                            // action={actions}
-                                            // action={props.memberButton}
-                                            style={{ textAlign: 'left' }}
-                                            titleTypographyProps={{ variant: 'h5' }}
-                                            title={`${this.state.projectData.ownerId?.firstName} ${this.state.projectData.ownerId?.lastName}`}
-                                            subheader={`${this.state.projectData.ownerId?.professionalExperience.position} at ${this.state.projectData.ownerId?.professionalExperience.employerName}`} // '{position} at {employerName}'
-                                        />
-                                    </Card>
+                                    {this.state.projectData.ownerId ? (
+                                        <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
+                                            <CardHeader
+                                                avatar={
+                                                    <Avatar style={{ backgroundColor: '#6053f1' }}>
+                                                        <h7>
+                                                            {this.state.projectData.ownerId?.firstName
+                                                                ? this.state.projectData.ownerId?.firstName[0]
+                                                                : ''}
+                                                        </h7>
+                                                    </Avatar>
+                                                }
+                                                action={actions}
+                                                // action={actions}
+                                                // action={props.memberButton}
+                                                style={{ textAlign: 'left' }}
+                                                titleTypographyProps={{ variant: 'h5' }}
+                                                title={`${this.state.projectData.ownerId?.firstName} ${this.state.projectData.ownerId?.lastName}`}
+                                                subheader={`${this.state.projectData.ownerId?.professionalExperience.position} at ${this.state.projectData.ownerId?.professionalExperience.employerName}`} // '{position} at {employerName}'
+                                            />
+                                        </Card>
+                                    ) : (
+                                        <Skeleton variant='rectangular' width={1000} height={80} />
+                                    )}
                                 </div>
                             </div>
                         </Tab>

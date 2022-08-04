@@ -14,23 +14,27 @@ import ProjectDashboard from './components/projectDashboardView/dashboard';
 import Sidebar from './components/common/Sidebar';
 import { UserProfile } from './components/user/UserProfile';
 import { Col, Row } from 'react-bootstrap';
-// import LandingPage from './components/landingPage/LandingPage';
+import LandingPage from './components/landingPage/LandingPage';
 // import { Navbar } from 'react-bootstrap';
 
 function App() {
     let location = useLocation();
     const userID = localStorage.getItem('userID');
 
-    let homeUrlPath, home;
+    let homeUrlPath, home, register, registerUserInfo;
     // let homeUrlPathLogin = <Route path='/login' element={<Login />} />;
     // let homeUrlPathProjects = <Route path='/projects' element={<AllProjects />} />;
     if (!userID) {
         home = <Login />;
-        homeUrlPath = <Navigate to='/login' />;
+        homeUrlPath = <LandingPage />;
+        register = <Register />;
+        registerUserInfo = <RegisterUserInfo />;
         console.log('Login');
     } else {
         home = <Navigate to='/projects' />;
         homeUrlPath = <Navigate to='/projects' />;
+        register = <Navigate to='/projects' />;
+        registerUserInfo = <Navigate to='/projects' />;
         console.log('Projects');
         // alert();
     }
@@ -38,17 +42,20 @@ function App() {
     return (
         <div className='App'>
             {/* {location.pathname !== '/login' && location.pathname !== '/register' && <NavbarComponent />} */}
-            {<NavbarComponent />}
+            {location.pathname !== '/' && <NavbarComponent />}
             <Row>
                 {/* <Col xs={1}></Col> */}
-                <Col xs={1}>
-                    {location.pathname !== '/' &&
-                        location.pathname !== '/login' &&
-                        location.pathname !== '/register' &&
-                        location.pathname !== '/registerUserInfo' &&
-                        location.pathname !== '/registerUserInterests' &&
-                        location.pathname !== '/connections' && <Sidebar />}
-                </Col>
+
+                {location.pathname !== '/' &&
+                    location.pathname !== '/login' &&
+                    location.pathname !== '/register' &&
+                    location.pathname !== '/registerUserInfo' &&
+                    location.pathname !== '/registerUserInterests' &&
+                    location.pathname !== '/connections' && (
+                        <Col xs={1}>
+                            <Sidebar />
+                        </Col>
+                    )}
                 <Col xs={10}>
                     {/* <Router> */}
                     <Routes>
@@ -57,10 +64,10 @@ function App() {
                         {/* <Route path='/' element={<LandingPage />} /> */}
                         <Route path='/' element={homeUrlPath} />
                         <Route path='/login' element={home} />
-                        <Route path='/register' element={<Register />} />
+                        <Route path='/register' element={register} />
                         <Route path='/projects' element={<AllProjects />} />
                         <Route path='/roles' element={<Roles />} />
-                        <Route path='/registerUserInfo' element={<RegisterUserInfo />} />
+                        <Route path='/registerUserInfo' element={registerUserInfo} />
                         <Route path='/registerUserInterests' element={<RegisterUserInterests />} />
                         <Route path='/connections' element={<Connections />} />
                         <Route path='/projectDashboardView' element={<ProjectDashboard />} />

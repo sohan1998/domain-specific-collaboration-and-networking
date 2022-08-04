@@ -222,10 +222,19 @@ export default class Applications extends Component {
                                     <p>{this.state.messageApplication}</p>
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant='secondary' onClick={(e) => this.acceptOrRejectMember('Reject')}>
+                                    <Button
+                                        variant='outlined'
+                                        sx={{ color: '#FF3D00', borderColor: '#FF3D00' }}
+                                        onClick={(e) => this.acceptOrRejectMember('Reject')}
+                                    >
                                         Reject
                                     </Button>
-                                    <Button variant='primary' onClick={(e) => this.acceptOrRejectMember('Accept')}>
+                                    <h1></h1>
+                                    <Button
+                                        variant='contained'
+                                        sx={{ backgroundColor: '#7BFB9F', color: 'black' }}
+                                        onClick={(e) => this.acceptOrRejectMember('Accept')}
+                                    >
                                         Accept
                                     </Button>
                                 </Modal.Footer>

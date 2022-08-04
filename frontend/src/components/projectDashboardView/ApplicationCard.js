@@ -29,8 +29,8 @@ const ApplicationCard = (props) => {
             <Row>
                 <Col>
                     <Button
-                        variant='contained'
-                        sx={{ backgroundColor: '#6053F1' }}
+                        variant='outlined'
+                        sx={{ color: '#FF3D00', borderColor: '#FF3D00' }}
                         onClick={(e) =>
                             handleOnClick(
                                 application.jobId.title,
@@ -50,7 +50,7 @@ const ApplicationCard = (props) => {
                 <Col>
                     <Button
                         variant='contained'
-                        sx={{ backgroundColor: '#6053F1' }}
+                        sx={{ backgroundColor: '#7BFB9F', color: 'black' }}
                         onClick={(e) =>
                             handleOnClick(
                                 application.jobId.title,
@@ -75,8 +75,8 @@ const ApplicationCard = (props) => {
                 <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
                     <CardHeader
                         avatar={
-                            <Avatar src='https://picsum.photos/seed/picsum/200/300' sx={{ bgcolor: red[500] }}>
-                                S
+                            <Avatar style={{ backgroundColor: '#6053f1' }}>
+                                <h7>{application.userId.firstName ? application.userId.firstName[0] : ''}</h7>
                             </Avatar>
                         }
                         action={actions}
