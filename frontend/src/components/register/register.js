@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Container } from 'react-bootstrap';
+import { Button, Form, Container, InputGroup } from 'react-bootstrap';
 import '../common/CirclesButton';
 import { Link, Navigate, NavLink } from 'react-router-dom';
 import './register.css';
@@ -152,7 +152,7 @@ export default class Register extends Component {
     // }
 
     render() {
-        console.log('RENDERING');
+        // console.log('RENDERING');
         return (
             <div className='register-wrapper'>
                 {this.state.redirect}
@@ -166,10 +166,11 @@ export default class Register extends Component {
                 </div>
                 <div className='register-wrapper-item'>
                     <Container className='mt-3'>
-                        {/* <Form> */}
+                        {/* <Form noValidate onSubmit={this.submit}> */}
                         <Form.Group className='mb-3' controlId='formFirstName'>
                             {/* <Form.Label>First Name</Form.Label> */}
-                            <Form.Control type='firstName' placeholder='Enter First Name' onChange={this.firstNameChangeHandler} />
+                            <Form.Control type='firstName' placeholder='Enter First Name' onChange={this.firstNameChangeHandler} required />
+                            <Form.Control.Feedback>Please enter your First Name</Form.Control.Feedback>
                             {/* <Form.Text className='text-muted'>We'll never share your email with anyone else.</Form.Text> */}
                         </Form.Group>
                         <Form.Group className='mb-3' controlId='formLastName'>
