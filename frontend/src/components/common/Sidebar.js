@@ -10,6 +10,7 @@ import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import axios from 'axios';
 import { backendIP, backendPort } from './constants';
 import './sidebar.css';
+import { Tooltip } from '@mui/material';
 
 // import './../common/header.css';
 
@@ -134,9 +135,11 @@ const Sidebar = () => {
                             onClick={selectProjectOnClick}
                         >
                             {/* <Avatar alt='1' src='/static/images/avatar/1.jpg' style={{ alignCenter: 'center' }} /> */}
-                            <Avatar style={{ backgroundColor: '#6053f1', alignCenter: 'center' }}>
-                                <h7>{badge.title ? badge.title[0] : ''}</h7>
-                            </Avatar>
+                            <Tooltip title={badge.title} placement='right'>
+                                <Avatar style={{ backgroundColor: '#6053f1', alignCenter: 'center' }}>
+                                    <h7>{badge.title ? badge.title[0] : ''}</h7>
+                                </Avatar>
+                            </Tooltip>
                         </StyledBadge>
                         {/* <Badge
                         overlap='circular'

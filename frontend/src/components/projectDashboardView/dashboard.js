@@ -316,8 +316,12 @@ export default class ProjectDashboard extends Component {
                                     <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
                                         <CardHeader
                                             avatar={
-                                                <Avatar src='https://picsum.photos/seed/picsum/200/300' sx={{ bgcolor: red[500] }}>
-                                                    S
+                                                <Avatar style={{ backgroundColor: '#6053f1' }}>
+                                                    <h7>
+                                                        {this.state.projectData.ownerId?.firstName
+                                                            ? this.state.projectData.ownerId?.firstName[0]
+                                                            : ''}
+                                                    </h7>
                                                 </Avatar>
                                             }
                                             action={actions}

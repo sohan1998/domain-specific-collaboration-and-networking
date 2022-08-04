@@ -59,8 +59,8 @@ const Member = (props) => {
                 <Card sx={{ borderRadius: '10px', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.15)' }}>
                     <CardHeader
                         avatar={
-                            <Avatar src='https://picsum.photos/seed/picsum/200/300' sx={{ bgcolor: red[500] }}>
-                                S
+                            <Avatar style={{ backgroundColor: '#6053f1' }}>
+                                <h7>{member.firstName ? member.firstName[0] : ''}</h7>
                             </Avatar>
                         }
                         action={actions}
@@ -69,7 +69,10 @@ const Member = (props) => {
                         style={{ textAlign: 'left' }}
                         titleTypographyProps={{ variant: 'h5' }}
                         title={
-                            <div style={{ width: '75%' }} onClick={(e) => nameOnClick(member._id, e)}>{`${member.firstName} ${member.lastName}`}</div>
+                            <div
+                                style={{ width: '75%', cursor: 'pointer' }}
+                                onClick={(e) => nameOnClick(member._id, e)}
+                            >{`${member.firstName} ${member.lastName}`}</div>
                         }
                         subheader={`${member.professionalExperience.position} at ${member.professionalExperience.employerName}`} // '{position} at {employerName}'
                     />
