@@ -690,7 +690,7 @@ export default class Roles extends Component {
             <div className='roles-wrapper'>
                 {this.state.redirect}
                 <br />
-                <div>
+                <div className='roles-main-wrapper'>
                     {createRoleButton}
                     {rolesToDisplay}
 
