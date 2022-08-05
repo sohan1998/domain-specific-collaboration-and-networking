@@ -26,7 +26,7 @@ function App() {
     // let homeUrlPathProjects = <Route path='/projects' element={<AllProjects />} />;
     if (!userID) {
         home = <Login />;
-        homeUrlPath = <LandingPage />;
+        homeUrlPath = <Navigate to='/login' />;
         register = <Register />;
         registerUserInfo = <RegisterUserInfo />;
         registerUserInterests = <RegisterUserInterests />;
@@ -46,20 +46,18 @@ function App() {
     return (
         <div className='App'>
             {/* {location.pathname !== '/login' && location.pathname !== '/register' && <NavbarComponent />} */}
-            {location.pathname !== '/' && <NavbarComponent />}
+            <NavbarComponent />
             <Row>
                 {/* <Col xs={1}></Col> */}
 
-                {location.pathname !== '/' &&
-                    location.pathname !== '/login' &&
-                    location.pathname !== '/register' &&
-                    location.pathname !== '/registerUserInfo' &&
-                    location.pathname !== '/registerUserInterests' &&
-                    location.pathname !== '/connections' && (
-                        <Col xs={1}>
-                            <Sidebar />
-                        </Col>
-                    )}
+                <Col xs={1}>
+                    {/* {location.pathname !== '/' && */}
+                    {location.pathname !== '/login' &&
+                        location.pathname !== '/register' &&
+                        location.pathname !== '/registerUserInfo' &&
+                        location.pathname !== '/registerUserInterests' &&
+                        location.pathname !== '/connections' && <Sidebar />}
+                </Col>
                 <Col xs={10}>
                     {/* <Router> */}
                     <Routes>
