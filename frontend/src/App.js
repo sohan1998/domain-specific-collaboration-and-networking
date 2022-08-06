@@ -38,7 +38,7 @@ function App() {
         register = <Navigate to='/projects' />;
         registerUserInfo = <Navigate to='/projects' />;
         registerUserInterests = <Navigate to='/projects' />;
-        connections = <Navigate to='/projects' />;
+        connections = <Connections />;
         console.log('Projects');
         // alert();
     }
